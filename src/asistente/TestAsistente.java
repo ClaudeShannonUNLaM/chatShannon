@@ -18,6 +18,6 @@ public class TestAsistente{
 	public void saludo(){
 		String mensaje = "Hola @shannon";
 		
-		Assert.assertEquals("Â¡Hola, @pepe!", shannon.escuchar(mensaje));
+		Assert.assertEquals("¡Hola, @pepe!", shannon.escuchar(mensaje));
 	}
 }

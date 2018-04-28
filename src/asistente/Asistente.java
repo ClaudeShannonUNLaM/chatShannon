@@ -42,7 +42,7 @@ public class Asistente {
 	}
 	
 	private String hola(){
-		return "Â¡Hola, @" + TestAsistente.USUARIO + "!";
+		return "¡Hola, @" + TestAsistente.USUARIO + "!";
 	}
 	
 	/*private String enviarMensaje(String mensaje){
