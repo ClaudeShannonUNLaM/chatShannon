@@ -15,6 +15,13 @@ public class TestAsistente{
 	}
 	
 	@Test
+	public void noTeEntiendo(){
+		String mensaje = "chacha @shannon";
+		
+		Assert.assertEquals("Disculpa... no entiendo el pedido, @pepe ¿podrías repetirlo?", shannon.escuchar(mensaje));
+	}
+	
+	@Test
 	public void saludo(){
 		String mensaje = "Hola @shannon";
 		

@@ -25,7 +25,7 @@ public class Asistente {
 			break;
 
 		default:
-			mensaje = "NO TE ENTIENDO GIL";
+			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
 			break;
 		}
 
