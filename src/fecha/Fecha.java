@@ -1,59 +1,62 @@
 package fecha;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class Fecha {
+import asistente.TestAsistente;
 
-	private Calendar hoy;
+public class Fecha {	
 	
-	public Fecha (){
-        this.hoy = Calendar.getInstance();
-
-	}
-	
-	public Calendar getHoy() {
-		return hoy;
-	}
-
-	public void setHoy(Calendar hoy) {
-		this.hoy = hoy;
-	}
-
-	public Fecha (Calendar fecha){
-		this.hoy = fecha;
-	}
-	
-	public Calendar diaDentro(int aSumar, String caso) /*throws ParseException*/{
-		if (caso=="mes"){
-			this.hoy.add(Calendar.MONTH,aSumar);
-		}
-		else if(caso=="año"){
-			this.hoy.add(Calendar.YEAR,aSumar);
-		}
-		else
-			this.hoy.add(Calendar.DAY_OF_MONTH,aSumar);
-		return this.hoy;
-	}
-	public Calendar diaHace(int aRestar, String caso) /*throws ParseException*/{
-		if (caso=="mes"){
-			this.hoy.add(Calendar.MONTH,-aRestar);
-		}
-		else if(caso=="año"){
-			this.hoy.add(Calendar.YEAR,-aRestar);
-		}
-		else
-			this.hoy.add(Calendar.DAY_OF_MONTH,-aRestar);
-		return this.hoy;
-	}
-	public long restarFechas(Calendar f2, String caso) /*throws ParseException*/{
-		Date d1=this.getHoy().getTime();
-		Date d2=f2.getTime();
 		
-		long diffInMillies= d1.getTime()-d2.getTime();
-		return Math.abs(TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS))+1;
-
-	
+	public static Calendar getToday() {
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		return today;
 	}
+	
+	public static long restarFechas(Calendar f1, Calendar f2){
+		return (long)(f1.getTime().getTime() - f2.getTime().getTime()) /86400000;	
+	}
+	
+	public static Calendar cadenaAFecha(String f1) throws ParseException{
+		if(!f1.contains("(\\d{4})"))
+			return cadenaAFechaSinAño(f1);
+		
+		else{
+			String[]cadenaCompleta=f1.split("el");
+			String fechaConSigno = cadenaCompleta[1];
+			String[]fechaSinSigno=fechaConSigno.split("\\?");
+			String fechaOk = fechaSinSigno[0];
+			Calendar fechaRetorno = Calendar.getInstance();
+			SimpleDateFormat formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
+			fechaRetorno.setTime(formato.parse(fechaOk));
+			
+			return fechaRetorno;
+		}
+	}
+	
+	private static Calendar cadenaAFechaSinAño(String f1) throws ParseException{
+
+		String[]cadenaCompleta=f1.split("el");
+		String fechaConSigno = cadenaCompleta[1];
+		String[]fechaSinSigno=fechaConSigno.split("\\?");
+		String fechaOk = fechaSinSigno[0];
+		fechaOk+=" de 2018";
+		Calendar fechaRetorno = Calendar.getInstance();
+		SimpleDateFormat formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
+		fechaRetorno.setTime(formato.parse(fechaOk));
+		return fechaRetorno;
+	}
+	
+	public static String fechaACadena(Calendar f1){		
+		Date d1=f1.getTime();
+		SimpleDateFormat formato = 
+			    new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
+			return formato.format(d1);
+	}
+	
 }
