@@ -6,22 +6,28 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
+
 import fecha.Fecha;
 
 public class Asistente {
 	
 	private String nombre;
+	private String respuesta;
 	
-	private final String[] palabrasClavesHola = {"Hola", "buen dÃ­a", " buenas tardes", "hey"}; 
+	private final String[] palabrasClavesHola = {"Hola", "buen día", " buenas tardes", "hey"}; 
 	private final String[] palabrasClaveFechaDentro = {"qué día será dentro de","qué día será en","qué día será mañana"}; 
 	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
 	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
 	private final String[] palabrasClaveDiasFaltan ={"cuántos días faltan para el"};
+
+
 	Asistente(){
-		nombre = "Shannon";
+		this("Shannon");
 	}
 	Asistente(String nombre){
 		this.nombre = nombre; 
+		/*pratronPreguntaSobreHoy[0] = Pattern.compile("^¿qué ?(hora|día) es,");
+		pratronPreguntaSobreHoy[1] = Pattern.compile("^la ?(hora|fecha) por favor");*/
 	}
 	
 	public String escuchar(String mensaje) throws ParseException{
@@ -103,6 +109,9 @@ public class Asistente {
 				resultadoResta = f2.restarFechas(f1.getHoy(), "");
 				mensaje = diasFaltan(resultadoResta,f1.getHoy(),f2.getHoy());
 				break;
+			case 100:
+				mensaje = respuesta;
+				break;
 				
 		default:
 			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
@@ -138,6 +147,12 @@ public class Asistente {
 				return 4;
 			}
 		}
+		String rHoy;
+		if(!(rHoy = TiempoActual.preguntaPorHoy(mensaje)).isEmpty()){
+			respuesta = TiempoActual.respuestaHoy(mensaje, rHoy);
+			return 100;
+		}
+		
 		return -1;
 	}
 	
@@ -198,6 +213,8 @@ public class Asistente {
 	private String diasFaltan(long dias,Calendar f1,Calendar f2){
 		return "@" +TestAsistente.USUARIO +" faltan "+dias+" días";
 	}
+
+	
 	
 	/*private String enviarMensaje(String mensaje){
 		System.out.println(mensaje);

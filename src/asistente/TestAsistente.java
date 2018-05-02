@@ -102,4 +102,48 @@ public class TestAsistente{
 			);		
 		// agregar casos de prueba
 	}
+	
+
+	@Test
+	public void hora() throws ParseException {
+		String[] mensajes = {
+				"¿qué hora es, @shannon?",
+				"@shannon, la hora por favor",
+				"me decís la hora @shannon?"
+		};
+		for (String mensaje : mensajes) {
+			Assert.assertEquals(
+					"@pepe son las 01:14 AM",
+					shannon.escuchar(mensaje)
+			);
+		}
+	}
+	
+	@Test
+	public void fecha() throws ParseException {
+		String[] mensajes = {
+				"¿qué día es, @shannon?",
+				"@shannon, la fecha por favor",
+				"me decís la fecha @shannon?"
+		};
+		for (String mensaje : mensajes) {
+			Assert.assertEquals(
+					"@pepe hoy es 2 de mayo de 2018",
+					shannon.escuchar(mensaje)
+			);
+		}
+	}
+	
+	@Test
+	public void diaDeLaSemana() throws ParseException {
+		String[] mensajes = {
+				"¿qué día de la semana es hoy, @shannon?"
+		};
+		for (String mensaje : mensajes) {
+			Assert.assertEquals(
+					"@pepe hoy es miércoles",
+					shannon.escuchar(mensaje)
+			);
+		}
+}
 }
