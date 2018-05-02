@@ -2,7 +2,6 @@ package asistente;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 
 import asistente.TestAsistente;
 import fecha.CalculadorDiferenciaFechas;
