@@ -17,6 +17,9 @@ public class Asistente {
 	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
 	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
 	private final String[] palabrasClaveDiasFaltan ={"cuántos días faltan para el"};
+	private final String[] palabrasClaveCalculo = {"cuánto es el ", "cuánto es "};
+
+	
 	Asistente(){
 		nombre = "Shannon";
 	}
@@ -104,6 +107,16 @@ public class Asistente {
 				mensaje = diasFaltan(resultadoResta,f1.getHoy(),f2.getHoy());
 				break;
 				
+			case 5:
+				String intro;
+				if(mensaje.contains("@"+nombre+" cuánto es el"))
+					intro = "@"+nombre+" cuánto es el";
+				else
+					intro = "@"+nombre+" cuánto es";
+				Integer result = resolverCalculo(mensaje.substring(intro.length()));
+				mensaje = "@" + RF06Tests.USUARIO + " " + result.toString();
+				break;
+				
 		default:
 			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
 			break;
@@ -136,6 +149,11 @@ public class Asistente {
 		for(String b: palabrasClaveDiasFaltan){
 			if(mensaje.contains(b)){
 				return 4;
+			}
+		}
+		for(String c: palabrasClaveCalculo) {
+			if(mensaje.contains(c)) {
+				return 5;
 			}
 		}
 		return -1;
@@ -203,4 +221,58 @@ public class Asistente {
 		System.out.println(mensaje);
 		return mensaje;
 	}*/
+	private int resolverCalculo (String calculo) {
+		int posOper, a, b;
+		calculo = calculo.trim();
+		/*
+		 while((posOper=calculo.indexOf('('))!=-1) {
+			if(calculo.indexOf(')')==calculo.length()-1)
+				calculo= calculo.substring(0,calculo.indexOf('(')) + " " + String.valueOf(resolverCalculo(String.valueOf(resolverCalculo(calculo.substring(calculo.indexOf('(')+1, calculo.indexOf(')'))))))+ " " + calculo.substring(calculo.indexOf(')')+1);
+				calculo = calculo.trim();
+			else
+				resolverCalculo(Integer.toString(resolverCalculo(calculo.substring(calculo.indexOf('(')+1, calculo.indexOf(')'))))+calculo.substring(calculo.indexOf('(')+1,calculo.substring(calculo.indexOf('(')+1).indexOf(")")-2)+calculo.substring(calculo.indexOf(')')+1));
+		}
+		*/
+		
+		int posIni;
+		calculo=calculo.replace(" ","");
+		while ((posIni=calculo.indexOf('('))!=-1){
+			while(calculo.substring(posIni+1).indexOf('(')<calculo.substring(posIni+1).indexOf(')')&&calculo.substring(posIni+1).indexOf('(')!=-1)
+				posIni= calculo.substring(posIni+1).indexOf('(') + posIni + 1;
+			calculo=calculo.replace(calculo.substring(posIni, calculo.substring(posIni).indexOf(')')+1+posIni), String.valueOf(resolverCalculo(calculo.substring(posIni+1, calculo.substring(posIni).indexOf(')')+posIni))));
+		}
+			
+		if((posOper=calculo.indexOf('+'))!=-1) {
+			a= resolverCalculo(calculo.substring(0, posOper).trim());
+			b= resolverCalculo(calculo.substring(posOper+1).trim());
+			return a+b;
+		}
+		if((posOper=calculo.indexOf('-'))!=-1 && posOper > 0) {
+			a= resolverCalculo(calculo.substring(0, posOper).trim());
+			b= resolverCalculo(calculo.substring(posOper+1).trim());
+			return a-b;
+		}
+		if((posOper=calculo.indexOf('*'))!=-1) {
+			a= resolverCalculo(calculo.substring(0, posOper).trim());
+			b= resolverCalculo(calculo.substring(posOper+1).trim());
+			return a*b;
+		}
+		if((posOper=calculo.indexOf('/'))!=-1) {
+			a= resolverCalculo(calculo.substring(0, posOper).trim());
+			b= resolverCalculo(calculo.substring(posOper+1).trim());
+			return (a/b);
+		}
+		if((posOper=calculo.indexOf("%de"))!=-1) {
+			return Integer.parseInt(calculo.substring(0, posOper).trim())*100/Integer.parseInt(calculo.substring(posOper+3).trim());
+		}
+		if((posOper=calculo.indexOf('^'))!=-1) {
+			a= resolverCalculo(calculo.substring(0, posOper).trim());
+			b= resolverCalculo(calculo.substring(posOper+1).trim());
+			return (int) Math.pow(a, b);
+		}
+		
+		return Integer.parseInt(calculo);
+			
+			
+	}
 }
