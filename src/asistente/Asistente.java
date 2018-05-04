@@ -14,12 +14,12 @@ public class Asistente {
 	private String nombre;
 	private String respuesta;
 	
-	private final String[] palabrasClavesHola = {"Hola", "buen dï¿½a", " buenas tardes", "hey"}; 
-	private final String[] palabrasClaveFechaDentro = {"quï¿½ dï¿½a serï¿½ dentro de","quï¿½ dï¿½a serï¿½ en","quï¿½ dï¿½a serï¿½ maï¿½ana"}; 
-	private final String[] palabrasClaveFechaHace ={"quï¿½ dï¿½a fue hace","quï¿½ dï¿½a fue ayer"};
-	private final String[] palabrasClaveDiasPasaron ={"cuï¿½ntos dï¿½as pasaron desde el"};
-	private final String[] palabrasClaveDiasFaltan ={"cuï¿½ntos dï¿½as faltan para el"};
-	private final String[] palabrasClaveCalculo = {"cuï¿½nto es el ", "cuï¿½nto es "};
+	private final String[] palabrasClavesHola = {"Hola", "buen día", " buenas tardes", "hey"}; 
+	private final String[] palabrasClaveFechaDentro = {"qué día sería dentro de","qué día sería en","qué día sería mañana"}; 
+	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
+	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
+	private final String[] palabrasClaveDiasFaltan ={"cuántos días faltan para el"};
+	private final String[] palabrasClaveCalculo = {"cuánto es el ", "cuánto es "};
 
 	
 	Asistente(){
@@ -58,14 +58,14 @@ public class Asistente {
 			         }
 			     }
 
-			     if(mensaje.contains("dï¿½as")||mensaje.contains("dï¿½a")){
-			    	 tipo="dï¿½a";
+			     if(mensaje.contains("días")||mensaje.contains("día")){
+			    	 tipo="día";
 			     }
 			     if(mensaje.contains("meses")||mensaje.contains("mes")){
 			    	 tipo="mes";
 			     }
-			     if(mensaje.contains("aï¿½os")||mensaje.contains("aï¿½o")){
-			    	 tipo="aï¿½o";
+			     if(mensaje.contains("años")||mensaje.contains("año")){
+			    	 tipo="año";
 			     }
 			     resultado=f1.diaDentro(operando, tipo);
 			     mensaje = fechaDentro(resultado);
@@ -79,18 +79,18 @@ public class Asistente {
 			        	 //operando=-operando;
 			         }
 			     }
-			     if(mensaje.contains("dï¿½as")||mensaje.contains("dï¿½a")){
-			    	 tipo="dï¿½a";
+			     if(mensaje.contains("días")||mensaje.contains("día")){
+			    	 tipo="día";
 			     }
 			     if(mensaje.contains("ayer")){
-			    	 tipo="dï¿½a";
+			    	 tipo="día";
 			    	 operando=1;
 			     }
 			     if(mensaje.contains("meses")||mensaje.contains("mes")){
 			    	 tipo="mes";
 			     }
-			     if(mensaje.contains("aï¿½os")||mensaje.contains("aï¿½o")){
-			    	 tipo="aï¿½o";
+			     if(mensaje.contains("años")||mensaje.contains("año")){
+			    	 tipo="año";
 			     }
 			     resultado=f1.diaHace(operando, tipo);
 			     mensaje = fechaHace(resultado);
@@ -116,16 +116,16 @@ public class Asistente {
 				
 			case 5:
 				String intro;
-				if(mensaje.contains("@"+nombre+" cuï¿½nto es el"))
-					intro = "@"+nombre+" cuï¿½nto es el";
+				if(mensaje.contains("@"+nombre+" cuánto es el"))
+					intro = "@"+nombre+" cuánto es el";
 				else
-					intro = "@"+nombre+" cuï¿½nto es";
+					intro = "@"+nombre+" cuánto es";
 				Integer result = Calculo.resolverCalculo(mensaje.substring(intro.length()));
 				mensaje = "@" + RF06Tests.USUARIO + " " + result.toString();
 				break;
 				
 		default:
-			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ï¿½podrï¿½as repetirlo?";
+			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
 			break;
 		}
 
@@ -173,7 +173,7 @@ public class Asistente {
 	}
 	
 	private String hola(){
-		return "ï¿½Hola, @" + TestAsistente.USUARIO + "!";
+		return "¡Hola, @" + TestAsistente.USUARIO + "!";
 	}
 	
 	private String fechaACadena(Calendar f1){
@@ -186,7 +186,7 @@ public class Asistente {
 	private Calendar cadenaAFecha(String f1) throws ParseException{
 		//recibe todo el mensaje
 		if(!f1.contains("(\\d{4})")){
-			return cadenaAFechaSinAï¿½o(f1);
+			return cadenaAFechaSinAño(f1);
 		} else{
 		String[]cadenaCompleta=f1.split("el");
 		String fechaConSigno = cadenaCompleta[1];
@@ -200,7 +200,7 @@ public class Asistente {
 		}
 	}
 	
-	private Calendar cadenaAFechaSinAï¿½o(String f1) throws ParseException{
+	private Calendar cadenaAFechaSinAño(String f1) throws ParseException{
 		//recibe todo el mensaje
 		String[]cadenaCompleta=f1.split("el");
 		String fechaConSigno = cadenaCompleta[1];
@@ -214,7 +214,7 @@ public class Asistente {
 	}
 	private String fechaDentro(Calendar f1){
 		
-		return "@" +TestAsistente.USUARIO + " serï¿½ el "+fechaACadena(f1);
+		return "@" +TestAsistente.USUARIO + " sería el "+fechaACadena(f1);
 	}
 	
 	private String fechaHace(Calendar f1){
@@ -223,11 +223,11 @@ public class Asistente {
 	}
 	
 	private String diasPasaron(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO + " entre el "+fechaACadena(f2)+" y el "+fechaACadena(f1)+" pasaron "+(dias-1)+" dï¿½as";
+		return "@" +TestAsistente.USUARIO + " entre el "+fechaACadena(f2)+" y el "+fechaACadena(f1)+" pasaron "+(dias-1)+" días";
 	}
 
 	private String diasFaltan(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO +" faltan "+dias+" dï¿½as";
+		return "@" +TestAsistente.USUARIO +" faltan "+dias+" días";
 	}
 
 	
