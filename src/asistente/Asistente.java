@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
-
 import fecha.Fecha;
 
 public class Asistente {
@@ -15,7 +14,7 @@ public class Asistente {
 	private String respuesta;
 	
 	private final String[] palabrasClavesHola = {"Hola", "buen día", " buenas tardes", "hey"}; 
-	private final String[] palabrasClaveFechaDentro = {"qué día sería dentro de","qué día sería en","qué día sería mañana"}; 
+	private final String[] palabrasClaveFechaDentro = {"qué día será dentro de","qué día será en","qué día será mañana"}; 
 	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
 	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
 	private final String[] palabrasClaveDiasFaltan ={"cuántos días faltan para el"};
