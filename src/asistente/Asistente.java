@@ -1,11 +1,10 @@
 package asistente;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.StringTokenizer;
+
+import asistente.TestAsistente;
+import fecha.CalculadorDiferenciaFechas;
 import fecha.Fecha;
 
 public class Asistente {
@@ -35,79 +34,35 @@ public class Asistente {
 			return "";
 		
 		int accion = encontrarPalabraClave(mensaje);
-		StringTokenizer cadenaCompleta = new StringTokenizer(mensaje);
-	    String partes,tipo="";
-	    int operando=0;
-	    Fecha f1 = new Fecha();
-		Fecha f2=new Fecha();
-	    Calendar resultado;
-	    long resultadoResta ;
-	    
+		
 		switch (accion) {
-		case 0:
-			mensaje = hola();
-			break;
-
+			case 0:
+				mensaje = saludar();
+				break;
 			case 1:
-
-			     while (cadenaCompleta.hasMoreTokens()) {
-			         partes=cadenaCompleta.nextToken();
-			         if(partes.matches("^[1-9][0-9]*$")){
-			        	 operando=Integer.parseInt(partes);
-			         }
-			     }
-
-			     if(mensaje.contains("días")||mensaje.contains("día")){
-			    	 tipo="día";
-			     }
-			     if(mensaje.contains("meses")||mensaje.contains("mes")){
-			    	 tipo="mes";
-			     }
-			     if(mensaje.contains("años")||mensaje.contains("año")){
-			    	 tipo="año";
-			     }
-			     resultado=f1.diaDentro(operando, tipo);
-			     mensaje = fechaDentro(resultado);
+				mensaje = CalculadorDiferenciaFechas.calcular(mensaje, false);
 				break;
 				
 			case 2:
-			     while (cadenaCompleta.hasMoreTokens()) {
-			         partes=cadenaCompleta.nextToken();
-			         if(partes.matches("^[1-9][0-9]*$")){
-			        	 operando=Integer.parseInt(partes);
-			        	 //operando=-operando;
-			         }
-			     }
-			     if(mensaje.contains("días")||mensaje.contains("día")){
-			    	 tipo="día";
-			     }
-			     if(mensaje.contains("ayer")){
-			    	 tipo="día";
-			    	 operando=1;
-			     }
-			     if(mensaje.contains("meses")||mensaje.contains("mes")){
-			    	 tipo="mes";
-			     }
-			     if(mensaje.contains("años")||mensaje.contains("año")){
-			    	 tipo="año";
-			     }
-			     resultado=f1.diaHace(operando, tipo);
-			     mensaje = fechaHace(resultado);
+				mensaje = CalculadorDiferenciaFechas.calcular(mensaje, true);
 				break;
-			
+				
 			case 3:
-				f2.setHoy(cadenaAFecha(mensaje));
-				resultadoResta = f2.restarFechas(f1.getHoy(), "");
-				mensaje = diasPasaron(resultadoResta,f1.getHoy(),f2.getHoy());
+				Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);			
+				
+				long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
+				mensaje = CalculadorDiferenciaFechas.diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada);
 				break;
 				
 			case 4:
+				Calendar fechaRequerida;
 				if(mensaje.contains("mundial")){
-					f2.setHoy(TestAsistente.FECHA_MUNDIAL);
+					fechaRequerida = TestAsistente.FECHA_MUNDIAL;
 				}else
-				f2.setHoy(cadenaAFecha(mensaje));
-				resultadoResta = f2.restarFechas(f1.getHoy(), "");
-				mensaje = diasFaltan(resultadoResta,f1.getHoy(),f2.getHoy());
+					fechaRequerida = Fecha.cadenaAFecha(mensaje);
+				
+				long diasRestantes = Fecha.restarFechas(fechaRequerida,Fecha.getToday());
+				mensaje = CalculadorDiferenciaFechas.diasFaltan(diasRestantes);
 				break;
 			case 100:
 				mensaje = respuesta;
@@ -123,9 +78,9 @@ public class Asistente {
 				mensaje = "@" + RF06Tests.USUARIO + " " + result.toString();
 				break;
 				
-		default:
-			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
-			break;
+			default:
+				mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
+				break;
 		}
 
 		return mensaje;
@@ -171,64 +126,9 @@ public class Asistente {
 		return -1;
 	}
 	
-	private String hola(){
+	private String saludar(){
 		return "¡Hola, @" + TestAsistente.USUARIO + "!";
 	}
-	
-	private String fechaACadena(Calendar f1){
-		Date d1=f1.getTime();
-		SimpleDateFormat formato = 
-			    new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
-			return formato.format(d1);
-	}
-	
-	private Calendar cadenaAFecha(String f1) throws ParseException{
-		//recibe todo el mensaje
-		if(!f1.contains("(\\d{4})")){
-			return cadenaAFechaSinAño(f1);
-		} else{
-		String[]cadenaCompleta=f1.split("el");
-		String fechaConSigno = cadenaCompleta[1];
-		String[]fechaSinSigno=fechaConSigno.split("\\?");
-		String fechaOk = fechaSinSigno[0];
-		Calendar fechaRetorno = Calendar.getInstance();
-		SimpleDateFormat formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
-		fechaRetorno.setTime(formato.parse(fechaOk));
-		
-		return fechaRetorno;
-		}
-	}
-	
-	private Calendar cadenaAFechaSinAño(String f1) throws ParseException{
-		//recibe todo el mensaje
-		String[]cadenaCompleta=f1.split("el");
-		String fechaConSigno = cadenaCompleta[1];
-		String[]fechaSinSigno=fechaConSigno.split("\\?");
-		String fechaOk = fechaSinSigno[0];
-		fechaOk+=" de 2018";
-		Calendar fechaRetorno = Calendar.getInstance();
-		SimpleDateFormat formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
-		fechaRetorno.setTime(formato.parse(fechaOk));
-		return fechaRetorno;
-	}
-	private String fechaDentro(Calendar f1){
-		
-		return "@" +TestAsistente.USUARIO + " sería el "+fechaACadena(f1);
-	}
-	
-	private String fechaHace(Calendar f1){
-		
-		return "@" +TestAsistente.USUARIO + " fue el "+fechaACadena(f1);
-	}
-	
-	private String diasPasaron(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO + " entre el "+fechaACadena(f2)+" y el "+fechaACadena(f1)+" pasaron "+(dias-1)+" días";
-	}
-
-	private String diasFaltan(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO +" faltan "+dias+" días";
-	}
-
 	
 	
 	/*private String enviarMensaje(String mensaje){
