@@ -6,25 +6,29 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringTokenizer;
+
 import fecha.Fecha;
 
 public class Asistente {
 	
 	private String nombre;
+	private String respuesta;
 	
-	private final String[] palabrasClavesHola = {"Hola", "buen dÃ­a", " buenas tardes", "hey"}; 
-	private final String[] palabrasClaveFechaDentro = {"qué día será dentro de","qué día será en","qué día será mañana"}; 
-	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
-	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
-	private final String[] palabrasClaveDiasFaltan ={"cuántos días faltan para el"};
-	private final String[] palabrasClaveCalculo = {"cuánto es el ", "cuánto es "};
+	private final String[] palabrasClavesHola = {"Hola", "buen dï¿½a", " buenas tardes", "hey"}; 
+	private final String[] palabrasClaveFechaDentro = {"quï¿½ dï¿½a serï¿½ dentro de","quï¿½ dï¿½a serï¿½ en","quï¿½ dï¿½a serï¿½ maï¿½ana"}; 
+	private final String[] palabrasClaveFechaHace ={"quï¿½ dï¿½a fue hace","quï¿½ dï¿½a fue ayer"};
+	private final String[] palabrasClaveDiasPasaron ={"cuï¿½ntos dï¿½as pasaron desde el"};
+	private final String[] palabrasClaveDiasFaltan ={"cuï¿½ntos dï¿½as faltan para el"};
+	private final String[] palabrasClaveCalculo = {"cuï¿½nto es el ", "cuï¿½nto es "};
 
 	
 	Asistente(){
-		nombre = "Shannon";
+		this("Shannon");
 	}
 	Asistente(String nombre){
 		this.nombre = nombre; 
+		/*pratronPreguntaSobreHoy[0] = Pattern.compile("^ï¿½quï¿½ ?(hora|dï¿½a) es,");
+		pratronPreguntaSobreHoy[1] = Pattern.compile("^la ?(hora|fecha) por favor");*/
 	}
 	
 	public String escuchar(String mensaje) throws ParseException{
@@ -54,14 +58,14 @@ public class Asistente {
 			         }
 			     }
 
-			     if(mensaje.contains("días")||mensaje.contains("día")){
-			    	 tipo="día";
+			     if(mensaje.contains("dï¿½as")||mensaje.contains("dï¿½a")){
+			    	 tipo="dï¿½a";
 			     }
 			     if(mensaje.contains("meses")||mensaje.contains("mes")){
 			    	 tipo="mes";
 			     }
-			     if(mensaje.contains("años")||mensaje.contains("año")){
-			    	 tipo="año";
+			     if(mensaje.contains("aï¿½os")||mensaje.contains("aï¿½o")){
+			    	 tipo="aï¿½o";
 			     }
 			     resultado=f1.diaDentro(operando, tipo);
 			     mensaje = fechaDentro(resultado);
@@ -75,18 +79,18 @@ public class Asistente {
 			        	 //operando=-operando;
 			         }
 			     }
-			     if(mensaje.contains("días")||mensaje.contains("día")){
-			    	 tipo="día";
+			     if(mensaje.contains("dï¿½as")||mensaje.contains("dï¿½a")){
+			    	 tipo="dï¿½a";
 			     }
 			     if(mensaje.contains("ayer")){
-			    	 tipo="día";
+			    	 tipo="dï¿½a";
 			    	 operando=1;
 			     }
 			     if(mensaje.contains("meses")||mensaje.contains("mes")){
 			    	 tipo="mes";
 			     }
-			     if(mensaje.contains("años")||mensaje.contains("año")){
-			    	 tipo="año";
+			     if(mensaje.contains("aï¿½os")||mensaje.contains("aï¿½o")){
+			    	 tipo="aï¿½o";
 			     }
 			     resultado=f1.diaHace(operando, tipo);
 			     mensaje = fechaHace(resultado);
@@ -106,19 +110,22 @@ public class Asistente {
 				resultadoResta = f2.restarFechas(f1.getHoy(), "");
 				mensaje = diasFaltan(resultadoResta,f1.getHoy(),f2.getHoy());
 				break;
+			case 100:
+				mensaje = respuesta;
+				break;
 				
 			case 5:
 				String intro;
-				if(mensaje.contains("@"+nombre+" cuánto es el"))
-					intro = "@"+nombre+" cuánto es el";
+				if(mensaje.contains("@"+nombre+" cuï¿½nto es el"))
+					intro = "@"+nombre+" cuï¿½nto es el";
 				else
-					intro = "@"+nombre+" cuánto es";
+					intro = "@"+nombre+" cuï¿½nto es";
 				Integer result = Calculo.resolverCalculo(mensaje.substring(intro.length()));
 				mensaje = "@" + RF06Tests.USUARIO + " " + result.toString();
 				break;
 				
 		default:
-			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
+			mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ï¿½podrï¿½as repetirlo?";
 			break;
 		}
 
@@ -156,11 +163,17 @@ public class Asistente {
 				return 5;
 			}
 		}
+		String rHoy;
+		if(!(rHoy = TiempoActual.preguntaPorHoy(mensaje)).isEmpty()){
+			respuesta = TiempoActual.respuestaHoy(mensaje, rHoy);
+			return 100;
+		}
+		
 		return -1;
 	}
 	
 	private String hola(){
-		return "¡Hola, @" + TestAsistente.USUARIO + "!";
+		return "ï¿½Hola, @" + TestAsistente.USUARIO + "!";
 	}
 	
 	private String fechaACadena(Calendar f1){
@@ -173,7 +186,7 @@ public class Asistente {
 	private Calendar cadenaAFecha(String f1) throws ParseException{
 		//recibe todo el mensaje
 		if(!f1.contains("(\\d{4})")){
-			return cadenaAFechaSinAño(f1);
+			return cadenaAFechaSinAï¿½o(f1);
 		} else{
 		String[]cadenaCompleta=f1.split("el");
 		String fechaConSigno = cadenaCompleta[1];
@@ -187,7 +200,7 @@ public class Asistente {
 		}
 	}
 	
-	private Calendar cadenaAFechaSinAño(String f1) throws ParseException{
+	private Calendar cadenaAFechaSinAï¿½o(String f1) throws ParseException{
 		//recibe todo el mensaje
 		String[]cadenaCompleta=f1.split("el");
 		String fechaConSigno = cadenaCompleta[1];
@@ -201,7 +214,7 @@ public class Asistente {
 	}
 	private String fechaDentro(Calendar f1){
 		
-		return "@" +TestAsistente.USUARIO + " será el "+fechaACadena(f1);
+		return "@" +TestAsistente.USUARIO + " serï¿½ el "+fechaACadena(f1);
 	}
 	
 	private String fechaHace(Calendar f1){
@@ -210,12 +223,14 @@ public class Asistente {
 	}
 	
 	private String diasPasaron(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO + " entre el "+fechaACadena(f2)+" y el "+fechaACadena(f1)+" pasaron "+(dias-1)+" días";
+		return "@" +TestAsistente.USUARIO + " entre el "+fechaACadena(f2)+" y el "+fechaACadena(f1)+" pasaron "+(dias-1)+" dï¿½as";
 	}
 
 	private String diasFaltan(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO +" faltan "+dias+" días";
+		return "@" +TestAsistente.USUARIO +" faltan "+dias+" dï¿½as";
 	}
+
+	
 	
 	/*private String enviarMensaje(String mensaje){
 		System.out.println(mensaje);
