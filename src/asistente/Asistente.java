@@ -12,7 +12,7 @@ public class Asistente {
 	private String nombre;
 	private String respuesta;
 	
-	private final String[] palabrasClavesHola = {"Hola", "buen día", " buenas tardes", "hey"}; 
+	private final String[] palabrasClavesHola = {"hola", "buen día", "buenas", "hey", "che"}; 
 	private final String[] palabrasClaveFechaDentro = {"qué día será dentro de","qué día será en","qué día será mañana"}; 
 	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
 	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
@@ -24,15 +24,13 @@ public class Asistente {
 		this("Shannon");
 	}
 	Asistente(String nombre){
-		this.nombre = nombre; 
-		/*pratronPreguntaSobreHoy[0] = Pattern.compile("^ï¿½quï¿½ ?(hora|dï¿½a) es,");
-		pratronPreguntaSobreHoy[1] = Pattern.compile("^la ?(hora|fecha) por favor");*/
+		this.nombre = nombre;
 	}
 	
 	public String escuchar(String mensaje) throws ParseException{
 		if(!mensaje.contains("@"+nombre))
 			return "";
-		
+		mensaje = mensaje.toLowerCase();
 		int accion = encontrarPalabraClave(mensaje);
 		
 		switch (accion) {
@@ -64,9 +62,6 @@ public class Asistente {
 				long diasRestantes = Fecha.restarFechas(fechaRequerida,Fecha.getToday());
 				mensaje = CalculadorDiferenciaFechas.diasFaltan(diasRestantes);
 				break;
-			case 100:
-				mensaje = respuesta;
-				break;
 				
 			case 5:
 				String intro;
@@ -76,6 +71,10 @@ public class Asistente {
 					intro = "@"+nombre+" cuánto es";
 				Integer result = Calculo.resolverCalculo(mensaje.substring(intro.length()));
 				mensaje = "@" + RF06Tests.USUARIO + " " + result.toString();
+				break;
+
+			case 100:
+				mensaje = respuesta;
 				break;
 				
 			default:
@@ -92,31 +91,37 @@ public class Asistente {
 				return 0;
 			}
 		}
-		for(String y: palabrasClaveFechaDentro){
-			if(mensaje.contains(y)){
+		
+		for(String x: palabrasClaveFechaDentro){
+			if(mensaje.contains(x)){
 				return 1;
 			}
 		}
-		for(String z: palabrasClaveFechaHace){
-			if(mensaje.contains(z)){
+		
+		for(String x: palabrasClaveFechaHace){
+			if(mensaje.contains(x)){
 				return 2;
 			}
 		}
-		for(String a: palabrasClaveDiasPasaron){
-			if(mensaje.contains(a)){
+		
+		for(String x: palabrasClaveDiasPasaron){
+			if(mensaje.contains(x)){
 				return 3;
 			}
 		}
-		for(String b: palabrasClaveDiasFaltan){
-			if(mensaje.contains(b)){
+		
+		for(String x: palabrasClaveDiasFaltan){
+			if(mensaje.contains(x)){
 				return 4;
 			}
 		}
-		for(String c: palabrasClaveCalculo) {
-			if(mensaje.contains(c)) {
+		
+		for(String x: palabrasClaveCalculo) {
+			if(mensaje.contains(x)) {
 				return 5;
 			}
 		}
+
 		String rHoy;
 		if(!(rHoy = TiempoActual.preguntaPorHoy(mensaje)).isEmpty()){
 			respuesta = TiempoActual.respuestaHoy(mensaje, rHoy);
@@ -129,11 +134,5 @@ public class Asistente {
 	private String saludar(){
 		return "¡Hola, @" + TestAsistente.USUARIO + "!";
 	}
-	
-	
-	/*private String enviarMensaje(String mensaje){
-		System.out.println(mensaje);
-		return mensaje;
-	}*/
 
 }
