@@ -34,11 +34,11 @@ public class Asistente {
 				mensaje = saludar();
 				break;
 			case 1:
-				CalculadorDiferenciaFechas.calcular(mensaje, false);
+				mensaje = CalculadorDiferenciaFechas.calcular(mensaje, false);
 				break;
 				
 			case 2:
-				CalculadorDiferenciaFechas.calcular(mensaje, true);
+				mensaje = CalculadorDiferenciaFechas.calcular(mensaje, true);
 				break;
 				
 			case 3:
@@ -55,8 +55,8 @@ public class Asistente {
 				}else
 					fechaRequerida = Fecha.cadenaAFecha(mensaje);
 				
-				long diasRestantes = Fecha.restarFechas(Fecha.getToday(), fechaRequerida);
-				mensaje = CalculadorDiferenciaFechas.diasFaltan(diasRestantes ,Fecha.getToday(),fechaRequerida);
+				long diasRestantes = Fecha.restarFechas(fechaRequerida,Fecha.getToday());
+				mensaje = CalculadorDiferenciaFechas.diasFaltan(diasRestantes);
 				break;
 				
 			default:

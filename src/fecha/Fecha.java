@@ -18,8 +18,9 @@ public class Fecha {
 		return today;
 	}
 	
-	public static long restarFechas(Calendar f1, Calendar f2){
-		return (long)(f1.getTime().getTime() - f2.getTime().getTime()) /86400000;	
+	public static long restarFechas(Calendar f1, Calendar f2){		
+		long diff = f1.getTime().getTime() - f2.getTime().getTime();
+	    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);		
 	}
 	
 	public static Calendar cadenaAFecha(String f1) throws ParseException{

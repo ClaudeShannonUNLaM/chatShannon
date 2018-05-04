@@ -10,7 +10,7 @@ public class CalculadorDiferenciaFechas {
 	public static String calcular(String mensaje, boolean averiguarDiasPasados){		
 		
 		StringTokenizer cadenaCompleta = new StringTokenizer(mensaje);
-		String partes,periodo;
+		String partes,periodo = "";
 	    int diferencia=0;
 	    Calendar resultado;	    
 		
@@ -20,16 +20,16 @@ public class CalculadorDiferenciaFechas {
 	        	 diferencia=Integer.parseInt(partes);
 	         }
 	     }
-	     if(mensaje.contains("días")||mensaje.contains("día")){
+	     if(mensaje.contains("días")){
 	    	 periodo="día";
 	     }
-	     if(averiguarDiasPasados){
-	    	 if(mensaje.contains("ayer")){
-		    	 periodo="día";
-		    	 diferencia=1;
-		     }
-	     }	     
-	     if(mensaje.contains("meses")||mensaje.contains("mes")){
+	     
+	     else if(mensaje.contains("ayer")){
+	    	 periodo="día";
+	    	 diferencia=1;
+	     }
+	     	     
+	     else if(mensaje.contains("meses")){
 	    	 periodo="mes";
 	     }
 	     else{
@@ -64,10 +64,10 @@ public class CalculadorDiferenciaFechas {
 	
 	public static String diasPasaron(long dias,Calendar f1,Calendar f2){
 		return "@" +TestAsistente.USUARIO + " entre el "+ Fecha.fechaACadena(f2) 
-				+" y el " + Fecha.fechaACadena(f1)+" pasaron " + (dias-1) + " días";
+				+" y el " + Fecha.fechaACadena(f1)+" pasaron " + (dias) + " días";
 	}	
 	
-	public static String diasFaltan(long dias,Calendar f1,Calendar f2){
+	public static String diasFaltan(long dias){
 		return "@" +TestAsistente.USUARIO +" faltan "+ dias +" días";
 	}
 	
