@@ -76,12 +76,12 @@ public class TestAsistente{
 	@Test
 	public void tiempoDesde() throws ParseException {
 		Assert.assertEquals(
-				"@pepe entre el sábado 29 de abril de 2017 y el jueves 3 de mayo de 2018 pasaron 369 días",
-				shannon.escuchar("@shannon cuántos días pasaron desde el 29 de abril de 2017?")
+				"@pepe entre el 4 de mayo de 2017 y el 4 de mayo de 2018 pasaron 365 días",
+				shannon.escuchar("@shannon cuántos días pasaron desde el 4 de mayo de 2017?")
 			);
 		Assert.assertEquals(
-				"@pepe entre el lunes 2 de abril de 2018 y el jueves 3 de mayo de 2018 pasaron 31 días",
-				shannon.escuchar("@shannon cuántos días pasaron desde el 2 de abril?")
+				"@pepe entre el 4 de abril de 2018 y el 4 de mayo de 2018 pasaron 30 días",
+				shannon.escuchar("@shannon cuántos días pasaron desde el 4 de abril?")
 			);		 
 	}
 	

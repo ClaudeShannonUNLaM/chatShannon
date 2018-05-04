@@ -63,8 +63,8 @@ public class CalculadorDiferenciaFechas {
 	}	
 	
 	public static String diasPasaron(long dias,Calendar f1,Calendar f2){
-		return "@" +TestAsistente.USUARIO + " entre el "+ Fecha.fechaACadena(f2) 
-				+" y el " + Fecha.fechaACadena(f1)+" pasaron " + (dias) + " días";
+		return "@" +TestAsistente.USUARIO + " entre el "+ Fecha.fechaACadenaSinDia(f2) 
+				+" y el " + Fecha.fechaACadenaSinDia(f1)+" pasaron " + (dias) + " días";
 	}	
 	
 	public static String diasFaltan(long dias){

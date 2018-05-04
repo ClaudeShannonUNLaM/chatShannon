@@ -57,5 +57,11 @@ public class Fecha {
 			    new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
 			return formato.format(d1);
 	}
+	public static String fechaACadenaSinDia(Calendar f1){		
+		Date d1=f1.getTime();
+		SimpleDateFormat formato = 
+			    new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
+			return formato.format(d1);
+	}
 	
 }
