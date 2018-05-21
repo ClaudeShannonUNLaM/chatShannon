@@ -1,138 +1,36 @@
 package asistente;
 
 import java.text.ParseException;
-import java.util.Calendar;
 
-import asistente.TestAsistente;
-import fecha.CalculadorDiferenciaFechas;
-import fecha.Fecha;
+import handlers.*;
+import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
 
 public class Asistente {
 	
-	private String nombre;
-	private String respuesta;
+	private String nombre;		 
 	
-	private final String[] palabrasClavesHola = {"hola", "buen día", "buenas", "hey", "che"}; 
-	private final String[] palabrasClaveFechaDentro = {"qué día será dentro de","qué día será en","qué día será mañana"}; 
-	private final String[] palabrasClaveFechaHace ={"qué día fue hace","qué día fue ayer"};
-	private final String[] palabrasClaveDiasPasaron ={"cuántos días pasaron desde el"};
-	private final String[] palabrasClaveDiasFaltan ={"cuántos días faltan para el"};
-	private final String[] palabrasClaveCalculo = {"cuánto es el ", "cuánto es "};
-
-	
-	Asistente(){
+	public Asistente(){
 		this("Shannon");
 	}
-	Asistente(String nombre){
+	public Asistente(String nombre){
 		this.nombre = nombre;
 	}
 	
-	public String escuchar(String mensaje) throws ParseException{
+	public String escuchar(String mensaje) throws ParseException{	
 		if(!mensaje.contains("@"+nombre))
-			return "";
-		mensaje = mensaje.toLowerCase();
-		int accion = encontrarPalabraClave(mensaje);
+			return "";				
 		
-		switch (accion) {
-			case 0:
-				mensaje = saludar();
-				break;
-			case 1:
-				mensaje = CalculadorDiferenciaFechas.calcular(mensaje, false);
-				break;
-				
-			case 2:
-				mensaje = CalculadorDiferenciaFechas.calcular(mensaje, true);
-				break;
-				
-			case 3:
-				Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);			
-				
-				long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
-				mensaje = CalculadorDiferenciaFechas.diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada);
-				break;
-				
-			case 4:
-				Calendar fechaRequerida;
-				if(mensaje.contains("mundial")){
-					fechaRequerida = TestAsistente.FECHA_MUNDIAL;
-				}else
-					fechaRequerida = Fecha.cadenaAFecha(mensaje);
-				
-				long diasRestantes = Fecha.restarFechas(fechaRequerida,Fecha.getToday());
-				mensaje = CalculadorDiferenciaFechas.diasFaltan(diasRestantes);
-				break;
-				
-			case 5:
-				String intro;
-				if(mensaje.contains("@"+nombre+" cuánto es el"))
-					intro = "@"+nombre+" cuánto es el";
-				else
-					intro = "@"+nombre+" cuánto es";
-				Integer result = Calculo.resolverCalculo(mensaje.substring(intro.length()));
-				mensaje = "@" + RF06Tests.USUARIO + " " + result.toString();
-				break;
-
-			case 100:
-				mensaje = respuesta;
-				break;
-				
-			default:
-				mensaje = "Disculpa... no entiendo el pedido, @"+TestAsistente.USUARIO +" ¿podrías repetirlo?";
-				break;
-		}
-
-		return mensaje;
+		AsistantSentenceHandler calculoMatematico = new CalculoHandler();
+		AsistantSentenceHandler diferenciaFechas = new DiferenciaFechasHandler();
+		AsistantSentenceHandler tiempoActual =  new TiempoActualHandler();
+		AsistantSentenceHandler saludo =  new SaludoHandler();
+		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
+		
+		calculoMatematico.setNextAction(diferenciaFechas);
+		diferenciaFechas.setNextAction(tiempoActual);
+		tiempoActual.setNextAction(saludo);
+		saludo.setNextAction(defaultResponse);
+		
+		return calculoMatematico.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 	}
-	
-	private int encontrarPalabraClave(String mensaje){
-		for(String x: palabrasClavesHola){
-			if(mensaje.contains(x)){
-				return 0;
-			}
-		}
-		
-		for(String x: palabrasClaveFechaDentro){
-			if(mensaje.contains(x)){
-				return 1;
-			}
-		}
-		
-		for(String x: palabrasClaveFechaHace){
-			if(mensaje.contains(x)){
-				return 2;
-			}
-		}
-		
-		for(String x: palabrasClaveDiasPasaron){
-			if(mensaje.contains(x)){
-				return 3;
-			}
-		}
-		
-		for(String x: palabrasClaveDiasFaltan){
-			if(mensaje.contains(x)){
-				return 4;
-			}
-		}
-		
-		for(String x: palabrasClaveCalculo) {
-			if(mensaje.contains(x)) {
-				return 5;
-			}
-		}
-
-		String rHoy;
-		if(!(rHoy = TiempoActual.preguntaPorHoy(mensaje)).isEmpty()){
-			respuesta = TiempoActual.respuestaHoy(mensaje, rHoy);
-			return 100;
-		}
-		
-		return -1;
-	}
-	
-	private String saludar(){
-		return "¡Hola, @" + TestAsistente.USUARIO + "!";
-	}
-
 }

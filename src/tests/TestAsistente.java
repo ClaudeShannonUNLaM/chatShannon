@@ -1,5 +1,8 @@
-package asistente;
+package tests;
 import org.junit.*;
+
+import asistente.Asistente;
+
 import java.text.ParseException;
 import java.util.Calendar;
 

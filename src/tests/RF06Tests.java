@@ -1,9 +1,11 @@
-package asistente;
+package tests;
 import java.text.ParseException;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import asistente.Asistente;
 
 public class RF06Tests {
 

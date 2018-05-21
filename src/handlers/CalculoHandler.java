@@ -1,7 +1,32 @@
-package asistente;
+package handlers;
 
-public class Calculo {
-	public static int resolverCalculo (String calculo) {
+public class CalculoHandler extends AsistantSentenceHandler{
+
+	@Override
+	public String giveAnswer(String mensaje, String nombreUsuario) {
+		if(true){ //if(mensaje cumple con expresion regular)
+			String intro;
+			if(mensaje.contains("cuánto es el"))
+				//Importante: No se deberia usar esta concatenacion del intro como se planteo en la primera entrega ya
+				//que esta función no deberia conocer el nombre del asistente.
+
+				//Si todavia se quiere resolver asi entonces agregar una propiedad de esta clase del nombre 
+				//del bot y setearla en el metodo escuchar del Asistente.				
+
+				//Se deja la variable nombreUsuario aunque esta este incorrecta para que no tire error en esta primera etapa. 
+				intro = "@"+ nombreUsuario + " cuánto es el";
+			else
+				intro = "@" + nombreUsuario + " cuánto es";
+			Integer result = resolverCalculo(mensaje.substring(intro.length()));
+			mensaje = "@" + nombreUsuario + " " + result.toString();
+			
+			return mensaje;	
+		}
+		else
+			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);				
+	}
+	
+	public int resolverCalculo (String calculo) {
 		int posOper, a, b;
 		int posIni;
 		
@@ -44,4 +69,6 @@ public class Calculo {
 		
 		return Integer.parseInt(calculo);			
 	}
+	
+
 }
