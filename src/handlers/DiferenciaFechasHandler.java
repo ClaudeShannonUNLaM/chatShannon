@@ -9,14 +9,30 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 		
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {		
-		if(true){	//if(mensaje cumple con expresion regular)			
-			
-			//if()//if(mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
-				//return calcular(mensaje,nombreUsuario ,false);				
+		if(true){	//(mensaje cumple con expresion regular)			
+			/*
+			if() (mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
+				return calcular(mensaje,nombreUsuario ,false);				
 		
-			//if()//if(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
-				//return calcular(mensaje,nombreUsuario, true);
+			else if()(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
+				return calcular(mensaje,nombreUsuario, true);
 			
+			else if(){(mensaje cumple con que esta pidiendo diferencia de fechas)
+				Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
+				long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
+				return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);
+			}			
+			else if(){
+				Calendar fechaRequerida;
+				if(mensaje.contains("mundial")){
+					fechaRequerida = Calendar.getInstance();
+				}else
+					fechaRequerida = Fecha.cadenaAFecha(mensaje);
+				
+				long diasRestantes = Fecha.restarFechas(fechaRequerida,Fecha.getToday());
+				return diasFaltan(diasRestantes,nombreUsuario);				
+			}
+			*/
 			return null; // Esta linea de codigo se debe sacar. Se deja para que no tire error en esta primera etapa.
 		}
 		else
