@@ -9,7 +9,7 @@ public class ConversorCapacidad extends Conversor {
 		
 		units.put("mililitro", 1.0);
         units.put("litro", 1000.0);
-        units.put("Centilitro", 10.0);
+        units.put("centilitro", 10.0);
         units.put("pulgada cúbica", 16.3871);
         units.put("pulgada cubica", 16.3871);
         units.put("pie cúbico", 28316.8);
@@ -19,7 +19,7 @@ public class ConversorCapacidad extends Conversor {
         
         units.put("mililitros", 1.0);
         units.put("litros", 1000.0);
-        units.put("Centilitros", 10.0);
+        units.put("centilitros", 10.0);
         units.put("pulgadas cúbicas", 16.3871);
         units.put("pulgadas cubicas", 16.3871);
         units.put("pies cúbicos", 28316.8);
