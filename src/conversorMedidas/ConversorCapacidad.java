@@ -1,12 +1,18 @@
 package conversorMedidas;
 
-public class ConversorCapacidad implements Conversor {
+import java.util.HashMap;
 
-	@Override
-	public String Convert(String medidaAConvertir, String valor, String medidaInicial) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+public class ConversorCapacidad extends Conversor {
+
+	public ConversorCapacidad() {
+		units = new HashMap<String, Double>();
+		units.put("Millimetres", 1.0);
+        units.put("Metres", 1000.0);
+        units.put("Inches", 25.4);
+        units.put("Feet", 304.8);
+        units.put("Yards", 914.4);
+	}	
+
 	/*Decalitro = 10 litros
 	 * litro 
 	 * Centilitro = litro/1000

@@ -1,8 +1,20 @@
 package conversorMedidas;
 
-public interface Conversor {
+import java.util.HashMap;
+
+public abstract class Conversor {
 	
-	String Convert(String medidaAConvertir ,String valor,String medidaInicial);
+	
+	protected HashMap<String, Double> units;	
+	
+	public final String Convert(String medidaAConvertir, String valor, String medidaInicial) {		
+		if(units.containsKey(medidaAConvertir) && units.containsKey(medidaInicial)){
+			double conversion = Double.parseDouble(valor) * units.get(medidaInicial) / units.get(medidaAConvertir);
+			return " son" + conversion + medidaAConvertir;	
+		}
+		else
+			return " las unidades especificadas no se pueden transformar";				
+	}
 	/*
 	 * public class Converter
 {
@@ -25,32 +37,7 @@ public interface Conversor {
 
             System.out.println();
         }
-    }
-
-    private HashMap<String, Double> _units;
-
-    public Converter()
-    {
-        _units = new HashMap<String, Double>();
-
-        _units.put("Millimetres", 1.0);
-        _units.put("Metres", 1000.0);
-        _units.put("Inches", 25.4);
-        _units.put("Feet", 304.8);
-        _units.put("Yards", 914.4);
-    }
-
-    public double convert(String from, String to, double value)
-    {
-        return value * _units.get(from) / _units.get(to);
-    }
-
-    private Set<String> availableUnits()
-    {
-        return _units.keySet();
-    }
-}
-	 * 
+    }    
 	 * */
 	
 }

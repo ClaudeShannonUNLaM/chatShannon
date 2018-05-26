@@ -1,13 +1,15 @@
 package conversorMedidas;
 
-public class ConversorMasa implements Conversor {
+public class ConversorMasa extends Conversor {
 
-	@Override
-	public String Convert(String medidaAConvertir, String valor, String medidaInicial) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/*
+case "gramos":
+case "kilos":
+case "onzas":
+case "hectogramos":
+case "libras":
+case "dracmas":	
+*/	
 /*
  * kg = 1000g
 	hectogramos = 100g
