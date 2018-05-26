@@ -73,12 +73,12 @@ public class RF11Tests {
 				"@delucas 1 kilometro equivalen a 1000 metros",
 				jenkins.escuchar("@jenkins cuántos metros son 1 kilometro")
 			);
-		
+		*/
 		Assert.assertEquals(
-				"@delucas 500 metros equivalen a 0.50 kilometros",
+				"@delucas 500 metros equivalen a 0,5 kilometros",
 				jenkins.escuchar("@jenkins cuántos kilometros son 500 metros")
 			);
-		*/
+		
 		Assert.assertEquals(
 				"@delucas 2 metros equivalen a 200 centimetros",
 				jenkins.escuchar("@jenkins cuántos centimetros son 2 metros")
