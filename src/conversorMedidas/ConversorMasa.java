@@ -1,24 +1,23 @@
 package conversorMedidas;
 
-public class ConversorMasa extends Conversor {
+import java.util.HashMap;
 
-	/*
-case "gramos":
-case "kilos":
-case "onzas":
-case "hectogramos":
-case "libras":
-case "dracmas":	
-*/	
-/*
- * kg = 1000g
-	hectogramos = 100g
-	gramos = 1 gramo
+public class ConversorMasa extends Conversor {
 	
-	
-	1 dracma = 1,771845195309973 g
-	1 onza= 28,34952312495957 g
-	1 libra = 453,5923699993531 g
- * */
-	
+	public ConversorMasa() {
+		units = new HashMap<String, Double>();
+		units.put("gramo",1.0);
+        units.put("kilo", 1000.0);
+        units.put("hectogramo", 100.0);        
+        units.put("onza", 28.3495);        
+        units.put("libra", 453.592);
+        units.put("dracma", 1.772);
+        
+        units.put("gramos",1.0);
+        units.put("kilos", 1000.0);
+        units.put("hectogramos", 100.0);        
+        units.put("onzas", 28.3495);        
+        units.put("libras", 453.592);
+        units.put("dracmas", 1.772);
+	}	
 }

@@ -20,17 +20,19 @@ public class Asistente {
 		if(!mensaje.contains("@"+nombre))
 			return "";				
 		
+		AsistantSentenceHandler conversor = new ConversorHandler();
 		AsistantSentenceHandler calculoMatematico = new CalculoHandler();
 		AsistantSentenceHandler diferenciaFechas = new DiferenciaFechasHandler();
 		AsistantSentenceHandler tiempoActual =  new TiempoActualHandler();
 		AsistantSentenceHandler saludo =  new SaludoHandler();
 		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
 		
+		conversor.setNextAction(calculoMatematico);
 		calculoMatematico.setNextAction(diferenciaFechas);
 		diferenciaFechas.setNextAction(tiempoActual);
 		tiempoActual.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return calculoMatematico.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return conversor.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 	}
 }

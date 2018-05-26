@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class TestAsistente{
 	
 	
-	public final static String USUARIO = "pepe";
+	public final static String USUARIO = "delucas";
 	public final static Calendar FECHA_MUNDIAL = Calendar.getInstance();
 
 	Asistente shannon;
