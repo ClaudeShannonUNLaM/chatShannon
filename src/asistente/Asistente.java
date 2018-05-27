@@ -21,13 +21,17 @@ public class Asistente {
 			return "";				
 		
 		AsistantSentenceHandler conversor = new ConversorHandler();
+		AsistantSentenceHandler chuckNorris = new ChuckNorrisHandler();
+		AsistantSentenceHandler trivia = new TriviaHandler();
 		AsistantSentenceHandler calculoMatematico = new CalculoHandler();
 		AsistantSentenceHandler diferenciaFechas = new DiferenciaFechasHandler();
 		AsistantSentenceHandler tiempoActual =  new TiempoActualHandler();
 		AsistantSentenceHandler saludo =  new SaludoHandler();
 		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
 		
-		conversor.setNextAction(calculoMatematico);
+		conversor.setNextAction(chuckNorris);
+		chuckNorris.setNextAction(trivia);
+		trivia.setNextAction(calculoMatematico);
 		calculoMatematico.setNextAction(diferenciaFechas);
 		diferenciaFechas.setNextAction(tiempoActual);
 		tiempoActual.setNextAction(saludo);
