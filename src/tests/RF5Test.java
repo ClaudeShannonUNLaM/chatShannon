@@ -20,7 +20,7 @@ public class RF5Test {
 	}
 	
 	@Test
-	public void TriviasFacts() throws ParseException {
+	public void TriviasFacts() throws ParseException {		
 		Assert.assertEquals(
 				"Cleopatra vivió más cerca de la invención del iPhone que de la construcción de la Gran Pirámide.",
 				jenkins.escuchar("@jenkins quiero datos de trivia")

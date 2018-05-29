@@ -1,5 +1,9 @@
 package handlers;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,25 +41,43 @@ public class ChuckNorrisHandler extends AsistantSentenceHandler {
 			"La razón por la que el Santo Grial nunca se ha recuperado es porque nadie es lo suficientemente valiente como para pedirle a Chuck Norris que renuncie a su taza de café favorita.",
 			"Cuando Bruce Banner se enoja, se convierte en Hulk. Cuando Hulk se enoja se convierte en Chuck Norris. Cuando Chuck Norris se enoja, corre.",
 			"Chuck Norris es la razón por la que Waldo se está escondiendo.",
-			"El tipo de sangre de Chuck Norris es AK-47."};
-	private int NorrisIndex;
+			"El tipo de sangre de Chuck Norris es AK-47."};	
 	
-	public ChuckNorrisHandler(){
-		NorrisIndex = 0;
+	private File archivo;
+	
+	public ChuckNorrisHandler(){		
+		archivo = new File("ChuckNorrisHandler.txt");
 		patron = Pattern.compile(".*(?:dame|quiero).*(?:chuck norris|Chuck Norris)");
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public String giveAnswer(String mensaje, String nombreUsuario){
 		Matcher matcher = patron.matcher(mensaje);		
-	    if (matcher.matches()) {	    	
-	    	NorrisIndex ++;
-			if(NorrisIndex == facts.length){
-				NorrisIndex = 0;
-				return facts[facts.length - 1];
-			}			
-			return facts[NorrisIndex - 1];
-	    	
+	    if (matcher.matches()) {
+	    	Scanner s = null;
+			try {
+				String respuesta = "";
+				s = new Scanner(archivo);
+				int NorrisIndex = s.nextInt();
+				s.close();
+				
+				if(NorrisIndex == facts.length){
+					NorrisIndex = 0;					
+					respuesta = facts[facts.length - 1];
+				}
+				else{
+					NorrisIndex++;
+					respuesta = facts[NorrisIndex - 1];
+				}			
+							
+				PrintWriter pw = new PrintWriter(archivo);
+				pw.print(NorrisIndex);
+				pw.close();
+				return respuesta;
+								
+			} catch (FileNotFoundException e) {				
+				return "Hubo un error abriendo el archivo";
+			}	        		    	
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}		
