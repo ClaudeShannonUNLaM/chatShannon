@@ -3,6 +3,7 @@ import org.junit.*;
 
 import asistente.Asistente;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
 
@@ -23,20 +24,20 @@ public class TestAsistente{
 	}
 	
 	@Test
-	public void noTeEntiendo() throws ParseException{
+	public void noTeEntiendo() throws ParseException, IOException{
 		String mensaje = "chacha @shannon";
 		
 		Assert.assertEquals("Disculpa... no entiendo el pedido, @pepe ¿podrías repetirlo?", shannon.escuchar(mensaje));
 	}
 	
 	@Test
-	public void saludo() throws ParseException{
+	public void saludo() throws ParseException, IOException{
 		String mensaje = "Hola @shannon";
 		
 		Assert.assertEquals("¡Hola, @pepe!", shannon.escuchar(mensaje));
 	}
 	@Test
-	public void diaDentroDe() throws ParseException {
+	public void diaDentroDe() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@pepe será el sábado 5 de mayo de 2018",
 				shannon.escuchar("@shannon qué día será dentro de 2 días?")
@@ -54,7 +55,7 @@ public class TestAsistente{
 	}
 	
 	@Test
-	public void diaHace() throws ParseException {
+	public void diaHace() throws ParseException, IOException {
 		
 	Assert.assertEquals(
 				"@pepe fue el miércoles 2 de mayo de 2018",
@@ -77,7 +78,7 @@ public class TestAsistente{
 			);			
 	}
 	@Test
-	public void tiempoDesde() throws ParseException {
+	public void tiempoDesde() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@pepe entre el 4 de mayo de 2017 y el 4 de mayo de 2018 pasaron 365 días",
 				shannon.escuchar("@shannon cuántos días pasaron desde el 4 de mayo de 2017?")
@@ -89,7 +90,7 @@ public class TestAsistente{
 	}
 	
 	@Test
-	public void tiempoHasta() throws ParseException {
+	public void tiempoHasta() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@pepe faltan 1 días",
 				shannon.escuchar("@shannon cuántos días faltan para el 5 de mayo?")
@@ -106,7 +107,7 @@ public class TestAsistente{
 	
 
 	@Test
-	public void hora() throws ParseException {
+	public void hora() throws ParseException, IOException {
 		String[] mensajes = {
 				"¿qué hora es, @shannon?",
 				"@shannon, la hora por favor",
@@ -121,7 +122,7 @@ public class TestAsistente{
 	}
 	
 	@Test
-	public void fecha() throws ParseException {
+	public void fecha() throws ParseException, IOException {
 		String[] mensajes = {
 				"¿qué día es, @shannon?",
 				"@shannon, la fecha por favor",
@@ -136,7 +137,7 @@ public class TestAsistente{
 	}
 	
 	@Test
-	public void diaDeLaSemana() throws ParseException {
+	public void diaDeLaSemana() throws ParseException, IOException {
 		String[] mensajes = {
 				"¿qué día de la semana es hoy, @shannon?"
 		};

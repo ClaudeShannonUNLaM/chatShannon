@@ -1,5 +1,7 @@
 package asistente;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 
 import handlers.*;
@@ -16,19 +18,23 @@ public class Asistente {
 		this.nombre = nombre;
 	}
 	
-	public String escuchar(String mensaje) throws ParseException{	
+	public String escuchar(String mensaje) throws ParseException, IOException{	
 		if(!mensaje.contains("@"+nombre))
 			return "";				
 		
 		AsistantSentenceHandler conversor = new ConversorHandler();
 		AsistantSentenceHandler chuckNorris = new ChuckNorrisHandler();
 		AsistantSentenceHandler trivia = new TriviaHandler();
+		AsistantSentenceHandler serAdivinadoMayorMenor = new MayorMenorAdivinadoHandler();
+		AsistantSentenceHandler adivinarMayorMenor= new AdivinarMayorMenorHandler();
 		AsistantSentenceHandler calculoMatematico = new CalculoHandler();
 		AsistantSentenceHandler diferenciaFechas = new DiferenciaFechasHandler();
 		AsistantSentenceHandler tiempoActual =  new TiempoActualHandler();
 		AsistantSentenceHandler saludo =  new SaludoHandler();
 		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
 		
+		adivinarMayorMenor.setNextAction(serAdivinadoMayorMenor);
+		serAdivinadoMayorMenor.setNextAction(conversor);
 		conversor.setNextAction(chuckNorris);
 		chuckNorris.setNextAction(trivia);
 		trivia.setNextAction(calculoMatematico);
@@ -37,6 +43,6 @@ public class Asistente {
 		tiempoActual.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return conversor.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return adivinarMayorMenor.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 	}
 }
