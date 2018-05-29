@@ -32,7 +32,9 @@ public class Asistente {
 		AsistantSentenceHandler tiempoActual =  new TiempoActualHandler();
 		AsistantSentenceHandler saludo =  new SaludoHandler();
 		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
+		AsistantSentenceHandler agradecer = new AgradecimientoHandler();
 		
+		agradecer.setNextAction(adivinarMayorMenor);
 		adivinarMayorMenor.setNextAction(serAdivinadoMayorMenor);
 		serAdivinadoMayorMenor.setNextAction(conversor);
 		conversor.setNextAction(chuckNorris);
@@ -43,6 +45,6 @@ public class Asistente {
 		tiempoActual.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return adivinarMayorMenor.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return agradecer.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 	}
 }
