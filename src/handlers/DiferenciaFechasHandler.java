@@ -1,43 +1,74 @@
 package handlers;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import fecha.Fecha;
 
 public class DiferenciaFechasHandler extends AsistantSentenceHandler{
-		
+	private String msg;
+	public DiferenciaFechasHandler () {
+		patron = Pattern.compile(".*(qué día será dentro de|qué día fue|cuántos días pasaron desde el|cuántos días faltan para el).*");
+	
+	}
+	
+	
+	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {		
-		if(true){	//(mensaje cumple con expresion regular)			
-			/*
-			if() (mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
-				return calcular(mensaje,nombreUsuario ,false);				
+	public String giveAnswer(String mensaje, String nombreUsuario) {
+		msg=mensaje;
+		Matcher matcher = patron.matcher(mensaje);		
+	    if(matcher.find()) {
+			String intro;
+			/*if() (mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
+			return calcular(mensaje,nombreUsuario ,false);				
+	
+		else if()(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
+			return calcular(mensaje,nombreUsuario, true);
 		
-			else if()(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
-				return calcular(mensaje,nombreUsuario, true);
+		else if(){(mensaje cumple con que esta pidiendo diferencia de fechas)
+			Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
+			long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
+			return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);*/
 			
-			else if(){(mensaje cumple con que esta pidiendo diferencia de fechas)
-				Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
-				long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
-				return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);
-			}			
-			else if(){
-				Calendar fechaRequerida;
-				if(mensaje.contains("mundial")){
-					fechaRequerida = Calendar.getInstance();
-				}else
-					fechaRequerida = Fecha.cadenaAFecha(mensaje);
-				
-				long diasRestantes = Fecha.restarFechas(fechaRequerida,Fecha.getToday());
-				return diasFaltan(diasRestantes,nombreUsuario);				
+			if(msg.contains("qué día será dentro de"))//msg.contains("cuántos días faltan para el"))// (mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
+			return calcular(msg,nombreUsuario ,false);	
+			else if(msg.contains("qué día fue"))//msg.contains("cuántos días pasaron desde el"))//(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
+			return calcular(msg,nombreUsuario, true);
+			
+			else if(msg.contains("cuántos días pasaron desde el")){//(mensaje cumple con que esta pidiendo diferencia de fechas)
+					try{
+						Calendar fechaPreguntada = Fecha.cadenaAFecha(msg);				
+						long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
+						return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);
+					}
+					 catch (java.text.ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return "";
+					}
 			}
-			*/
-			return null; // Esta linea de codigo se debe sacar. Se deja para que no tire error en esta primera etapa.
-		}
+			else if(msg.contains("cuántos días faltan para el")){
+				try{
+					Calendar fechaPreguntada = Fecha.cadenaAFecha(msg);				
+					long diasDiferencia = (-1)* Fecha.restarFechas(Fecha.getToday(), fechaPreguntada)+1;
+					return diasFaltan(diasDiferencia, nombreUsuario);
+				}
+				 catch (java.text.ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return "";
+				}
+			}
+			return "";
+	    }
 		else
-			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);	
-		
+			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
 	}
 	
 	

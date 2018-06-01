@@ -34,13 +34,13 @@ public class Asistente {
 		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
 		AsistantSentenceHandler agradecer = new AgradecimientoHandler();
 		
-		agradecer.setNextAction(adivinarMayorMenor);
+		agradecer.setNextAction(calculoMatematico);
+		calculoMatematico.setNextAction(adivinarMayorMenor);
 		adivinarMayorMenor.setNextAction(serAdivinadoMayorMenor);
 		serAdivinadoMayorMenor.setNextAction(conversor);
 		conversor.setNextAction(chuckNorris);
 		chuckNorris.setNextAction(trivia);
-		trivia.setNextAction(calculoMatematico);
-		calculoMatematico.setNextAction(diferenciaFechas);
+		trivia.setNextAction(diferenciaFechas);
 		diferenciaFechas.setNextAction(tiempoActual);
 		tiempoActual.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
