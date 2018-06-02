@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class SaludoHandler extends AsistantSentenceHandler{
 	
 	public SaludoHandler(){		
-		patron = Pattern.compile("(hola|buen día|buenas|hey|che)");
+		patron = Pattern.compile("(?:hola|buenos dias|todo bien|saludos|che|oye).*@([a-z]+)");
 	}
 	
 	@Override
