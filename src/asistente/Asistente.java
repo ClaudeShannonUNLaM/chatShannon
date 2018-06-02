@@ -33,8 +33,11 @@ public class Asistente {
 		AsistantSentenceHandler saludo =  new SaludoHandler();
 		AsistantSentenceHandler defaultResponse = new DefaultHandler();		
 		AsistantSentenceHandler agradecer = new AgradecimientoHandler();
+		AsistantSentenceHandler leyesRobotica = new LeyesRoboticaHandler();
 		
-		agradecer.setNextAction(calculoMatematico);
+		
+		agradecer.setNextAction(leyesRobotica);
+		leyesRobotica.setNextAction(calculoMatematico);
 		calculoMatematico.setNextAction(adivinarMayorMenor);
 		adivinarMayorMenor.setNextAction(serAdivinadoMayorMenor);
 		serAdivinadoMayorMenor.setNextAction(conversor);
