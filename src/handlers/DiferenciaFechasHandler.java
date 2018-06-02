@@ -6,44 +6,27 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 import fecha.Fecha;
 
 public class DiferenciaFechasHandler extends AsistantSentenceHandler{
-	private String msg;
+	
 	public DiferenciaFechasHandler () {
-		patron = Pattern.compile(".*(qué día será dentro de|qué día fue|cuántos días pasaron desde el|cuántos días faltan para el).*");
-	
+		patron = Pattern.compile(".*(qué día será dentro de|qué día fue|cuántos días pasaron desde el|cuántos días faltan para el).*");	
 	}
-	
-	
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
-		msg=mensaje;
-		Matcher matcher = patron.matcher(mensaje);		
-	    if(matcher.find()) {
-			String intro;
-			/*if() (mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
-			return calcular(mensaje,nombreUsuario ,false);				
-	
-		else if()(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
-			return calcular(mensaje,nombreUsuario, true);
 		
-		else if(){(mensaje cumple con que esta pidiendo diferencia de fechas)
-			Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
-			long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
-			return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);*/
+		Matcher matcher = patron.matcher(mensaje);		
+	    if(matcher.find()) {								
+			if(mensaje.contains("qué día será dentro de"))
+				return calcular(mensaje,nombreUsuario ,false);	
+			else if(mensaje.contains("qué día fue"))
+				return calcular(mensaje,nombreUsuario, true);
 			
-			if(msg.contains("qué día será dentro de"))//msg.contains("cuántos días faltan para el"))// (mensaje cumple con que esta pidiendo con averiguar cuantos dias faltan)
-			return calcular(msg,nombreUsuario ,false);	
-			else if(msg.contains("qué día fue"))//msg.contains("cuántos días pasaron desde el"))//(mensaje cumple con que esta pidiendo con averiguar cuantos dias pasaron)
-			return calcular(msg,nombreUsuario, true);
-			
-			else if(msg.contains("cuántos días pasaron desde el")){//(mensaje cumple con que esta pidiendo diferencia de fechas)
+			else if(mensaje.contains("cuántos días pasaron desde el")){
 					try{
-						Calendar fechaPreguntada = Fecha.cadenaAFecha(msg);				
+						Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
 						long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
 						return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);
 					}
@@ -53,9 +36,9 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 						return "";
 					}
 			}
-			else if(msg.contains("cuántos días faltan para el")){
+			else if(mensaje.contains("cuántos días faltan para el")){
 				try{
-					Calendar fechaPreguntada = Fecha.cadenaAFecha(msg);				
+					Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
 					long diasDiferencia = (-1)* Fecha.restarFechas(Fecha.getToday(), fechaPreguntada)+1;
 					return diasFaltan(diasDiferencia, nombreUsuario);
 				}

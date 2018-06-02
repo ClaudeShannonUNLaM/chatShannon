@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import asistente.Asistente;
 
-public class RF5Test {
+public class RF05Test {
 	
 	public final static String USUARIO = "delucas";
 
