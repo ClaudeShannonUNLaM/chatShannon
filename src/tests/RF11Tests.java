@@ -1,4 +1,5 @@
 package tests;
+import java.io.IOException;
 import java.text.ParseException;
 
 import org.junit.Assert;
@@ -19,7 +20,7 @@ public class RF11Tests {
 	}
 	
 	@Test
-	public void unidadesDeMasa() throws ParseException {
+	public void unidadesDeMasa() throws ParseException, IOException, IOException {
 		Assert.assertEquals(
 				"@delucas 1 kilo equivalen a 1000 gramos",
 				jenkins.escuchar("@jenkins cuántos gramos son 1 kilo")
@@ -36,7 +37,7 @@ public class RF11Tests {
 			);		
 	}
 	@Test
-	public void unidadesDeTiempo() throws ParseException {
+	public void unidadesDeTiempo() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas 60 minutos equivalen a 1 horas",
 				jenkins.escuchar("@jenkins cuántas horas son 60 minutos")
@@ -54,7 +55,7 @@ public class RF11Tests {
 	}	
 	
 	@Test
-	public void unidadesDeCapacidad() throws ParseException {
+	public void unidadesDeCapacidad() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas 2 litros equivalen a 2000 mililitros",
 				jenkins.escuchar("@jenkins cuántos mililitros son 2 litros")
@@ -68,7 +69,7 @@ public class RF11Tests {
 	}
 	
 	@Test
-	public void unidadesDeLongitud() throws ParseException {
+	public void unidadesDeLongitud() throws ParseException, IOException {
 	/*	Assert.assertEquals(
 				"@delucas 1 kilometro equivalen a 1000 metros",
 				jenkins.escuchar("@jenkins cuántos metros son 1 kilometro")
@@ -86,7 +87,7 @@ public class RF11Tests {
 	}
 	
 	@Test
-	public void MedidasIncorrectas() throws ParseException {
+	public void MedidasIncorrectas() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas las unidades especificadas no se pueden transformar",
 				jenkins.escuchar("@jenkins cuántos gramos son 1 metro")

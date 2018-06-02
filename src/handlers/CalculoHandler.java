@@ -1,19 +1,22 @@
 package handlers;
 
-public class CalculoHandler extends AsistantSentenceHandler{
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+	
+
+public class CalculoHandler extends AsistantSentenceHandler{
+	public CalculoHandler () {
+			patron = Pattern.compile("(?:(cuánto es el|cuánto es))");
+	}
+		
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
-		if(true){ //if(mensaje cumple con expresion regular)
+		Matcher matcher = patron.matcher(mensaje);		
+	    if(matcher.find()) {
 			String intro;
 			if(mensaje.contains("cuánto es el"))
-				//Importante: No se deberia usar esta concatenacion del intro como se planteo en la primera entrega ya
-				//que esta función no deberia conocer el nombre del asistente.
-
-				//Si todavia se quiere resolver asi entonces agregar una propiedad de esta clase del nombre 
-				//del bot y setearla en el metodo escuchar del Asistente.				
-
-				//Se deja la variable nombreUsuario aunque esta este incorrecta para que no tire error en esta primera etapa. 
+				
 				intro = "@"+ nombreUsuario + " cuánto es el";
 			else
 				intro = "@" + nombreUsuario + " cuánto es";

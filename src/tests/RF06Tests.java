@@ -1,4 +1,5 @@
 package tests;
+import java.io.IOException;
 import java.text.ParseException;
 
 import org.junit.Assert;
@@ -19,7 +20,7 @@ public class RF06Tests {
 	}
 
 	@Test
-	public void calculos() throws ParseException {
+	public void calculos() throws ParseException, IOException, IOException {
 
  		Assert.assertEquals(
 				"@delucas 3",
@@ -45,7 +46,7 @@ public class RF06Tests {
 	}
 		
 	@Test
-	public void calculosCompuestos() throws ParseException {
+	public void calculosCompuestos() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas -6",
 				jenkins.escuchar("@jenkins cuánto es (4-8)*2 + 4 / ( 1 + 1)")
@@ -56,7 +57,7 @@ public class RF06Tests {
 	}
 	
 	@Test
-	public void testAdicionales() throws ParseException {
+	public void testAdicionales() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas -2",
 				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / ( 1 + 1)")

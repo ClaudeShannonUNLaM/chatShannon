@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import org.junit.Assert;
@@ -20,19 +21,20 @@ public class RF5Test {
 	}
 	
 	@Test
-	public void TriviasFacts() throws ParseException {		
+
+	public void TriviasFacts() throws ParseException, IOException {
 		Assert.assertEquals(
-				"Cleopatra viviÛ m·s cerca de la invenciÛn del iPhone que de la construcciÛn de la Gran Pir·mide.",
+				"Cleopatra vivi√≥ m√°s cerca de la invenci√≥n del iPhone que de la construcci√≥n de la Gran Pir√°mide.",
 				jenkins.escuchar("@jenkins quiero datos de trivia")
 			);
 		
 		Assert.assertEquals(
-				"Cleopatra viviÛ m·s cerca de la invenciÛn del iPhone que de la construcciÛn de la Gran Pir·mide.",
+				"Cleopatra vivi√≥ m√°s cerca de la invenci√≥n del iPhone que de la construcci√≥n de la Gran Pir√°mide.",
 				jenkins.escuchar("@jenkins dame datos importantes")
 			);
 		
 		Assert.assertEquals(
-				"Cleopatra viviÛ m·s cerca de la invenciÛn del iPhone que de la construcciÛn de la Gran Pir·mide.",
+				"Cleopatra vivi√≥ m√°s cerca de la invenci√≥n del iPhone que de la construcci√≥n de la Gran Pir√°mide.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);		
 	}

@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.text.ParseException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +20,7 @@ public class RF13Tests {
 	}
 	
 	@Test
-	public void ChuckNorrisFacts() throws ParseException {
+	public void ChuckNorrisFacts() throws ParseException, IOException {
 		Assert.assertEquals(
 				"Chuck Norris arrojó una granada y mató a 50 personas, luego explotó.",
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
