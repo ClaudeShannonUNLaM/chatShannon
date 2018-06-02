@@ -32,14 +32,14 @@ public class TestAsistente{
 	public void noTeEntiendo() throws ParseException, IOException{
 		String mensaje = "chacha @shannon";
 		
-		Assert.assertEquals("Disculpa... no entiendo el pedido, @"+USUARIO+" ï¿½podrï¿½as repetirlo?", shannon.escuchar(mensaje));
+		Assert.assertEquals("Disculpa... no entiendo el pedido, @"+USUARIO+" ¿podrías repetirlo?", shannon.escuchar(mensaje));
 	}
 	
 	@Test
 	public void saludo() throws ParseException, IOException{
 		String mensaje = "Hola @shannon";
 		
-		Assert.assertEquals("ï¿½Hola, @"+USUARIO+"!", shannon.escuchar(mensaje));
+		Assert.assertEquals("¡Hola, @"+USUARIO+"!", shannon.escuchar(mensaje));
 	}
 	
 
@@ -47,9 +47,9 @@ public class TestAsistente{
 	public void hora() throws ParseException, IOException {
 		formato = new SimpleDateFormat("hh:mm a");
 		String[] mensajes = {
-				"ï¿½quï¿½ hora es, @shannon?",
+				"¿qué hora es, @shannon?",
 				"@shannon, la hora por favor",
-				"me decï¿½s la hora @shannon?"
+				"me decís la hora @shannon?"
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
@@ -63,9 +63,9 @@ public class TestAsistente{
 	public void fecha() throws ParseException, IOException {
 		formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
 		String[] mensajes = {
-				"ï¿½quï¿½ dï¿½a es, @shannon?",
+				"¿qué día es, @shannon?",
 				"@shannon, la fecha por favor",
-				"me decï¿½s la fecha @shannon?"
+				"me decís la fecha @shannon?"
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
@@ -79,7 +79,7 @@ public class TestAsistente{
 	public void diaDeLaSemana() throws ParseException, IOException {
 		formato = new SimpleDateFormat("EEEE", new Locale("es","ES"));
 		String[] mensajes = {
-				"ï¿½quï¿½ dï¿½a de la semana es hoy, @shannon?"
+				"¿qué día de la semana es hoy, @shannon?"
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
