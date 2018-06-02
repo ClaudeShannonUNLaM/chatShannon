@@ -13,17 +13,12 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		
-		if(true){			
-			String rHoy = preguntaPorHoy(mensaje);			
-			if(!rHoy.isEmpty()){
-				return  respuestaHoy(mensaje, rHoy, nombreUsuario);				
-			}			
-		}
+		String rHoy = preguntaPorHoy(mensaje);			
+					
+		if(!rHoy.isEmpty())
+			return  respuestaHoy(mensaje, rHoy, nombreUsuario);
 		else
-			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
-		
-		return null;
-		
+			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);	
 	}	
 
 	public static String preguntaPorHoy(String mensaje){

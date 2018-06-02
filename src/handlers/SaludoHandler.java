@@ -1,9 +1,18 @@
 package handlers;
 
-public class SaludoHandler extends AsistantSentenceHandler{	
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class SaludoHandler extends AsistantSentenceHandler{
+	
+	public SaludoHandler(){		
+		patron = Pattern.compile("(hola|buen día|buenas|hey|che)");
+	}
+	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
-		if(true){ //if(mensaje cumple con expresion regular)			
+		Matcher matcher = patron.matcher(mensaje);		
+		if(matcher.matches()){			
 			return "¡Hola, @" + nombreUsuario + "!";										
 		}
 		else
