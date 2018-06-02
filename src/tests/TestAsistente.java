@@ -25,8 +25,7 @@ public class TestAsistente{
 	
 	@Test
 	public void noTeEntiendo() throws ParseException, IOException{
-		String mensaje = "chacha @shannon";
-		
+		String mensaje = "chacha @shannon";		
 		Assert.assertEquals("Disculpa... no entiendo el pedido, @pepe ¿podrías repetirlo?", shannon.escuchar(mensaje));
 	}
 	
@@ -34,7 +33,7 @@ public class TestAsistente{
 	public void saludo() throws ParseException, IOException{
 		String mensaje = "Hola @shannon";
 		
-		Assert.assertEquals("¡Hola, @pepe!", shannon.escuchar(mensaje));
+		Assert.assertEquals("¡Hola, @delucas!", shannon.escuchar(mensaje));
 	}
 	
 
@@ -47,7 +46,7 @@ public class TestAsistente{
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
-					"@pepe son las 01:14 AM",
+					"@delucas son las 01:14 AM",
 					shannon.escuchar(mensaje)
 			);
 		}
@@ -62,7 +61,7 @@ public class TestAsistente{
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
-					"@pepe hoy es 2 de mayo de 2018",
+					"@delucas hoy es 2 de junio de 2018",
 					shannon.escuchar(mensaje)
 			);
 		}
@@ -75,7 +74,7 @@ public class TestAsistente{
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
-					"@pepe hoy es miércoles",
+					"@delucas hoy es sábado",
 					shannon.escuchar(mensaje)
 			);
 		}
