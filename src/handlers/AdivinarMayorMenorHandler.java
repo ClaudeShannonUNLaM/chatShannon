@@ -2,24 +2,23 @@ package handlers;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
-private int techo,piso,ultimoNumeroRespondido;
-private String RF10Path = "C://Users//Tomi//Desktop//RF10.txt";//C:\Users\Tomi\Desktop\Progra avanzada
-	public AdivinarMayorMenorHandler () throws IOException {
+	
+	private int techo,piso,ultimoNumeroRespondido;	
+	public AdivinarMayorMenorHandler () {
 		patron = Pattern.compile(".*(jugamos\\?$|más grande|más chico|listo|si\\!$).*");
-		}
+	}
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		if (matcher.matches()) {
-			
+		
+		if (matcher.matches()) {			
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
 				{
@@ -31,7 +30,7 @@ private String RF10Path = "C://Users//Tomi//Desktop//RF10.txt";//C:\Users\Tomi\D
 					piso=0;
 					ultimoNumeroRespondido=50;
 					try{
-					PrintWriter salida3 = new PrintWriter(new FileWriter(RF10Path));
+					PrintWriter salida3 = new PrintWriter(new FileWriter("RF10.txt"));
 					salida3.println(piso);
 					salida3.println(" ");
 					salida3.println(techo);
@@ -49,14 +48,14 @@ private String RF10Path = "C://Users//Tomi//Desktop//RF10.txt";//C:\Users\Tomi\D
 				{
 
 					try{
-						Scanner sc = new Scanner(new File (RF10Path));
+						Scanner sc = new Scanner(new File ("RF10.txt"));
 						piso= sc.nextInt(); // vector para almacenar la lectura
 						techo= sc.nextInt();
 						ultimoNumeroRespondido=sc.nextInt();
 						sc.close();
 						techo=ultimoNumeroRespondido;
 						ultimoNumeroRespondido=(piso+techo)/2;
-						PrintWriter salida = new PrintWriter(new FileWriter(RF10Path));
+						PrintWriter salida = new PrintWriter(new FileWriter("RF10.txt"));
 						salida.println(piso);
 						salida.println(" ");
 						salida.println(techo);
@@ -77,7 +76,7 @@ private String RF10Path = "C://Users//Tomi//Desktop//RF10.txt";//C:\Users\Tomi\D
 				{
 
 					try{
-						Scanner sc = new Scanner(new File (RF10Path));
+						Scanner sc = new Scanner(new File ("RF10.txt"));
 						piso= sc.nextInt(); // vector para almacenar la lectura
 						techo= sc.nextInt();
 						ultimoNumeroRespondido=sc.nextInt();
@@ -85,7 +84,7 @@ private String RF10Path = "C://Users//Tomi//Desktop//RF10.txt";//C:\Users\Tomi\D
 						piso=ultimoNumeroRespondido;
 						ultimoNumeroRespondido=(piso+techo)/2;
 
-						PrintWriter salida2 = new PrintWriter(new FileWriter(RF10Path));
+						PrintWriter salida2 = new PrintWriter(new FileWriter("RF10.txt"));
 						salida2.println(piso);
 						salida2.println(" ");
 						salida2.println(techo);

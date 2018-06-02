@@ -62,8 +62,8 @@ public class ChuckNorrisHandler extends AsistantSentenceHandler {
 				s.close();
 				
 				if(NorrisIndex == facts.length){
-					NorrisIndex = 0;					
-					respuesta = facts[facts.length - 1];
+					NorrisIndex = 1;					
+					respuesta = facts[0];
 				}
 				else{
 					NorrisIndex++;

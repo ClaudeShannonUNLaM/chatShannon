@@ -1,5 +1,6 @@
 package tests;
 
+import java.io.IOException;
 import java.text.ParseException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,7 +20,7 @@ public class RF12Tests {
 	}
 	
 	@Test
-	public void leyesDeLaRobotica() throws ParseException{
+	public void leyesDeLaRobotica() throws ParseException, IOException{
 
 
 		try {

@@ -70,11 +70,7 @@ public class RF11Tests {
 	
 	@Test
 	public void unidadesDeLongitud() throws ParseException, IOException {
-	/*	Assert.assertEquals(
-				"@delucas 1 kilometro equivalen a 1000 metros",
-				jenkins.escuchar("@jenkins cuántos metros son 1 kilometro")
-			);
-		*/
+	
 		Assert.assertEquals(
 				"@delucas 500 metros equivalen a 0,5 kilometros",
 				jenkins.escuchar("@jenkins cuántos kilometros son 500 metros")
