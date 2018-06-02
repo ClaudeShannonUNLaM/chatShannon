@@ -47,6 +47,6 @@ public class Asistente {
 		tiempoActual.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return agradecer.giveAnswer(mensaje, TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return agradecer.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 	}
 }
