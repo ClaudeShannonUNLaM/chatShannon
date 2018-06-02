@@ -5,7 +5,9 @@ import asistente.Asistente;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class TestAsistente{
 	
@@ -14,6 +16,9 @@ public class TestAsistente{
 	public final static Calendar FECHA_MUNDIAL = Calendar.getInstance();
 
 	Asistente shannon;
+	
+	Calendar c = Calendar.getInstance();
+	SimpleDateFormat formato;
 	
 	@Before
 	public void setup(){
@@ -27,19 +32,20 @@ public class TestAsistente{
 	public void noTeEntiendo() throws ParseException, IOException{
 		String mensaje = "chacha @shannon";
 		
-		Assert.assertEquals("Disculpa... no entiendo el pedido, @pepe ¿podrías repetirlo?", shannon.escuchar(mensaje));
+		Assert.assertEquals("Disculpa... no entiendo el pedido, @"+USUARIO+" ¿podrías repetirlo?", shannon.escuchar(mensaje));
 	}
 	
 	@Test
 	public void saludo() throws ParseException, IOException{
 		String mensaje = "Hola @shannon";
 		
-		Assert.assertEquals("¡Hola, @pepe!", shannon.escuchar(mensaje));
+		Assert.assertEquals("¡Hola, @"+USUARIO+"!", shannon.escuchar(mensaje));
 	}
 	
 
 	@Test
 	public void hora() throws ParseException, IOException {
+		formato = new SimpleDateFormat("hh:mm a");
 		String[] mensajes = {
 				"¿qué hora es, @shannon?",
 				"@shannon, la hora por favor",
@@ -47,7 +53,7 @@ public class TestAsistente{
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
-					"@pepe son las 01:14 AM",
+					"@"+USUARIO+" son las "+formato.format(c.getTime()),
 					shannon.escuchar(mensaje)
 			);
 		}
@@ -55,6 +61,7 @@ public class TestAsistente{
 	
 	@Test
 	public void fecha() throws ParseException, IOException {
+		formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
 		String[] mensajes = {
 				"¿qué día es, @shannon?",
 				"@shannon, la fecha por favor",
@@ -62,7 +69,7 @@ public class TestAsistente{
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
-					"@pepe hoy es 2 de mayo de 2018",
+					"@"+USUARIO+" hoy es " + formato.format(c.getTime()),
 					shannon.escuchar(mensaje)
 			);
 		}
@@ -70,12 +77,13 @@ public class TestAsistente{
 	
 	@Test
 	public void diaDeLaSemana() throws ParseException, IOException {
+		formato = new SimpleDateFormat("EEEE", new Locale("es","ES"));
 		String[] mensajes = {
 				"¿qué día de la semana es hoy, @shannon?"
 		};
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
-					"@pepe hoy es miércoles",
+					"@"+USUARIO+" hoy es " + formato.format(c.getTime()),
 					shannon.escuchar(mensaje)
 			);
 		}
