@@ -27,12 +27,12 @@ public class RF13Tests {
 			);
 		
 		Assert.assertEquals(
-				"Chuck Norris arrojó una granada y mató a 50 personas, luego explotó.",
+				"Chuck Norris contó hasta el infinito. Dos veces.",
 				jenkins.escuchar("@jenkins dame datos de chuck norris")
 			);
 		
 		Assert.assertEquals(
-				"Chuck Norris arrojó una granada y mató a 50 personas, luego explotó.",
+				"Chuck Norris puede matar dos piedras con un pájaro.",
 				jenkins.escuchar("@jenkins quiero saber algo de chuck norris")
 			);		
 	}
