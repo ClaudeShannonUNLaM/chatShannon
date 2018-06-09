@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class TiempoActualHandler extends AsistantSentenceHandler {
 	
-	private final static Pattern[] pratronPreguntaSobreHoy = {Pattern.compile("^¿qué ?(hora|día) es,"), Pattern.compile("la ?(hora|fecha) por favor"), Pattern.compile("^me decís la ?(hora|fecha)") };
+	private final static Pattern[] pratronPreguntaSobreHoy = {Pattern.compile("^Â¿quÃ© ?(hora|dÃ­a) es,"), Pattern.compile("la ?(hora|fecha) por favor"), Pattern.compile("^me decÃ­s la ?(hora|fecha)") };
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
@@ -22,8 +22,8 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 	}	
 
 	public static String preguntaPorHoy(String mensaje){
-		if(mensaje.contains("¿qué día de la semana es hoy"))
-			return "díaSemana";
+		if(mensaje.contains("Â¿quÃ© dÃ­a de la semana es hoy"))
+			return "dÃ­aSemana";
 
 		for(int i = 0; i < pratronPreguntaSobreHoy.length; i++){
 			Matcher x = pratronPreguntaSobreHoy[i].matcher(mensaje);
@@ -43,11 +43,11 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 				mensaje = "@"+ nombreUsuario +" son las "+ formato.format(c.getTime());
 				break;
 			case "fecha":
-			case "día":
+			case "dÃ­a":
 				formato = new SimpleDateFormat("d 'de' MMMM 'de' yyyy", new Locale("es","ES"));
 				mensaje = "@"+ nombreUsuario +" hoy es " + formato.format(c.getTime());
 				break;
-			case "díaSemana":
+			case "dÃ­aSemana":
 				formato = new SimpleDateFormat("EEEE", new Locale("es","ES"));
 				mensaje = "@"+ nombreUsuario +" hoy es "+ formato.format(c.getTime());
 				break;

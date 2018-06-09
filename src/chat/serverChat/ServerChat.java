@@ -53,7 +53,7 @@ public class ServerChat{
         boolean removed = usuarioNombres.remove(nombreUsuario);
         if (removed) {
             usuarioThreads.remove(usu);
-            System.out.println("El usuario " + nombreUsuario + " se desconect�");
+            System.out.println("El usuario " + nombreUsuario + " se desconectó");
         }
     }
  

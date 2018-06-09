@@ -13,7 +13,7 @@ public class SaludoHandler extends AsistantSentenceHandler{
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
 		if(matcher.matches()){			
-			return "¡Hola, @" + nombreUsuario + "!";										
+			return "Â¡Hola, @" + nombreUsuario + "!";										
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);		

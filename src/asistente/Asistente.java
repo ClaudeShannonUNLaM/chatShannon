@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import handlers.*;
-import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
+import tests.*; //IMPORTANTE------- Esta clase no deberÃ­a incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
 
 public class Asistente {
 	

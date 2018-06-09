@@ -46,7 +46,7 @@ public class UsuarioThread extends Thread{
             server.removeUsuario(nombreUsuario, this);
             socket.close();
  
-            mensajeServer = nombreUsuario + " se desconect�.";
+            mensajeServer = nombreUsuario + " se desconectó.";
             server.broadcast(mensajeServer, this);
  
         } catch (IOException ex) {
