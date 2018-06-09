@@ -23,7 +23,7 @@ public class Fecha {
 	
 	public static Calendar cadenaAFecha(String f1) throws ParseException{
 		if(!f1.contains("(\\d{4})"))
-			return cadenaAFechaSinAño(f1);
+			return cadenaAFechaSinAÃ±o(f1);
 		
 		else{
 			String[]cadenaCompleta=f1.split("el");
@@ -38,7 +38,7 @@ public class Fecha {
 		}
 	}
 	
-	private static Calendar cadenaAFechaSinAño(String f1) throws ParseException{
+	private static Calendar cadenaAFechaSinAÃ±o(String f1) throws ParseException{
 
 		String[]cadenaCompleta=f1.split("el");
 		String fechaConSigno = cadenaCompleta[1];
