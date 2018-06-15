@@ -6,47 +6,51 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import hibernate.AdivinarMayorMenorHibernateManager;
+import hibernate.AdivinarMayorMenorMappingClass;
 public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 	
 	private int techo,piso,ultimoNumeroRespondido;	
 	public AdivinarMayorMenorHandler () {
-		patron = Pattern.compile(".*(jugamos\\?$|más grande|más chico|listo|si\\!$).*");
+		patron = Pattern.compile(".*(jugamos\\?$|mï¿½s grande|mï¿½s chico|listo|si\\!$).*");
 	}
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		
+		int id=0;
 		if (matcher.matches()) {			
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
 				{
-					return "@"+nombreUsuario+" ¡sale y vale! Pensá un número del 1 al 100";
+					return "@"+nombreUsuario+" ï¿½sale y vale! Pensï¿½ un nï¿½mero del 1 al 100";
 				}
 				case "listo" :
 				{
-					techo=100;
-					piso=0;
-					ultimoNumeroRespondido=50;
-					try{
-					PrintWriter salida3 = new PrintWriter(new FileWriter("RF10.txt"));
-					salida3.println(piso);
-					salida3.println(" ");
-					salida3.println(techo);
-					salida3.println(" ");
-					salida3.println(ultimoNumeroRespondido);
-					salida3.close(); 
-					}//  preparo el arch de salida
-				    catch (IOException i){
-				    	
-				    }
-					
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+//					techo=100;
+//					piso=0;
+//					ultimoNumeroRespondido=50;
+//					try{
+//					PrintWriter salida3 = new PrintWriter(new FileWriter("RF10.txt"));
+//					salida3.println(piso);
+//					salida3.println(" ");
+//					salida3.println(techo);
+//					salida3.println(" ");
+//					salida3.println(ultimoNumeroRespondido);
+//					salida3.close(); 
+//					}//  preparo el arch de salida
+//				    catch (IOException i){
+//				    	
+//				    }
+					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
+					id=ammhm.insertar(techo, piso, ultimoNumeroRespondido);
+					return "@"+nombreUsuario+" ï¿½es el "+ultimoNumeroRespondido+"?";
 				}
-				case "más chico":
+				case "mï¿½s chico":
 				{
-
+					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
+					//AdivinarMayorMenorMappingClass
+					//AdivinarMayorMenor ammh = ammhm.consultar(id);
 					try{
 						Scanner sc = new Scanner(new File ("RF10.txt"));
 						piso= sc.nextInt(); // vector para almacenar la lectura
@@ -66,13 +70,13 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					    catch (IOException f){
 					    	
 					    }
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					return "@"+nombreUsuario+" ï¿½es el "+ultimoNumeroRespondido+"?";
 		    	}
 				case "si!":
 				{
 					return "@"+nombreUsuario+" fue divertido :)";
 				}
-				case "más grande":
+				case "mï¿½s grande":
 				{
 
 					try{
@@ -96,7 +100,7 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					    catch (IOException f){
 					    	
 					    }
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					return "@"+nombreUsuario+" ï¿½es el "+ultimoNumeroRespondido+"?";
 		    	}
 			}
 		}
