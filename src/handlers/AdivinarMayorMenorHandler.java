@@ -27,9 +27,9 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 				}
 				case "listo" :
 				{
-//					techo=100;
-//					piso=0;
-//					ultimoNumeroRespondido=50;
+					techo=100;
+					piso=0;
+					ultimoNumeroRespondido=50;
 //					try{
 //					PrintWriter salida3 = new PrintWriter(new FileWriter("RF10.txt"));
 //					salida3.println(piso);
@@ -49,27 +49,33 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 				case "m�s chico":
 				{
 					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
-					//AdivinarMayorMenorMappingClass
-					//AdivinarMayorMenor ammh = ammhm.consultar(id);
-					try{
-						Scanner sc = new Scanner(new File ("RF10.txt"));
-						piso= sc.nextInt(); // vector para almacenar la lectura
-						techo= sc.nextInt();
-						ultimoNumeroRespondido=sc.nextInt();
-						sc.close();
+					AdivinarMayorMenorMappingClass ammmc = ammhm.consultar(id);
+					piso=ammmc.getPiso();
+					techo=ammmc.getTecho();
+					ultimoNumeroRespondido=ammmc.getUltimoNumeroRespondido();
+//					try{
+//						Scanner sc = new Scanner(new File ("RF10.txt"));
+//						piso= sc.nextInt(); // vector para almacenar la lectura
+//						techo= sc.nextInt();
+//						ultimoNumeroRespondido=sc.nextInt();
+//						sc.close();
 						techo=ultimoNumeroRespondido;
 						ultimoNumeroRespondido=(piso+techo)/2;
-						PrintWriter salida = new PrintWriter(new FileWriter("RF10.txt"));
-						salida.println(piso);
-						salida.println(" ");
-						salida.println(techo);
-						salida.println(" ");
-						salida.println(ultimoNumeroRespondido);
-						salida.close(); 
-						}//  preparo el arch de salida
-					    catch (IOException f){
-					    	
-					    }
+//						PrintWriter salida = new PrintWriter(new FileWriter("RF10.txt"));
+//						salida.println(piso);
+//						salida.println(" ");
+//						salida.println(techo);
+//						salida.println(" ");
+//						salida.println(ultimoNumeroRespondido);
+//						salida.close(); 
+						ammmc.setPiso(piso);
+						ammmc.setTecho(techo);
+						ammmc.setUltimoNumeroRespondido(ultimoNumeroRespondido);
+						ammhm.actualizar(ammmc);
+						//}//  preparo el arch de salida
+//					    catch (IOException f){
+//					    	
+//					    }
 					return "@"+nombreUsuario+" �es el "+ultimoNumeroRespondido+"?";
 		    	}
 				case "si!":
@@ -79,27 +85,36 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 				case "m�s grande":
 				{
 
-					try{
-						Scanner sc = new Scanner(new File ("RF10.txt"));
-						piso= sc.nextInt(); // vector para almacenar la lectura
-						techo= sc.nextInt();
-						ultimoNumeroRespondido=sc.nextInt();
-						sc.close();
+					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
+					AdivinarMayorMenorMappingClass ammmc = ammhm.consultar(id);
+					piso=ammmc.getPiso();
+					techo=ammmc.getTecho();
+					ultimoNumeroRespondido=ammmc.getUltimoNumeroRespondido();
+//					try{
+//						Scanner sc = new Scanner(new File ("RF10.txt"));
+//						piso= sc.nextInt(); // vector para almacenar la lectura
+//						techo= sc.nextInt();
+//						ultimoNumeroRespondido=sc.nextInt();
+//						sc.close();
 						piso=ultimoNumeroRespondido;
 						ultimoNumeroRespondido=(piso+techo)/2;
 
-						PrintWriter salida2 = new PrintWriter(new FileWriter("RF10.txt"));
-						salida2.println(piso);
-						salida2.println(" ");
-						salida2.println(techo);
-						salida2.println(" ");
-						salida2.println(ultimoNumeroRespondido);
-//						salida.println("||"+techo);
-						salida2.close(); 
-						}//  preparo el arch de salida
-					    catch (IOException f){
-					    	
-					    }
+//						PrintWriter salida2 = new PrintWriter(new FileWriter("RF10.txt"));
+//						salida2.println(piso);
+//						salida2.println(" ");
+//						salida2.println(techo);
+//						salida2.println(" ");
+//						salida2.println(ultimoNumeroRespondido);
+////						salida.println("||"+techo);
+//						salida2.close(); 
+						ammmc.setPiso(piso);
+						ammmc.setTecho(techo);
+						ammmc.setUltimoNumeroRespondido(ultimoNumeroRespondido);
+						ammhm.actualizar(ammmc);
+						//}//  preparo el arch de salida
+//					    catch (IOException f){
+//					    	
+//					    }
 					return "@"+nombreUsuario+" �es el "+ultimoNumeroRespondido+"?";
 		    	}
 			}

@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jun 15, 2018 11:34:03 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="hibernate.AdivinarMayorMenorHandler" table="AdivinarMayorMenor">
+    <class name="hibernate.AdivinarMayorMenorMappingClass" table="AdivinarMayorMenor">
         <id name="id" type="int">
             <column name="IdAdivinar" />
             <generator class="increment" />
