@@ -4,6 +4,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import chat.buscadoresInformacion.BuscadorUsuarios;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -26,8 +29,8 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					@SuppressWarnings("unused")
 					Login frame = new Login();
-					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -73,9 +76,20 @@ public class Login extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new Index(lblNombreUsuario.getText());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					
+					if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getText().equals("")) {
+						new MensajeError("Debe ingresar la información necesaria");
+						return;
+					}
+					
+					if(usuarioExiste()) {
+						new Index(lblNombreUsuario.getText());
+						dispose();
+					}						
+					else
+						new MensajeError("El usuario no está dentro del sistema");
+					
+				} catch (IOException e1) {					
 					e1.printStackTrace();
 				}
 			}
@@ -101,5 +115,10 @@ public class Login extends JFrame {
 		contentPane.add(lblBienvenido);
 		
 		setVisible(true);
+	}
+	
+	private boolean usuarioExiste() {
+		BuscadorUsuarios buscador = new BuscadorUsuarios();
+		return buscador.usuarioYaCreado(lblNombreUsuario.getText(), lblPassUsuario.getText(),false); 
 	}
 }

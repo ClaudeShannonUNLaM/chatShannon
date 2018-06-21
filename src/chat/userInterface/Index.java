@@ -1,12 +1,10 @@
 package chat.userInterface;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
 
@@ -16,7 +14,8 @@ import javax.swing.JLabel;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
-import entities.sala.Sala;
+import chat.buscadoresInformacion.BuscadorSala;
+import hibernate.sala.Sala;
 
 import javax.swing.JPopupMenu;
 import java.awt.event.MouseAdapter;
@@ -24,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -36,30 +36,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.CompoundBorder;
 import javax.swing.JMenuBar;
+import javax.swing.JList;
 
 public class Index extends JFrame {
 
-	private JPanel contentPane;
-	private ArrayList<Sala> Salas;
+	private JPanel contentPane;	
 	private Sala SalaSeleccionada;
-
-	/**
-	 * Launch the application.
-	 */
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Index frame = new Index("marinoLautaro");
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private JTextField textField;
 	/**
 	 * Create the frame.
 	 * @throws IOException 
@@ -78,6 +61,7 @@ public class Index extends JFrame {
 		panel.setBounds(0, 54, 252, 433);
 		contentPane.add(panel);
 		
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(251, 54, 605, 397);
 		contentPane.add(panel_1);
@@ -89,6 +73,11 @@ public class Index extends JFrame {
 		mntmVerIntegrantes_1.setIcon(new ImageIcon("img\\wach.png"));
 		popupMenu_1.add(mntmVerIntegrantes_1);
 		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\BiT_SOLUCIONES_iT\\Desktop\\2018\\TCP\\1\u00BA entrega\\chatShannon\\img\\chatBackground.png"));
+		lblNewLabel.setBounds(0, 0, 605, 397);
+		panel_1.add(lblNewLabel);
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		verticalGlue.setBounds(84, 42, 0, 14);
@@ -132,6 +121,22 @@ public class Index extends JFrame {
 		panel_4.setBounds(251, 452, 605, 35);
 		contentPane.add(panel_4);
 		panel_4.setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(10, 7, 585, 20);
+		panel_4.add(textField);
+		textField.setColumns(10);
+
+		JList list = new JList();	
+		
+		List<Sala> salas = buscarSalasUsuario(nombreUsuario);
+		
+		for (Sala sala : salas) {
+			list.add(panel_4);
+		}
+		
+		panel.add(list);
+		
 		setVisible(true);
 	}
 	
@@ -153,4 +158,11 @@ public class Index extends JFrame {
 		});
 	}
 	
+	private List<Sala> buscarSalasUsuario(String nombreUsuario) {
+		BuscadorSala buscador = new BuscadorSala();
+		List<Sala> salas = new ArrayList<Sala>();
+		salas.addAll(buscador.BuscarSalas());
+		salas.addAll(buscador.BuscarSalaUsuario(nombreUsuario));
+		return salas;
+	}
 }

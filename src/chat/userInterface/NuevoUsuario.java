@@ -1,10 +1,11 @@
 package chat.userInterface;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import chat.buscadoresInformacion.BuscadorUsuarios;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -21,19 +22,6 @@ public class NuevoUsuario extends JFrame {
 	private JPanel contentPane;
 	private JTextField lblNombreNuevoUsuario;
 	private JTextField lblPassNuevoUsuario;
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NuevoUsuario frame = new NuevoUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public NuevoUsuario() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +32,7 @@ public class NuevoUsuario extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("img\\AddNew.png"));
 		lblNewLabel.setBounds(10, 11, 123, 70);
 		contentPane.add(lblNewLabel);
@@ -73,6 +61,24 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(lblPassNuevoUsuario);
 		
 		JButton btnCrear = new JButton("Crear");
+		btnCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 
+				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getText().equals("")) {
+					new MensajeError("Debe ingresar la información necesaria");
+					return;
+				}				
+				
+				if(crearNuevoUsuario()) {
+					new MensajeError("El usuario se creó con éxito");
+					dispose();
+				}					
+				else
+					new MensajeError("El usuario ya existe dentro del chat");
+				
+				
+			}
+		});
 		btnCrear.setFont(new Font("Arial", Font.BOLD, 11));
 		btnCrear.setBounds(97, 205, 116, 20);
 		contentPane.add(btnCrear);
@@ -88,5 +94,9 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(btnCancelar);
 		setVisible(true);
 	}
-
+	
+	private boolean crearNuevoUsuario() {
+		BuscadorUsuarios buscador = new BuscadorUsuarios();
+		return buscador.crearNuevoUsuario(lblNombreNuevoUsuario.getText(), lblPassNuevoUsuario.getText());		
+	}
 }

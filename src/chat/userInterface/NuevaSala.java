@@ -11,6 +11,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class NuevaSala extends JFrame {
@@ -28,7 +30,7 @@ public class NuevaSala extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon("img\\AddNew.png"));
 		lblNewLabel.setBounds(10, 11, 123, 70);
 		contentPane.add(lblNewLabel);
@@ -56,7 +58,11 @@ public class NuevaSala extends JFrame {
 		btnCancelar.setFont(new Font("Arial", Font.BOLD, 11));
 		btnCancelar.setBounds(236, 205, 116, 20);
 		contentPane.add(btnCancelar);
+		
+		JCheckBox chckbxPrivada = new JCheckBox("Privada");
+		chckbxPrivada.setHorizontalAlignment(SwingConstants.CENTER);
+		chckbxPrivada.setBounds(167, 148, 97, 23);
+		contentPane.add(chckbxPrivada);
 		setVisible(true);
 	}
-
 }

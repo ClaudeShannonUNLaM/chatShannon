@@ -3,18 +3,17 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Jun 15, 2018 11:34:03 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="entities.sala.Sala" table="sala">
+    <class name="hibernate.usuarioSala.UsuarioSala" table="usuario_sala">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="increment" />
-            
+            <generator class="increment" />            
         </id>
-        <property name="nombre" type="String">
-            <column name="nombre" />
+        <property name="idSala" type="int">
+            <column name="idSala" />
         </property>
-        <property name="privada" type="boolean">
-            <column name="privada" />
-        </property>
+        <property name="idUsuario" type="int">
+            <column name="idUsuario" />
+        </property>        
     </class>
     <!-- <class name="com.jwt.hibernate.Persona" table="PERSONA">
 		<id column="Dni" name="dni" type="int" />
