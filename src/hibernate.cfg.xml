@@ -10,5 +10,7 @@
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 		<mapping resource="/hibernate/AdivinarMayorMenorHandler.hbm.xml" />
+		<mapping resource="../entities/entities.sala/Sala.hbm.xml" />
+		<mapping resource="../entities/entities.usuario/Usuario.hbm.xml" />
     </session-factory>
 </hibernate-configuration>
