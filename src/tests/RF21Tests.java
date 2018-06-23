@@ -8,8 +8,8 @@ import java.text.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
-import asistente.Asistente;
-import ventanaDeVideo.ReproductorVideo;
+import bot.asistente.Asistente;
+import tests.ventanaDeVideo.ReproductorVideo;
 
 public class RF21Tests {
 	

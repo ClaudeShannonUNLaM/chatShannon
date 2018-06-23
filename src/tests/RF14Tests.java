@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import asistente.Asistente;
+import bot.asistente.Asistente;
 import hibernate.deudaAsistente.DeudaController;
 
 public class RF14Tests {

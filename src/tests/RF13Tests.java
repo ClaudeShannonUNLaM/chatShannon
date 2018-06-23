@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import asistente.Asistente;
+import bot.asistente.Asistente;
 
 public class RF13Tests {	
 	

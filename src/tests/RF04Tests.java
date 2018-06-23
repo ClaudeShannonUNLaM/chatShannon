@@ -1,7 +1,7 @@
 package tests;
 import org.junit.*;
 
-import asistente.Asistente;
+import bot.asistente.Asistente;
 
 import java.io.IOException;
 import java.text.ParseException;

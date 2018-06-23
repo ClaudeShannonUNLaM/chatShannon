@@ -7,8 +7,8 @@ import java.text.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 
-import asistente.Asistente;
-import meme.GeneradorMeme;
+import bot.asistente.Asistente;
+import bot.meme.GeneradorMeme;
 
 public class RF22Tests {
 	public final static String USUARIO = "delucas"; 
