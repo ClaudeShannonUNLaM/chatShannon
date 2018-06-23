@@ -7,33 +7,33 @@ import handlers.AsistantSentenceHandler;
 import hibernate.deudaAsistente.DeudaAsistente;
 import hibernate.deudaAsistente.DeudaController;
 
-public class VerDeudaDeHandler  extends AsistantSentenceHandler{
-	public VerDeudaDeHandler() {
-		patron = Pattern.compile(".+cuánto me debe @([a-z]+)\\?");
+public class VerDeudaConHandler extends AsistantSentenceHandler {
+	public VerDeudaConHandler() {
+		patron = Pattern.compile(".+cuánto le debo a @([a-z]+)\\?");
 	}
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
 		if(matcher.matches()){
-			String deudor = matcher.group(1);
+			String prestamista = matcher.group(1);
 			
-			return verDeuda(nombreUsuario, deudor);
+			return verDeuda(prestamista, nombreUsuario);
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
 	}
-
+	
 	private String verDeuda(String prestamista,String deudor) {
-		String respuesta = "@" + prestamista;
+		String respuesta = "@" + deudor;
 		DeudaAsistente deuda = DeudaController.buscar(prestamista, deudor);
 		if(deuda != null && deuda.getValor() > 0) {
-			respuesta += " @" + deudor + " te debe $" + deuda.getValor();
+			respuesta += " debés $" + deuda.getValor() + " a @" + prestamista;
 		}else{
-			respuesta += " @" + deudor + " no te debe nada.";
+			respuesta += " no le debés nada.";
 			deuda = DeudaController.buscar(deudor, prestamista);
 			if(deuda != null && deuda.getValor() > 0) {
-				respuesta += " Vos le debés $" + deuda.getValor();
+				respuesta += " @" + prestamista + " te debe $" + deuda.getValor();
 			}
 		}
 

@@ -3,15 +3,15 @@
   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
       "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="hibernate.DeudaAsistente" table="DEUDA">
+	<class name="hibernate.deudaAsistente.DeudaAsistente" table="DEUDA">
 		<id name="id" type="int">
             <column name="Id"/>
             <generator class="increment" />            
         </id>
-		<property name="prestamista" type="String">
+		<property name="prestamista" type="string">
 			<column name="Prestamista"/>
 		</property>
-		<property name="deudor" type="String">
+		<property name="deudor" type="string">
 			<column name="Deudor"/>
 		</property>
 		<property name="valor" type="int">

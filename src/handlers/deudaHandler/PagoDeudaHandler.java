@@ -6,20 +6,18 @@ import java.util.regex.Pattern;
 import handlers.AsistantSentenceHandler;
 import hibernate.deudaAsistente.DeudaController;
 
-public class AgregarPrestamoHandler extends AsistantSentenceHandler{
-	public AgregarPrestamoHandler() {
-		patron = Pattern.compile(".+@([a-z]+) me debe \\$([0-9]+)");
+public class PagoDeudaHandler extends AsistantSentenceHandler{
+	public PagoDeudaHandler() {
+		patron = Pattern.compile(".+le pagué a @([a-z]+) \\$([0-9]+)");
 	}
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
 		if(matcher.matches()){
-			//matcher.find();
-			String deudor = matcher.group(1);
-			int valor = Integer.parseInt(matcher.group(2));
-			
-			DeudaController.agregarDeuda(nombreUsuario,deudor,valor);
+			String prestamista = matcher.group(1);
+			int pago = Integer.parseInt(matcher.group(2));
+			DeudaController.pagoDeuda(prestamista, nombreUsuario, pago);
 			return "@" + nombreUsuario + " anotado.";
 		}
 		else

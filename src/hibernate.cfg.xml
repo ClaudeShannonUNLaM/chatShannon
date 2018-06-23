@@ -10,5 +10,6 @@
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
 		<mapping resource="/hibernate/AdivinarMayorMenorHandler.hbm.xml" />
+		<mapping resource="/hibernate/deudaAsistente/DeudaAsistente.hbm.xml" />
     </session-factory>
 </hibernate-configuration>
