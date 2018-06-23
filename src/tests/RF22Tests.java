@@ -19,7 +19,6 @@ public class RF22Tests {
 	@Before
 	public void setup() {
 		shannon = new Asistente("shannon");
-	
 	}
 	
 	

@@ -4,7 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public abstract class DataBaseHelper {	
+public abstract class DataBaseHelper {	//Esta clase será un generics de guardado y actualizado
 	
 	public static final Session crearSession() {
 		Configuration cfg = new Configuration();
