@@ -12,7 +12,7 @@ import conversorMedidas.ConversorTiempo;
 public class ConversorHandler extends AsistantSentenceHandler {	
 	
 	public ConversorHandler() {
-		patron = Pattern.compile(".*(?:cuántos|cuántas|cuantas|cuantos) (gramos|kilos|onzas|hectogramos|libras|dracmas|kilómetros|kilometros|metros|centimetros|centímetros|pulgadas|pies|yardas|horas|minutos|segundos|mililitros|litros|centilitros|pulgadas cúbicas|pulgadas cubicas|pies cúbicos|pies cubicos|yardas cúbicas|yardas cubicas) (?:son|hay en) ([0-9]+) (gramos|kilos|onzas|hectogramos|libras|dracmas|kilómetros|kilómetros|metros|centimetros|centímetros|pulgadas|pies|yarda|horas|minutos|segundos|mililitros|litros|centilitros|pulgadas cúbicas|pulgadas cubicas|pies cúbicos|pies cubicos|yardas cúbicas|yardas cubicas| gramo|kilo|onza|hectogramo|libra|dracma|kilómetro|kilometro|metro|centimetro|centímetro|pulgada|pie|yard|hora|minuto|segundo|mililitro|litro|centilitro|pulgada cúbica|pulgada cubica|pie cúbico|pie cubico|yarda cúbica|yarda cubica)");
+		patron = Pattern.compile(".*(?:cuÃ¡ntos|cuÃ¡ntas|cuantas|cuantos) (gramos|kilos|onzas|hectogramos|libras|dracmas|kilÃ³metros|kilometros|metros|centimetros|centÃ­metros|pulgadas|pies|yardas|horas|minutos|segundos|mililitros|litros|centilitros|pulgadas cÃºbicas|pulgadas cubicas|pies cÃºbicos|pies cubicos|yardas cÃºbicas|yardas cubicas) (?:son|hay en) ([0-9]+) (gramos|kilos|onzas|hectogramos|libras|dracmas|kilÃ³metros|kilÃ³metros|metros|centimetros|centÃ­metros|pulgadas|pies|yarda|horas|minutos|segundos|mililitros|litros|centilitros|pulgadas cÃºbicas|pulgadas cubicas|pies cÃºbicos|pies cubicos|yardas cÃºbicas|yardas cubicas| gramo|kilo|onza|hectogramo|libra|dracma|kilÃ³metro|kilometro|metro|centimetro|centÃ­metro|pulgada|pie|yard|hora|minuto|segundo|mililitro|litro|centilitro|pulgada cÃºbica|pulgada cubica|pie cÃºbico|pie cubico|yarda cÃºbica|yarda cubica)");
 	}
 	
 	@Override
@@ -41,11 +41,11 @@ public class ConversorHandler extends AsistantSentenceHandler {
 			case "libras":
 			case "dracmas":			
 				return new ConversorMasa();			
-			case "kilómetros":
+			case "kilÃ³metros":
 			case "kilometros":
 			case "metros":
 			case "centimetros":
-			case "centímetros":
+			case "centÃ­metros":
 			case "pulgadas":
 			case "pies":
 			case "yardas":
@@ -53,11 +53,11 @@ public class ConversorHandler extends AsistantSentenceHandler {
 			case "mililitros":
 			case "litros":
 			case "centilitros":
-			case "pulgadas cúbicas":
+			case "pulgadas cÃºbicas":
 			case "pulgadas cubicas":
-			case "pies cúbicos":
+			case "pies cÃºbicos":
 			case "pies cubicos":
-			case "yardas cúbicas":
+			case "yardas cÃºbicas":
 			case "yardas cubicas":
 				return new ConversorCapacidad();			
 			case "horas":

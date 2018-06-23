@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="sqlite_jdbc-1642007f3a9-9cf13f0a9a1887b" provider="generic" driver="sqlite_jdbc" name="SQLite - chat.sqlite" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="C:\Users\BiT_SOLUCIONES_iT\Desktop\2018\TCP\1º entrega\chatShannon\database\chat.sqlite" url="jdbc:sqlite:C:\Users\BiT_SOLUCIONES_iT\Desktop\2018\TCP\1º entrega\chatShannon\database\chat.sqlite" user="marinoLautaro" password="FhcWJUJXRRUQHgcsJUcltw==" type="dev"/>
+		<description>Creando la conección
+</description>
+	</data-source>
+	<data-source id="sqlite_jdbc-16420b4f587-461e9fdaab21d006" provider="generic" driver="sqlite_jdbc" name="SQLite - chat.sqlite" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="C:\Users\BiT_SOLUCIONES_iT\Desktop\2018\TCP\1º entrega\chatShannon\database\chat.sqlite" url="jdbc:sqlite:C:\Users\BiT_SOLUCIONES_iT\Desktop\2018\TCP\1º entrega\chatShannon\database\chat.sqlite" type="dev"/>
+	</data-source>
+	<data-source id="sqlite_jdbc-16420b5b88c-73e0ff5213fd3c48" provider="generic" driver="sqlite_jdbc" name="SQLite - chat.sqlite" save-password="true" show-system-objects="true" read-only="false">
+		<connection server="" database="C:\Users\BiT_SOLUCIONES_iT\Desktop\2018\TCP\1º entrega\chatShannon\database\chat.sqlite" url="jdbc:sqlite:C:\Users\BiT_SOLUCIONES_iT\Desktop\2018\TCP\1º entrega\chatShannon\database\chat.sqlite" type="dev"/>
+	</data-source>
+	<filters/>
+</data-sources>
