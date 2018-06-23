@@ -32,7 +32,7 @@ public class RF11Tests {
 			);
 		
 		Assert.assertEquals(
-				"@delucas 1000 gramos equivalen a 35.27 onzas",
+				"@delucas 1000 gramos equivalen a 35,27 onzas",
 				jenkins.escuchar("@jenkins cuántas onzas son 1000 gramos")
 			);		
 	}
@@ -72,7 +72,7 @@ public class RF11Tests {
 	public void unidadesDeLongitud() throws ParseException, IOException {
 	
 		Assert.assertEquals(
-				"@delucas 500 metros equivalen a 0.5 kilometros",
+				"@delucas 500 metros equivalen a 0,5 kilometros",
 				jenkins.escuchar("@jenkins cuántos kilometros son 500 metros")
 			);
 		

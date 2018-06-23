@@ -94,11 +94,11 @@ public class RF13Tests {
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
-				"Chuck Norris puede estrangularte con un telfono inalámbrico.",
+				"Chuck Norris puede estrangularte con un teléfono inalámbrico.",
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
-				"En una ocasi�n, Chuck Norris fue acusado de tres intentos de asesinato en el condado de Boulder, pero el juez rápidamente retiró los cargos porque Chuck Norris no 'intentó' el asesinato.",
+				"En una ocasión, Chuck Norris fue acusado de tres intentos de asesinato en el condado de Boulder, pero el juez rápidamente retiró los cargos porque Chuck Norris no 'intentó' el asesinato.",
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
@@ -106,7 +106,7 @@ public class RF13Tests {
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
-				"El calendario de Chuck Norris va directamente del 31 de marzo al 2 de abril. Nadie enga�a a Chuck Norris.",
+				"El calendario de Chuck Norris va directamente del 31 de marzo al 2 de abril. Nadie engaña a Chuck Norris.",
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
@@ -134,7 +134,7 @@ public class RF13Tests {
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
-				"La raz�n por la que el Santo Grial nunca se ha recuperado es porque nadie es lo suficientemente valiente como para pedirle a Chuck Norris que renuncie a su taza de café favorita.",
+				"La razón por la que el Santo Grial nunca se ha recuperado es porque nadie es lo suficientemente valiente como para pedirle a Chuck Norris que renuncie a su taza de café favorita.",
 				jenkins.escuchar("@jenkins quiero datos de chuck norris")
 			);
 			Assert.assertEquals(
