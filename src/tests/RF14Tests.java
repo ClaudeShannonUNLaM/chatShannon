@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import asistente.Asistente;
-import hibernate.deudaAsistente.DeudaAsistente;
-import hibernate.deudaAsistente.DeudaController;
 
 public class RF14Tests {
 	public final static String USUARIO = "delucas";
@@ -22,52 +20,6 @@ public class RF14Tests {
 		shannon = new Asistente("shannon");
 	}
 	
-	/*@Test
-	public void query() {
-		
-		DeudaAsistente deuda = DeudaController.buscar("delucas", "juan");
-		Assert.assertEquals("delucas",deuda.getPrestamista());
-	}
-	
-	@Test
-	public void AgregarPrestamo() throws ParseException, IOException{
-		Assert.assertEquals(
-				"@delucas anotado.",
-				shannon.escuchar("@shannon @juan me debe $50")
-			);
-	}
-	
-	@Test
-	public void AgregarDeuda() throws ParseException, IOException{
-		Assert.assertEquals(
-				"@delucas anotado.",
-				shannon.escuchar("@shannon le debo $0 a @pepe")
-			);
-	}
-	
-	@Test
-	public void PagarDeuda() throws ParseException, IOException{
-		Assert.assertEquals(
-				"@delucas anotado.",
-				shannon.escuchar("@shannon le pagué a @pepe $0")
-			);
-	}
-	
-	@Test
-	public void ReciboPagoDeuda() throws ParseException, IOException{
-		Assert.assertEquals(
-				"@delucas anotado.",
-				shannon.escuchar("@shannon @pepe me pagó $551")
-			);
-	}
-	@Test
-	public void CuantoMeDebe() throws ParseException, IOException{
-		Assert.assertEquals(
-				"@delucas @juan no te debe nada. Vos le debés $1",
-				shannon.escuchar("@shannon cuánto me debe @juan?")
-				);
-	}*/
-/*	
 	@Test
 	public void transferenciaDeDeudas() throws ParseException, IOException{
 		Assert.assertEquals(
@@ -84,7 +36,7 @@ public class RF14Tests {
 			);
 		
 		Assert.assertEquals(
-				"@delucas le debés $60 a @maria. @juan te debe $50",
+				"@delucas le debés $60 a @maria. @juan te debe $50.",
 				shannon.escuchar("@shannon cual es mi estado de deudas?")
 			);
 		
@@ -94,13 +46,13 @@ public class RF14Tests {
 			);
 		
 		Assert.assertEquals(
-				"@delucas le debés $10 a @maria",
+				"@delucas le debés $10 a @maria.",
 				shannon.escuchar("@shannon cual es mi estado de deudas?")
 			);
 		// por detrás, ahora @juan le debe $50 a @maria. Podría probarse,
 		// cambiando el interlocutor del asistente
 	}
-	
+
 	@Test
 	public void deudasGrupalesCasoUno() throws ParseException, IOException{
 		
@@ -116,7 +68,7 @@ public class RF14Tests {
 		// @maria le debe otros $100 a @juan
 	
 	}
-	*/
+	
 	@Test
 	public void deudasGrupalesCasoDos() throws ParseException, IOException{
 		Assert.assertEquals(
@@ -129,7 +81,7 @@ public class RF14Tests {
 				shannon.escuchar("@shannon cual es mi estado de deudas?")
 			);
 	}
-	/*
+	
 	@Test
 	public void deudasSimples() throws ParseException, IOException{
 		Assert.assertEquals(
@@ -166,5 +118,5 @@ public class RF14Tests {
 				"@delucas no le debés nada. @juan te debe $9",
 				shannon.escuchar("@shannon cuánto le debo a @juan?")
 			);
-	}*/
+	}
 }

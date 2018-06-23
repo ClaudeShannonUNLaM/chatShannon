@@ -24,13 +24,13 @@ public class EstadoDeudaHandler extends AsistantSentenceHandler{
 			if(prestamos == null && deudas == null)
 				return respuesta + " no debe ni le deben nada.";
 
-			if(prestamos != null)
-				for(int i = 0; i < prestamos.size(); i++)
-				 	respuesta += " @" + prestamos.get(i).getDeudor() + " te debe $" + prestamos.get(i).getValor() + ".";
-
 			if(deudas != null)
 				for(int i = 0; i < deudas.size(); i++)
-				 	respuesta += " le debés $" + deudas.get(i).getValor() + " a @" + deudas.get(i).getPrestamista() + ".";
+					respuesta += " le debés $" + deudas.get(i).getValor() + " a @" + deudas.get(i).getPrestamista() + ".";
+
+			if(prestamos != null)
+				for(int i = 0; i < prestamos.size(); i++)
+					respuesta += " @" + prestamos.get(i).getDeudor() + " te debe $" + prestamos.get(i).getValor() + ".";
 
 			return respuesta;
 		}
