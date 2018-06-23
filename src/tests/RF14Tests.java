@@ -110,13 +110,13 @@ public class RF14Tests {
 			);
 		
 		Assert.assertEquals(
-				"@delucas le debés $100 a @juan",
+				"@delucas le debés $100 a @juan.",
 				shannon.escuchar("@shannon cual es mi estado de deudas?")
 			);
 		// @maria le debe otros $100 a @juan
 	
 	}
-	
+	*/
 	@Test
 	public void deudasGrupalesCasoDos() throws ParseException, IOException{
 		Assert.assertEquals(
@@ -125,11 +125,11 @@ public class RF14Tests {
 			);
 		
 		Assert.assertEquals(
-				"@delucas @juan te debe $100. @maria te debe $100",
+				"@delucas @juan te debe $100. @maria te debe $100.",
 				shannon.escuchar("@shannon cual es mi estado de deudas?")
 			);
-	}*/
-	
+	}
+	/*
 	@Test
 	public void deudasSimples() throws ParseException, IOException{
 		Assert.assertEquals(
@@ -166,5 +166,5 @@ public class RF14Tests {
 				"@delucas no le debés nada. @juan te debe $9",
 				shannon.escuchar("@shannon cuánto le debo a @juan?")
 			);
-	}
+	}*/
 }

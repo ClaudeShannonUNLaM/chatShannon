@@ -17,6 +17,7 @@ public class DeudaHandler extends AsistantSentenceHandler{
 		AsistantSentenceHandler verDeudaDe = new VerDeudaDeHandler();
 		AsistantSentenceHandler verDeudaCon = new VerDeudaConHandler();
 		AsistantSentenceHandler gastoCompartido = new DeudaGrupalCasoUnoHandler();
+		AsistantSentenceHandler gastoCompartidoDos = new DeudaGrupalCasoDosHandler();
 		AsistantSentenceHandler estado = new EstadoDeudaHandler();
 		AsistantSentenceHandler simplificar = new SimplificarDeudaHandler();
 		AsistantSentenceHandler deudaDefaultResponse = new DeudaDefaultHandler();
@@ -28,9 +29,10 @@ public class DeudaHandler extends AsistantSentenceHandler{
 		verDeudaDe.setNextAction(verDeudaCon);
 		verDeudaCon.setNextAction(simplificar);
 		simplificar.setNextAction(gastoCompartido);
-		gastoCompartido.setNextAction(estado);
+		gastoCompartido.setNextAction(gastoCompartidoDos);
+		gastoCompartidoDos.setNextAction(estado);
 		estado.setNextAction(deudaDefaultResponse);
-		
+
 		if(!(respuesta = agregarDeuda.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO)).isEmpty())
 			return respuesta;
 		else

@@ -26,12 +26,12 @@ public class VerDeudaConHandler extends AsistantSentenceHandler {
 	
 	private String verDeuda(String prestamista,String deudor) {
 		String respuesta = "@" + deudor;
-		DeudaAsistente deuda = DeudaController.buscar(prestamista, deudor);
+		DeudaAsistente deuda = DeudaController.buscarDeuda(prestamista, deudor);
 		if(deuda != null && deuda.getValor() > 0) {
 			respuesta += " debés $" + deuda.getValor() + " a @" + prestamista;
 		}else{
 			respuesta += " no le debés nada.";
-			deuda = DeudaController.buscar(deudor, prestamista);
+			deuda = DeudaController.buscarDeuda(deudor, prestamista);
 			if(deuda != null && deuda.getValor() > 0) {
 				respuesta += " @" + prestamista + " te debe $" + deuda.getValor();
 			}

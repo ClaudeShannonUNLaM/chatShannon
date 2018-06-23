@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 import handlers.AsistantSentenceHandler;
 import hibernate.deudaAsistente.DeudaController;
 
-public class DeudaGrupalCasoUnoHandler extends AsistantSentenceHandler{
-	public DeudaGrupalCasoUnoHandler() {
-		patron = Pattern.compile(".+con @([a-z]+) y @([a-z]+) gastamos \\$([0-9]+) y pagó @([a-z]+)");
+public class DeudaGrupalCasoDosHandler extends AsistantSentenceHandler{
+	public DeudaGrupalCasoDosHandler() {
+		patron = Pattern.compile(".+con @([a-z]+) y @([a-z]+) gastamos \\$([0-9]+) y pagué yo");
 	}
 	
 	@Override
@@ -18,10 +18,9 @@ public class DeudaGrupalCasoUnoHandler extends AsistantSentenceHandler{
 			String deudor = matcher.group(1);
 			String deudor2 = matcher.group(2);
 			int valor = Integer.parseInt(matcher.group(3));
-			String prestamista = matcher.group(4);
 			valor /= 3;
-			DeudaController.agregarDeuda(prestamista, nombreUsuario, valor);
-			DeudaController.agregarDeuda(prestamista, (prestamista == deudor2)? deudor:deudor2, valor);
+			DeudaController.agregarDeuda(nombreUsuario, deudor, valor);
+			DeudaController.agregarDeuda(nombreUsuario, deudor2, valor);
 			
 			return "@" + nombreUsuario + " anotado.";
 		}

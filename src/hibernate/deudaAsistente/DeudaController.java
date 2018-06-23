@@ -1,6 +1,8 @@
 package hibernate.deudaAsistente;
 
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +17,7 @@ import org.hibernate.Transaction;
 import dataBaseConection.DataBaseHelper;
 
 public class DeudaController extends DataBaseHelper {
-	static public DeudaAsistente buscar(String prestamista, String deudor) {
+	static public DeudaAsistente buscarDeuda(String prestamista, String deudor) {
 		DeudaAsistente deuda = null;
 		Session sesion = crearSession();
 		try {			
@@ -40,11 +42,11 @@ public class DeudaController extends DataBaseHelper {
             sesion.close();
         }				
 		
-		return deuda;		
+		return deuda;
 	}
 	
 	public static void agregarDeuda(String prestamista, String deudor, int valor) {
-		DeudaAsistente deuda = DeudaController.buscar(prestamista, deudor);
+		DeudaAsistente deuda = DeudaController.buscarDeuda(prestamista, deudor);
 
 		if(deuda == null)
 			deuda = new DeudaAsistente(prestamista,deudor,valor);
@@ -72,7 +74,7 @@ public class DeudaController extends DataBaseHelper {
 
 	public static void pagoDeuda(String prestamista, String deudor, int pago) {
 		int valor;
-		DeudaAsistente deuda = DeudaController.buscar(prestamista, deudor);
+		DeudaAsistente deuda = DeudaController.buscarDeuda(prestamista, deudor);
 		if(deuda == null) {
 			DeudaController.agregarDeuda(deudor, prestamista, pago);
 			return;
@@ -100,5 +102,34 @@ public class DeudaController extends DataBaseHelper {
 		}finally {
 			s.close();
 		}
+	}
+	
+	public static List buscarDeudas(String prestamista, String deudor) {
+		List deudas = null;
+		Session sesion = crearSession();
+		try {			
+
+			String condition = "";
+			if(!prestamista.isEmpty())
+				condition += " AND d.prestamista = '" + prestamista+"'";
+			if(!deudor.isEmpty())
+				condition += " AND d.deudor = '" + deudor+"'";
+			condition += " AND d.valor > 0";
+			Query q = sesion.createQuery("from DeudaAsistente as d where 1 = 1 " + condition);
+			
+			try{
+				deudas = q.list();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecución si no se encuentra el registro
+			}
+			
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();
+        }				
+		
+		return deudas;
 	}
 }
