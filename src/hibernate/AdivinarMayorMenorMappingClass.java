@@ -1,17 +1,7 @@
 package hibernate;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-
 public class AdivinarMayorMenorMappingClass {
-	private int techo,piso,ultimoNumeroRespondido,id;
+	private int techo,piso,ultimoNumeroRespondido,idAdivinar,idUsuario;
 
 	
 	public int getTecho() {
@@ -44,30 +34,33 @@ public class AdivinarMayorMenorMappingClass {
 	}
 
 
-	public int getId() {
-		return id;
+	public int getIdAdivinar() {
+		return idAdivinar;
 	}
 
 
-	public void setId(int id) {
-		this.id = id;
+	public void setIdAdivinar(int id) {
+		this.idAdivinar = id;
+	}
+
+	public int getIdUsuario() {
+		return idUsuario;
 	}
 
 
-	public AdivinarMayorMenorMappingClass(int techo, int piso, int ultimoNumeroRespondido, int id) {
-		super();
+	public void setIdUsuario(int id) {
+		this.idUsuario = id;
+	}
+
+	public AdivinarMayorMenorMappingClass(int techo, int piso, int ultimoNumeroRespondido, int id,int idU) {
 		this.techo = techo;
 		this.piso = piso;
 		this.ultimoNumeroRespondido = ultimoNumeroRespondido;
-		this.id = id;
+		this.idAdivinar = id;
+		this.idUsuario=idU;
 	}
 
-	public AdivinarMayorMenorMappingClass(int techo, int piso, int ultimoNumeroRespondido) {
-		super();
-		this.techo = techo;
-		this.piso = piso;
-		this.ultimoNumeroRespondido = ultimoNumeroRespondido;
-	}
+	
 	public AdivinarMayorMenorMappingClass() {
 		
 	}
