@@ -132,4 +132,20 @@ public class DeudaController extends DataBaseHelper {
 		
 		return deudas;
 	}
+	
+	public static void limpiarDeudas() {
+		
+		Session s = DataBaseHelper.crearSession();
+		Transaction tx = s.beginTransaction();
+		try {
+			Query q = s.createQuery("update DeudaAsistente set valor = 0");
+			q.executeUpdate();
+			tx.commit();
+		} catch (Exception e) {
+			System.out.println("ERROR GUARDANDO");
+			tx.rollback();
+		}finally {
+			s.close();
+		}
+	}
 }

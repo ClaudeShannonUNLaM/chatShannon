@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import asistente.Asistente;
+import hibernate.deudaAsistente.DeudaController;
 
 public class RF14Tests {
 	public final static String USUARIO = "delucas";
@@ -18,6 +19,7 @@ public class RF14Tests {
 	@Before
 	public void setup(){
 		shannon = new Asistente("shannon");
+		DeudaController.limpiarDeudas();
 	}
 	
 	@Test
