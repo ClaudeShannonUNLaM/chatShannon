@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import asistente.Asistente;
+import bot.asistente.Asistente;
 
 public class RF06Tests {
 
@@ -24,22 +24,22 @@ public class RF06Tests {
 
  		Assert.assertEquals(
 				"@delucas 3",
-				jenkins.escuchar("@jenkins cuánto es 1 + 2")
+				jenkins.escuchar("@jenkins cuÃ¡nto es 1 + 2")
 			);
 		
 		Assert.assertEquals(
 				"@delucas 1",
-				jenkins.escuchar("@jenkins cuánto es 5 - 2 * 2")
+				jenkins.escuchar("@jenkins cuÃ¡nto es 5 - 2 * 2")
 			);
 	
 		Assert.assertEquals(
 				"@delucas 10",
-				jenkins.escuchar("@jenkins cuánto es el 10% de 100")
+				jenkins.escuchar("@jenkins cuÃ¡nto es el 10% de 100")
 			);
 	
 		Assert.assertEquals(
 				"@delucas 42",
-				jenkins.escuchar("@jenkins cuánto es el 17 + 5 ^ 2")
+				jenkins.escuchar("@jenkins cuÃ¡nto es el 17 + 5 ^ 2")
 			);
 		
 		// agregar otros casos
@@ -49,7 +49,7 @@ public class RF06Tests {
 	public void calculosCompuestos() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas -6",
-				jenkins.escuchar("@jenkins cuánto es (4-8)*2 + 4 / ( 1 + 1)")
+				jenkins.escuchar("@jenkins cuÃ¡nto es (4-8)*2 + 4 / ( 1 + 1)")
 			);
 
 		
@@ -60,12 +60,12 @@ public class RF06Tests {
 	public void testAdicionales() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas -2",
-				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / ( 1 + 1)")
+				jenkins.escuchar("@jenkins cuÃ¡nto es ((4-8)+2)*2 + 4 / ( 1 + 1)")
 			);
 		
 		Assert.assertEquals(
 				"@delucas -3",
-				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / (( 1 + 1) * 2)")
+				jenkins.escuchar("@jenkins cuÃ¡nto es ((4-8)+2)*2 + 4 / (( 1 + 1) * 2)")
 			);
 	}
 

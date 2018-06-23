@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import asistente.Asistente;
+import bot.asistente.Asistente;
 
 public class RF02Tests {
 
@@ -23,7 +23,7 @@ public class RF02Tests {
 	@Test
 	public void agradecimiento() throws ParseException,IOException{
 		String[] mensajes = {
-				"¡Muchas gracias, @jenkins!",
+				"Muchas gracias, @jenkins!",
 				"@jenkins gracias",
 				"gracias @jenkins"
 		};

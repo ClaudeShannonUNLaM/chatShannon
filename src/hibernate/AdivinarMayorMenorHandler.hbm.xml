@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 15, 2018 11:34:03 AM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="hibernate.AdivinarMayorMenorMappingClass" table="AdivinarMayorMenor">
+        <id name="idUsuario" type="int">
+            <column name="IdUsuario" />
+<!--             generator class="assigned" /> increment -->            
+        </id>
+        <property name="techo" type="int">
+            <column name="Techo" />
+        </property>
+         <property name="idAdivinar" type="int">
+            <column name="IdAdivinar" />
+        </property>
+        <property name="piso" type="int">
+            <column name="Piso" />
+        </property>
+        <property name="ultimoNumeroRespondido" type="int">
+            <column name="UltimoNumeroRespondido" />
+        </property>
+        
+    </class>
+    <!-- <class name="com.jwt.hibernate.Persona" table="PERSONA">
+		<id column="Dni" name="dni" type="int" />
+		<property column="Apellido" name="apellido" type="string" />
+		<property column="Nombre" name="nombre" type="string" />
+		<property column="Sexo" name="sexo" type="char" />
+	</class> -->
+</hibernate-mapping>
