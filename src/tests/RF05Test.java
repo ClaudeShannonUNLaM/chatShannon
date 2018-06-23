@@ -24,17 +24,17 @@ public class RF05Test {
 
 	public void TriviasFacts() throws ParseException, IOException {
 		Assert.assertEquals(
-				"Cleopatra viviÃ³ mÃ¡s cerca de la invenciÃ³n del iPhone que de la construcciÃ³n de la Gran PirÃ¡mide.",
+				"Cleopatra vivió más cerca de la invención del iPhone que de la construcción de la Gran Pirámide.",
 				jenkins.escuchar("@jenkins quiero datos de trivia")
 			);
 		
 		Assert.assertEquals(
-				"Rusia tiene una superficie mÃ¡s grande que PlutÃ³n.",
+				"Rusia tiene una superficie más grande que Plutón.",
 				jenkins.escuchar("@jenkins dame datos importantes")
 			);
 		
 		Assert.assertEquals(
-				"Arabia SaudÃ­ importa camellos de Australia.",
+				"Arabia Saudí importa camellos de Australia.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);
 		Assert.assertEquals(
@@ -46,31 +46,31 @@ public class RF05Test {
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"Las zanahorias eran originalmente de color pÃºrpura.",
+				"Las zanahorias eran originalmente de color púrpura.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"El corazÃ³n de una ballena azul es tan grande que un ser humano podrÃ­a nadar a travÃ©s de las arterias.",
+				"El corazón de una ballena azul es tan grande que un ser humano podría nadar a través de las arterias.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"Una maquina expendedora puede matarte mÃ¡s fÃ¡cilmente que un tiburÃ³n.",
+				"Una maquina expendedora puede matarte más fácilmente que un tiburón.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"La Universidad de Oxford es mÃ¡s antigua que el imperio azteca.",
+				"La Universidad de Oxford es más antigua que el imperio azteca.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"Francia seguÃ­a ejecutando personas con una guillotina cuando la primera pelÃ­cula de Star Wars se estrenÃ³.",
+				"Francia seguía ejecutando personas con una guillotina cuando la primera película de Star Wars se estrenó.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"Los armadillos casi siempre dan a luz a cuatrillizos idÃ©nticos.",
+				"Los armadillos casi siempre dan a luz a cuatrillizos idénticos.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(
-				"Eduard Punset es en realidad mÃ¡s viejo que el pan de molde.",
+				"Eduard Punset es en realidad más viejo que el pan de molde.",
 				jenkins.escuchar("@jenkins quiero saber algo interesante")
 			);	
 		Assert.assertEquals(

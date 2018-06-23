@@ -35,12 +35,9 @@ public class Asistente {
 		AsistantSentenceHandler leyesRobotica = new LeyesRoboticaHandler();
 		AsistantSentenceHandler deuda = new DeudaHandler();
 		
-		AsistantSentenceHandler memes = new MostrarMemeHandler();	
-		AsistantSentenceHandler youtubeHandler = new YoutubeHandler();
 		
 		agradecer.setNextAction(leyesRobotica);
-		leyesRobotica.setNextAction(youtubeHandler);
-		youtubeHandler.setNextAction(calculoMatematico);
+		leyesRobotica.setNextAction(calculoMatematico);
 		calculoMatematico.setNextAction(adivinarMayorMenor);
 		adivinarMayorMenor.setNextAction(serAdivinadoMayorMenor);
 		serAdivinadoMayorMenor.setNextAction(conversor);
@@ -49,8 +46,7 @@ public class Asistente {
 		trivia.setNextAction(diferenciaFechas);
 		diferenciaFechas.setNextAction(tiempoActual);
 		tiempoActual.setNextAction(deuda);
-		deuda.setNextAction(memes);
-		memes.setNextAction(saludo);
+		deuda.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
 		return agradecer.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				

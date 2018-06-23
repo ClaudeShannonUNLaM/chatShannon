@@ -26,7 +26,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 					Random rnd = new Random();
 					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
 //					conteoIntentos=0;
-		    		return "@"+nombreUsuario+" Â¡listo!";
+		    		return "@"+nombreUsuario+" ¡listo!";
 		    	}
 				case "fue divertido":
 		    		return "@"+nombreUsuario+" si!";
@@ -46,14 +46,14 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	
 	public String evaluarIntento (int intento) {
 		if(intento<respuesta)
-			return "mÃ¡s grande";
+			return "más grande";
 		else
 		{
 			if(intento>respuesta)
-				return "mÃ¡s chico";
+				return "más chico";
 			else
-//				return "ï¿½si! Adivinaste en "+conteoIntentos+" pasos...";
-				return "Â¡si! Adivinaste!";
+//				return "¡si! Adivinaste en "+conteoIntentos+" pasos...";
+				return "¡si! Adivinaste!";
 		}
 	}
 }

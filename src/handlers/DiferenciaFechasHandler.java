@@ -1,6 +1,5 @@
 package handlers;
 
-import java.sql.Date;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -10,30 +9,25 @@ import fecha.Fecha;
 
 public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 	
-
 	public DiferenciaFechasHandler () {
-		patron = Pattern.compile(".*(qu√© d√≠a ser√° dentro de|qu√© d√≠a fue|cu√°ntos d√≠as pasaron desde el|cu√°ntos d√≠as faltan para el).*");	
+		patron = Pattern.compile(".*(quÈ dÌa ser· dentro de|quÈ dÌa fue|cu·ntos dÌas pasaron desde el|cu·ntos dÌas faltan para el).*");	
 	}
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Calendar fechaCalculo= Calendar.getInstance();
-		fechaCalculo.set(Calendar.YEAR,2018);
-		fechaCalculo.set(Calendar.MONTH,4);
-		fechaCalculo.set(Calendar.DAY_OF_MONTH,31);
-				
+		
 		Matcher matcher = patron.matcher(mensaje);		
 	    if(matcher.find()) {								
-			if(mensaje.contains("qu√© d√≠a ser√° dentro de"))
+			if(mensaje.contains("quÈ dÌa ser· dentro de"))
 				return calcular(mensaje,nombreUsuario ,false);	
-			else if(mensaje.contains("qu√© d√≠a fue"))
+			else if(mensaje.contains("quÈ dÌa fue"))
 				return calcular(mensaje,nombreUsuario, true);
 			
-			else if(mensaje.contains("cu√°ntos d√≠as pasaron desde el")){
+			else if(mensaje.contains("cu·ntos dÌas pasaron desde el")){
 					try{
 						Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
-						long diasDiferencia = Fecha.restarFechas(fechaCalculo, fechaPreguntada);
-						return diasPasaron(diasDiferencia,fechaCalculo,fechaPreguntada, nombreUsuario);
+						long diasDiferencia = Fecha.restarFechas(Fecha.getToday(), fechaPreguntada);
+						return diasPasaron(diasDiferencia,Fecha.getToday(),fechaPreguntada, nombreUsuario);
 					}
 					 catch (java.text.ParseException e) {
 						// TODO Auto-generated catch block
@@ -41,10 +35,10 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 						return "";
 					}
 			}
-			else if(mensaje.contains("cu√°ntos d√≠as faltan para el")){
+			else if(mensaje.contains("cu·ntos dÌas faltan para el")){
 				try{
 					Calendar fechaPreguntada = Fecha.cadenaAFecha(mensaje);				
-					long diasDiferencia = (-1)* Fecha.restarFechas(fechaCalculo, fechaPreguntada)+1;
+					long diasDiferencia = (-1)* Fecha.restarFechas(Fecha.getToday(), fechaPreguntada)+1;
 					return diasFaltan(diasDiferencia, nombreUsuario);
 				}
 				 catch (java.text.ParseException e) {
@@ -73,12 +67,12 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 		        	 diferencia=Integer.parseInt(partes);
 		         }
 		     }
-		     if(mensaje.contains("d√≠as")){
-		    	 periodo="d√≠a";
+		     if(mensaje.contains("dÌas")){
+		    	 periodo="dÌa";
 		     }
 		     
 		     else if(mensaje.contains("ayer")){
-		    	 periodo="d√≠a";
+		    	 periodo="dÌa";
 		    	 diferencia=1;
 		     }
 		     	     
@@ -86,7 +80,7 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 		    	 periodo="mes";
 		     }
 		     else{
-		    	 periodo="a√±o";
+		    	 periodo="aÒo";
 		     }
 		     
 		     if(averiguarDiasPasados){
@@ -100,30 +94,27 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 		}
 				
 	private static Calendar diaDentro(int aSumar, String caso){
-		Calendar fechaCalculo= Calendar.getInstance();
-		fechaCalculo.set(Calendar.YEAR,2018);
-		fechaCalculo.set(Calendar.MONTH,4);
-		fechaCalculo.set(Calendar.DAY_OF_MONTH,31);
+		Calendar fecha = Calendar.getInstance();
 		
 		if (caso=="mes"){
-			fechaCalculo.add(Calendar.MONTH,aSumar);
+			fecha.add(Calendar.MONTH,aSumar);
 		}
-		else if(caso=="a√±o"){
-			fechaCalculo.add(Calendar.YEAR,aSumar);
+		else if(caso=="aÒo"){
+			fecha.add(Calendar.YEAR,aSumar);
 		}
 		else
-			fechaCalculo.add(Calendar.DAY_OF_MONTH,aSumar);
+			fecha.add(Calendar.DAY_OF_MONTH,aSumar);
 		
-		return fechaCalculo;
+		return fecha;
 	}	
 	
 	private String diasPasaron(long dias,Calendar f1,Calendar f2, String nombreUsuario){
 		return "@" + nombreUsuario + " entre el "+ Fecha.fechaACadenaSinDia(f2) 
-				+ " y el " + Fecha.fechaACadenaSinDia(f1) + " pasaron " + (dias) + " d√≠as";
+				+ " y el " + Fecha.fechaACadenaSinDia(f1) + " pasaron " + (dias) + " dÌas";
 	}	
 	
 	private String diasFaltan(long dias, String nombreUsuario){
-		return "@" + nombreUsuario +" faltan "+ dias +" d√≠as";
+		return "@" + nombreUsuario +" faltan "+ dias +" dÌas";
 	}
 	
 	private String fechaHace(Calendar f1, String nombreUsuario){		
@@ -131,6 +122,6 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 	}
 	
 	private String fechaDentro(Calendar f1, String nombreUsuario){		
-		return "@" + nombreUsuario + " ser√° el "+ Fecha.fechaACadena(f1);
+		return "@" + nombreUsuario + " ser· el "+ Fecha.fechaACadena(f1);
 	}
 }

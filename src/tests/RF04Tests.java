@@ -26,17 +26,17 @@ public class RF04Tests{
 	@Test
 	public void diaDentroDe() throws ParseException, IOException {
 		Assert.assertEquals(
-				"@delucas ser√° el s√°bado 2 de junio de 2018",
-				shannon.escuchar("@shannon qu√© d√≠a ser√° dentro de 2 d√≠as?")
+				"@delucas ser· el s·bado 2 de junio de 2018",
+				shannon.escuchar("@shannon quÈ dÌa ser· dentro de 2 dÌas?")
 			);
 		Assert.assertEquals(
-				"@delucas ser√° el martes 31 de julio de 2018",
-				shannon.escuchar("@shannon qu√© d√≠a ser√° dentro de 2 meses?")
+				"@delucas ser· el martes 31 de julio de 2018",
+				shannon.escuchar("@shannon quÈ dÌa ser· dentro de 2 meses?")
 			);
 		
 		Assert.assertEquals(
-				"@delucas ser√° el domingo 31 de mayo de 2020",
-				shannon.escuchar("@shannon qu√© d√≠a ser√° dentro de 2 a√±os?")
+				"@delucas ser· el domingo 31 de mayo de 2020",
+				shannon.escuchar("@shannon quÈ dÌa ser· dentro de 2 aÒos?")
 			);
 			
 	}
@@ -45,50 +45,50 @@ public class RF04Tests{
 	public void diaHace() throws ParseException, IOException {
 		
 	Assert.assertEquals(
-				"@delucas fue el mi√©rcoles 30 de mayo de 2018",
-				shannon.escuchar("@shannon qu√© d√≠a fue ayer?")
+				"@delucas fue el miÈrcoles 30 de mayo de 2018",
+				shannon.escuchar("@shannon quÈ dÌa fue ayer?")
 			);
 		
 		Assert.assertEquals(
 				"@delucas fue el lunes 28 de mayo de 2018",
-				shannon.escuchar("@shannon qu√© d√≠a fue hace 3 d√≠as?")
+				shannon.escuchar("@shannon quÈ dÌa fue hace 3 dÌas?")
 			);
 		
 		Assert.assertEquals(
-				"@delucas fue el s√°bado 31 de marzo de 2018",
-				shannon.escuchar("@shannon qu√© d√≠a fue hace 2 meses?")
+				"@delucas fue el s·bado 31 de marzo de 2018",
+				shannon.escuchar("@shannon quÈ dÌa fue hace 2 meses?")
 			);
 		
 		Assert.assertEquals(
 				"@delucas fue el martes 31 de mayo de 2016",
-				shannon.escuchar("@shannon qu√© d√≠a fue hace 2 a√±os?")
+				shannon.escuchar("@shannon quÈ dÌa fue hace 2 aÒos?")
 			);			
 	}
 	@Test
 	public void tiempoDesde() throws ParseException, IOException {
 		Assert.assertEquals(
-				"@delucas entre el 31 de mayo de 2017 y el 31 de mayo de 2018 pasaron 365 d√≠as",
-				shannon.escuchar("@shannon cu√°ntos d√≠as pasaron desde el 31 de mayo de 2017?")
+				"@delucas entre el 31 de mayo de 2017 y el 31 de mayo de 2018 pasaron 365 dÌas",
+				shannon.escuchar("@shannon cu·ntos dÌas pasaron desde el 31 de mayo de 2017?")
 			);
 		Assert.assertEquals(
-				"@delucas entre el 30 de abril de 2018 y el 31 de mayo de 2018 pasaron 31 d√≠as",
-				shannon.escuchar("@shannon cu√°ntos d√≠as pasaron desde el 30 de abril?")
+				"@delucas entre el 30 de abril de 2018 y el 31 de mayo de 2018 pasaron 31 dÌas",
+				shannon.escuchar("@shannon cu·ntos dÌas pasaron desde el 30 de abril?")
 			);		 
 	}
 	
 	@Test
 	public void tiempoHasta() throws ParseException, IOException {
 		Assert.assertEquals(
-				"@delucas faltan 2 d√≠as",
-				shannon.escuchar("@shannon cu√°ntos d√≠as faltan para el 2 de junio?")
+				"@delucas faltan 2 dÌas",
+				shannon.escuchar("@shannon cu·ntos dÌas faltan para el 2 de junio?")
 			);
 		Assert.assertEquals(
-				"@delucas faltan 365 d√≠as",
-				shannon.escuchar("@shannon cu√°ntos d√≠as faltan para el 31 de mayo de 2019?")
+				"@delucas faltan 365 dÌas",
+				shannon.escuchar("@shannon cu·ntos dÌas faltan para el 31 de mayo de 2019?")
 			);/*
 		Assert.assertEquals(
-				"@delucas faltan 42 dÔøΩas",
-				shannon.escuchar("@shannon cuÔøΩntos dÔøΩas faltan para el mundial?")
+				"@delucas faltan 42 dÌas",
+				shannon.escuchar("@shannon cu·ntos dÌas faltan para el mundial?")
 			);*/
 	}
 	

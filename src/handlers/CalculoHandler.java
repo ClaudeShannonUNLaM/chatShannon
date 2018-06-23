@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class CalculoHandler extends AsistantSentenceHandler{
 	public CalculoHandler () {
-			patron = Pattern.compile("(?:(cuÃ¡nto es el|cuÃ¡nto es))");
+			patron = Pattern.compile("(?:(cuánto es el|cuánto es))");
 	}
 		
 	@Override
@@ -15,11 +15,11 @@ public class CalculoHandler extends AsistantSentenceHandler{
 		Matcher matcher = patron.matcher(mensaje);		
 	    if(matcher.find()) {
 			String intro;
-			if(mensaje.contains("cuÃ¡nto es el"))
+			if(mensaje.contains("cuánto es el"))
 				
-				intro = "@"+ nombreUsuario + " cuÃ¡nto es el";
+				intro = "@"+ nombreUsuario + " cuánto es el";
 			else
-				intro = "@" + nombreUsuario + " cuÃ¡nto es";
+				intro = "@" + nombreUsuario + " cuánto es";
 			Integer result = resolverCalculo(mensaje.substring(intro.length()));
 			mensaje = "@" + nombreUsuario + " " + result.toString();
 			

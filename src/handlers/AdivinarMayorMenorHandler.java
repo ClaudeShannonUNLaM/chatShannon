@@ -10,76 +10,112 @@ import hibernate.AdivinarMayorMenorHibernateManager;
 import hibernate.AdivinarMayorMenorMappingClass;
 public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 	
-	private int techo,piso,ultimoNumeroRespondido,id,idUsuario=1;//idUsuario=getUsuarioLlamador!!!!!!	
-	///////////////////////////////////////////////////////////HARCODEADO ESTO SACARLO
+	private int techo,piso,ultimoNumeroRespondido;	
 	public AdivinarMayorMenorHandler () {
-		patron = Pattern.compile(".*(jugamos\\?$|más grande|más chico|listo|si\\!$).*");
+		patron = Pattern.compile(".*(jugamos\\?$|m�s grande|m�s chico|listo|si\\!$).*");
 	}
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
+		int id=0;
 		if (matcher.matches()) {			
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
 				{
-					return "@"+nombreUsuario+" ¡sale y vale! Pensá un numero del 1 al 100";
+					return "@"+nombreUsuario+" �sale y vale! Pens� un n�mero del 1 al 100";
 				}
 				case "listo" :
 				{
 					techo=100;
 					piso=0;
 					ultimoNumeroRespondido=50;
+//					try{
+//					PrintWriter salida3 = new PrintWriter(new FileWriter("RF10.txt"));
+//					salida3.println(piso);
+//					salida3.println(" ");
+//					salida3.println(techo);
+//					salida3.println(" ");
+//					salida3.println(ultimoNumeroRespondido);
+//					salida3.close(); 
+//					}//  preparo el arch de salida
+//				    catch (IOException i){
+//				    	
+//				    }
 					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
-					ammhm.insertar(techo, piso, ultimoNumeroRespondido,idUsuario);
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					id=ammhm.insertar(techo, piso, ultimoNumeroRespondido);
+					return "@"+nombreUsuario+" �es el "+ultimoNumeroRespondido+"?";
 				}
-				case "más chico":
+				case "m�s chico":
 				{
 					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
-					AdivinarMayorMenorMappingClass ammmc1 = ammhm.consultar(idUsuario);
-					piso=ammmc1.getPiso();
-					techo=ammmc1.getTecho();
-					ultimoNumeroRespondido=ammmc1.getUltimoNumeroRespondido();
-					//System.out.println("piso:"+piso+"techo:"+techo);
-					techo=ultimoNumeroRespondido;
-					ultimoNumeroRespondido=(piso+techo)/2;
-					//System.out.println("piso:"+piso+"techo:"+techo);
-					AdivinarMayorMenorMappingClass ammmc12 = new AdivinarMayorMenorMappingClass();
-					ammmc12.setPiso(piso);
-					ammmc12.setTecho(techo);
-					ammmc12.setUltimoNumeroRespondido(ultimoNumeroRespondido);
-					ammmc12.setIdAdivinar(idUsuario);
-					ammmc12.setIdUsuario(idUsuario);
-					//System.out.println("AMMMC ID "+ammmc1.getIdUsuario()+"AMMMC TECHO"+ammmc1.getTecho());
-					ammhm.actualizar(ammmc12);
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					AdivinarMayorMenorMappingClass ammmc = ammhm.consultar(id);
+					piso=ammmc.getPiso();
+					techo=ammmc.getTecho();
+					ultimoNumeroRespondido=ammmc.getUltimoNumeroRespondido();
+//					try{
+//						Scanner sc = new Scanner(new File ("RF10.txt"));
+//						piso= sc.nextInt(); // vector para almacenar la lectura
+//						techo= sc.nextInt();
+//						ultimoNumeroRespondido=sc.nextInt();
+//						sc.close();
+						techo=ultimoNumeroRespondido;
+						ultimoNumeroRespondido=(piso+techo)/2;
+//						PrintWriter salida = new PrintWriter(new FileWriter("RF10.txt"));
+//						salida.println(piso);
+//						salida.println(" ");
+//						salida.println(techo);
+//						salida.println(" ");
+//						salida.println(ultimoNumeroRespondido);
+//						salida.close(); 
+						ammmc.setPiso(piso);
+						ammmc.setTecho(techo);
+						ammmc.setUltimoNumeroRespondido(ultimoNumeroRespondido);
+						ammhm.actualizar(ammmc);
+						//}//  preparo el arch de salida
+//					    catch (IOException f){
+//					    	
+//					    }
+					return "@"+nombreUsuario+" �es el "+ultimoNumeroRespondido+"?";
 		    	}
 				case "si!":
 				{
 					return "@"+nombreUsuario+" fue divertido :)";
 				}
-				case "más grande":
+				case "m�s grande":
 				{
 
 					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
-					AdivinarMayorMenorMappingClass ammmc = ammhm.consultar(idUsuario);
+					AdivinarMayorMenorMappingClass ammmc = ammhm.consultar(id);
 					piso=ammmc.getPiso();
 					techo=ammmc.getTecho();
 					ultimoNumeroRespondido=ammmc.getUltimoNumeroRespondido();
-					//System.out.println("piso:"+piso+"techo:"+techo);
-					piso=ultimoNumeroRespondido;
-					ultimoNumeroRespondido=(piso+techo)/2;
-					//	System.out.println("piso:"+piso+"techo:"+techo);
-					AdivinarMayorMenorMappingClass ammmc22 = new AdivinarMayorMenorMappingClass();
-					ammmc22.setPiso(piso);
-					ammmc22.setTecho(techo);
-					ammmc22.setUltimoNumeroRespondido(ultimoNumeroRespondido);
-					ammmc22.setIdAdivinar(idUsuario);
-					ammmc22.setIdUsuario(idUsuario);
-//					System.out.println("AMMMC ID "+ammmc.getIdUsuario()+"AMMMC TECHO"+ammmc.getTecho());
-					ammhm.actualizar(ammmc22);
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+//					try{
+//						Scanner sc = new Scanner(new File ("RF10.txt"));
+//						piso= sc.nextInt(); // vector para almacenar la lectura
+//						techo= sc.nextInt();
+//						ultimoNumeroRespondido=sc.nextInt();
+//						sc.close();
+						piso=ultimoNumeroRespondido;
+						ultimoNumeroRespondido=(piso+techo)/2;
+
+//						PrintWriter salida2 = new PrintWriter(new FileWriter("RF10.txt"));
+//						salida2.println(piso);
+//						salida2.println(" ");
+//						salida2.println(techo);
+//						salida2.println(" ");
+//						salida2.println(ultimoNumeroRespondido);
+////						salida.println("||"+techo);
+//						salida2.close(); 
+						ammmc.setPiso(piso);
+						ammmc.setTecho(techo);
+						ammmc.setUltimoNumeroRespondido(ultimoNumeroRespondido);
+						ammhm.actualizar(ammmc);
+						//}//  preparo el arch de salida
+//					    catch (IOException f){
+//					    	
+//					    }
+					return "@"+nombreUsuario+" �es el "+ultimoNumeroRespondido+"?";
 		    	}
 			}
 		}
