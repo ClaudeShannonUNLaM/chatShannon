@@ -1,4 +1,4 @@
-package chat.buscadoresInformacion;
+package hibernate.sala;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,16 +9,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import dataBaseConection.DataBaseHelper;
-import hibernate.sala.Sala;
+import hibernate.AdivinarMayorMenorMappingClass;
 import hibernate.usuario.Usuario;
+import hibernate.usuario.UsuarioController;
 import hibernate.usuarioSala.UsuarioSala;
 
-public class BuscadorSala extends DataBaseHelper {
+public class SalaController extends DataBaseHelper {
 
-	public List<Sala> BuscarSalas() { //Se buscan las salas no privadas
+	public static List<Sala> BuscarSalas() { //Se buscan las salas no privadas
 		Session sesion = crearSession();		
 		List<Sala> salas = new ArrayList<Sala>();
 		try {			
@@ -30,7 +34,7 @@ public class BuscadorSala extends DataBaseHelper {
 				salas = sesion.createQuery(cq).getResultList();
 			}	
 			catch (NoResultException nre){
-				//Se evita que termine la ejecución si no se encuentra el registro
+				//Se evita que termine la ejecuciï¿½n si no se encuentra el registro
 			}						
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -41,14 +45,14 @@ public class BuscadorSala extends DataBaseHelper {
 		return salas;
 	}
 	
-	public List<Sala> BuscarSalaUsuario(String nombreUsuario) {
+	public static List<Sala> BuscarSalaUsuario(String nombreUsuario) {
 		Session sesion = crearSession();		
 		List<Sala> salas = new ArrayList<Sala>();
 		List<UsuarioSala> relacionUsuarioSalas = new ArrayList<UsuarioSala>();
 		
 		Usuario usuario = new Usuario(); //Busco el usuario
-		BuscadorUsuarios buscadorU = new BuscadorUsuarios();
-		usuario = buscadorU.BuscarUsuario(nombreUsuario);
+		
+		UsuarioController.BuscarUsuario(nombreUsuario);
 		
 		try {			
         	CriteriaBuilder cb = sesion.getCriteriaBuilder();
@@ -61,7 +65,7 @@ public class BuscadorSala extends DataBaseHelper {
 				salas = BuscarSalasPorId(relacionUsuarioSalas); //Obtengo las salas privadas de las que forma parte
 			}	
 			catch (NoResultException nre){
-				//Se evita que termine la ejecución si no se encuentra el registro
+				//Se evita que termine la ejecuciï¿½n si no se encuentra el registro
 			}		
 			
         } catch (HibernateException e) {
@@ -73,12 +77,31 @@ public class BuscadorSala extends DataBaseHelper {
 		return salas;
 	}
 	
-	public boolean CrearSala() {
+	public static boolean CrearSala(Sala sala) {
+		Session session = crearSession();
 		
+		if(exists(sala, session))
+			return false;
+		
+		Transaction tx = session.beginTransaction();
+		try {			
+			session.save(sala);			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+				session.close();	
+				return false;
+			}							
+			
+		}
+		
+		session.close();
 		return true;
 	}
 	
-	private List<Sala> BuscarSalasPorId(List<UsuarioSala> relaciones){
+	
+	private static List<Sala> BuscarSalasPorId(List<UsuarioSala> relaciones){
 		Session sesion = crearSession();		
 		List<Sala> salas = new ArrayList<Sala>();
 		
@@ -96,7 +119,7 @@ public class BuscadorSala extends DataBaseHelper {
 				
 			}	
 			catch (NoResultException nre){
-				//Se evita que termine la ejecución si no se encuentra el registro
+				//Se evita que termine la ejecuciï¿½n si no se encuentra el registro
 			}			
 			
         } catch (HibernateException e) {
@@ -106,5 +129,11 @@ public class BuscadorSala extends DataBaseHelper {
         }
 		
 		return salas;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Boolean exists (Sala sala,Session sesion) {		
+		List<Sala> salas = (List<Sala>) sesion.createQuery("from Sala where nombre = '" + sala.getNombre() + "'").list();		
+	    return (salas.size() != 0);
 	}
 }

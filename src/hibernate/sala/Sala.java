@@ -6,6 +6,15 @@ public class Sala {
 	private String nombre;
 	private boolean privada;
 	
+	public Sala() {
+		
+	}
+	
+	public Sala(String nombre, boolean privada) {
+		this.nombre = nombre;
+		this.privada = privada;
+	}
+	
 	public int getId() {
 		return id;
 	}

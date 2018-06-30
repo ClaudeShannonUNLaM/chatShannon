@@ -1,4 +1,4 @@
-package chat.buscadoresInformacion;
+package hibernate.usuario;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,12 +10,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import dataBaseConection.DataBaseHelper;
-import hibernate.AdivinarMayorMenorMappingClass;
-import hibernate.usuario.Usuario;
 
-public class BuscadorUsuarios extends DataBaseHelper {
-
-	public boolean usuarioYaCreado(String nombreUsuario, String passWord, boolean importaSoloElNombre) {
+public class UsuarioController  extends DataBaseHelper {
+	
+	public static boolean usuarioYaCreado(String nombreUsuario, String passWord, boolean importaSoloElNombre) {
 		Session sesion = crearSession();		
 		Usuario usuario = null;
 		try {			
@@ -32,7 +30,7 @@ public class BuscadorUsuarios extends DataBaseHelper {
 				usuario = sesion.createQuery(cq).getSingleResult();
 			}	
 			catch (NoResultException nre){
-				//Se evita que termine la ejecución si no se encuentra el registro
+				//Se evita que termine la ejecuciï¿½n si no se encuentra el registro
 			}						
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -47,7 +45,7 @@ public class BuscadorUsuarios extends DataBaseHelper {
 	}
 	
 	
-	public Usuario BuscarUsuario(String nombreUsuario) {
+	public static Usuario BuscarUsuario(String nombreUsuario) {
 		Session sesion = crearSession();		
 		Usuario usuario = null;
 		try {			
@@ -60,7 +58,7 @@ public class BuscadorUsuarios extends DataBaseHelper {
 				usuario = sesion.createQuery(cq).getSingleResult();
 			}	
 			catch (NoResultException nre){
-				//Se evita que termine la ejecución si no se encuentra el registro
+				//Se evita que termine la ejecuciï¿½n si no se encuentra el registro
 			}						
         } catch (HibernateException e) {
             e.printStackTrace();
@@ -72,7 +70,7 @@ public class BuscadorUsuarios extends DataBaseHelper {
 	}
 	
 	
-	public boolean crearNuevoUsuario(String nombreUsuario, String passWord) {
+	public static boolean crearNuevoUsuario(String nombreUsuario, String passWord) {
 	
 		if(usuarioYaCreado(nombreUsuario,passWord, true))
 			return false;
@@ -95,4 +93,5 @@ public class BuscadorUsuarios extends DataBaseHelper {
 		
 		return insercionConExito;
 	}
+
 }

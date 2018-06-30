@@ -17,6 +17,7 @@ import org.hibernate.Transaction;
 import dataBaseConection.DataBaseHelper;
 
 public class DeudaController extends DataBaseHelper {
+	
 	static public DeudaAsistente buscarDeuda(String prestamista, String deudor) {
 		DeudaAsistente deuda = null;
 		Session sesion = crearSession();

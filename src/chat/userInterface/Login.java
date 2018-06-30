@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import chat.buscadoresInformacion.BuscadorUsuarios;
+import hibernate.usuario.UsuarioController;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -78,7 +78,7 @@ public class Login extends JFrame {
 				try {
 					
 					if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getText().equals("")) {
-						new MensajeError("Debe ingresar la información necesaria");
+						new Mensaje("Debe ingresar la informaciï¿½n necesaria");
 						return;
 					}
 					
@@ -87,7 +87,7 @@ public class Login extends JFrame {
 						dispose();
 					}						
 					else
-						new MensajeError("El usuario no está dentro del sistema");
+						new Mensaje("El usuario no estï¿½ dentro del sistema");
 					
 				} catch (IOException e1) {					
 					e1.printStackTrace();
@@ -117,8 +117,7 @@ public class Login extends JFrame {
 		setVisible(true);
 	}
 	
-	private boolean usuarioExiste() {
-		BuscadorUsuarios buscador = new BuscadorUsuarios();
-		return buscador.usuarioYaCreado(lblNombreUsuario.getText(), lblPassUsuario.getText(),false); 
+	private boolean usuarioExiste() {		
+		return UsuarioController.usuarioYaCreado(lblNombreUsuario.getText(), lblPassUsuario.getText(),false); 
 	}
 }

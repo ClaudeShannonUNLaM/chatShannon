@@ -3,6 +3,10 @@ package chat.userInterface;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import hibernate.sala.Sala;
+import hibernate.sala.SalaController;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -19,6 +23,7 @@ public class NuevaSala extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField lblNombreNuevaSala;	
+	private JCheckBox chckbxPrivada;
 	
 
 	public NuevaSala() {
@@ -45,6 +50,25 @@ public class NuevaSala extends JFrame {
 		lblNombreNuevaSala.setColumns(10);		
 		
 		JButton btnCrear = new JButton("Crear");
+		btnCrear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				if(!lblNombreNuevaSala.getText().isEmpty()) {
+					Sala sala = new Sala(lblNombreNuevaSala.getText(),chckbxPrivada.isSelected());					
+					boolean resultado = SalaController.CrearSala(sala);
+					
+					if(resultado) {
+						new Mensaje("Se creo la sala con exito");
+						dispose();
+					}
+					else {
+						new Mensaje("Ya existe una sala con ese nombre");
+					}
+				}
+				else
+					new Mensaje("Debe ingresar el nombre de la sala");
+					
+			}
+		});
 		btnCrear.setFont(new Font("Arial", Font.BOLD, 11));
 		btnCrear.setBounds(97, 205, 116, 20);
 		contentPane.add(btnCrear);
@@ -59,7 +83,7 @@ public class NuevaSala extends JFrame {
 		btnCancelar.setBounds(236, 205, 116, 20);
 		contentPane.add(btnCancelar);
 		
-		JCheckBox chckbxPrivada = new JCheckBox("Privada");
+		chckbxPrivada = new JCheckBox("Privada");
 		chckbxPrivada.setHorizontalAlignment(SwingConstants.CENTER);
 		chckbxPrivada.setBounds(167, 148, 97, 23);
 		contentPane.add(chckbxPrivada);

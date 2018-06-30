@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import chat.buscadoresInformacion.BuscadorUsuarios;
+import hibernate.usuario.UsuarioController;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -65,16 +65,16 @@ public class NuevoUsuario extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				 
 				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getText().equals("")) {
-					new MensajeError("Debe ingresar la información necesaria");
+					new Mensaje("Debe ingresar la informaciÃ³n necesaria");
 					return;
 				}				
 				
 				if(crearNuevoUsuario()) {
-					new MensajeError("El usuario se creó con éxito");
+					new Mensaje("El usuario se creÃ³ con Ã©xito");
 					dispose();
 				}					
 				else
-					new MensajeError("El usuario ya existe dentro del chat");
+					new Mensaje("El usuario ya existe dentro del chat");
 				
 				
 			}
@@ -95,8 +95,7 @@ public class NuevoUsuario extends JFrame {
 		setVisible(true);
 	}
 	
-	private boolean crearNuevoUsuario() {
-		BuscadorUsuarios buscador = new BuscadorUsuarios();
-		return buscador.crearNuevoUsuario(lblNombreNuevoUsuario.getText(), lblPassNuevoUsuario.getText());		
+	private boolean crearNuevoUsuario() {		
+		return UsuarioController.crearNuevoUsuario(lblNombreNuevoUsuario.getText(), lblPassNuevoUsuario.getText());		
 	}
 }
