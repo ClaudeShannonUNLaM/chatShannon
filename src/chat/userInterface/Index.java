@@ -18,8 +18,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import hibernate.contacto.Contacto;
+import hibernate.contacto.ContactoController;
 import hibernate.sala.Sala;
 import hibernate.sala.SalaController;
+import hibernate.usuario.UsuarioController;
+import hibernate.usuarioSala.UsuarioSalaController;
 
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollBar;
@@ -47,12 +51,15 @@ import javax.swing.JList;
 import java.awt.Font;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.SystemColor;
 
 public class Index extends JFrame {
 
 	private JPanel contentPane;	
 	private Sala SalaSeleccionada;
-	private JTextField textField;
+	private JTextField mensajeTxT;
 	/**
 	 * Create the frame.
 	 * @throws IOException 
@@ -66,28 +73,32 @@ public class Index extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 54, 252, 433);
-		contentPane.add(panel);	
+		JPanel panelListas = new JPanel();
+		panelListas.setBackground(Color.WHITE);
+		panelListas.setBounds(0, 54, 252, 433);
+		contentPane.add(panelListas);	
 		
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(251, 54, 605, 397);
-		contentPane.add(panel_1);
+		JPanel panelMensajes = new JPanel();
+		panelMensajes.setBounds(251, 54, 605, 397);
+		contentPane.add(panelMensajes);
 		
 		JPopupMenu popupMenu_1 = new JPopupMenu();
-		addPopup(panel_1, popupMenu_1);
+		addPopup(panelMensajes, popupMenu_1);
 		
 		JMenuItem mntmVerIntegrantes_1 = new JMenuItem("Ver integrantes");
 		mntmVerIntegrantes_1.setIcon(new ImageIcon("img\\wach.png"));
 		popupMenu_1.add(mntmVerIntegrantes_1);
-		panel_1.setLayout(null);
+		panelMensajes.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("img\\chatBackground.png"));
-		lblNewLabel.setBounds(0, 0, 605, 397);
-		panel_1.add(lblNewLabel);
+		JTextArea textArea = new JTextArea();
+		textArea.setWrapStyleWord(true);
+		textArea.setBackground(SystemColor.menu);
+		textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+		textArea.setEditable(false);
+		textArea.setBounds(0, 0, 605, 397);		
+		textArea.setForeground(Color.BLACK);
+		panelMensajes.add(textArea);
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		verticalGlue.setBounds(84, 42, 0, 14);
@@ -97,31 +108,31 @@ public class Index extends JFrame {
 		horizontalGlue.setBounds(251, 194, 12, 6);
 		contentPane.add(horizontalGlue);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_2.setBounds(0, 0, 252, 56);
-		contentPane.add(panel_2);
-		panel_2.setLayout(null);
+		JPanel panelDatosUsuario = new JPanel();
+		panelDatosUsuario.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelDatosUsuario.setBounds(0, 0, 252, 56);
+		contentPane.add(panelDatosUsuario);
+		panelDatosUsuario.setLayout(null);
 		
 		JLabel lblFotoUsuario = new JLabel("");
 		Image imagenUsuario = ImageIO.read(new File(("img\\user.png" )));
 		Image imagenUsuarioResized = imagenUsuario.getScaledInstance(46, 51, Image.SCALE_DEFAULT);		
 		lblFotoUsuario.setIcon(new ImageIcon(imagenUsuarioResized));
 		lblFotoUsuario.setBounds(2, 2, 46, 51);
-		panel_2.add(lblFotoUsuario);
+		panelDatosUsuario.add(lblFotoUsuario);
 		
 		JLabel lblNombreUsuario = new JLabel(nombreUsuario);
 		lblNombreUsuario.setBounds(58, 20, 184, 14);
-		panel_2.add(lblNombreUsuario);
+		panelDatosUsuario.add(lblNombreUsuario);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(251, 0, 605, 56);
-		contentPane.add(panel_3);
-		panel_3.setLayout(null);
+		JPanel panelOpciones = new JPanel();
+		panelOpciones.setBounds(251, 0, 605, 56);
+		contentPane.add(panelOpciones);
+		panelOpciones.setLayout(null);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		popupMenu.setBounds(544, 29, 250, 16);
-		addPopup(panel_3, popupMenu);
+		addPopup(panelOpciones, popupMenu);
 		
 		JMenuItem mntmVerIntegrantes = new JMenuItem("Ver integrantes");
 		mntmVerIntegrantes.setIcon(new ImageIcon("img\\wach.png"));
@@ -135,30 +146,71 @@ public class Index extends JFrame {
 		});
 		btnCrearNuevaSala.setFont(new Font("Arial", Font.BOLD, 11));
 		btnCrearNuevaSala.setBounds(428, 18, 151, 23);
-		panel_3.add(btnCrearNuevaSala);
+		panelOpciones.add(btnCrearNuevaSala);
 		
 		JLabel labelNombreSalaSeleccionada = new JLabel("");
 		labelNombreSalaSeleccionada.setFont(new Font("Arial", Font.BOLD, 26));
 		labelNombreSalaSeleccionada.setBounds(31, 11, 320, 34);
-		panel_3.add(labelNombreSalaSeleccionada);
+		panelOpciones.add(labelNombreSalaSeleccionada);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(251, 452, 605, 35);
-		contentPane.add(panel_4);
-		panel_4.setLayout(null);
+		JPanel panelEscritura = new JPanel();
+		panelEscritura.setBounds(251, 452, 605, 35);
+		contentPane.add(panelEscritura);
+		panelEscritura.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(10, 7, 585, 20);
-		panel_4.add(textField);
-		textField.setColumns(10);		
+		mensajeTxT = new JTextField();
+		mensajeTxT.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(mensajeTxT.getText() == "")
+					return;
+				
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					textArea.append("  " + lblNombreUsuario.getText() + ": " +   mensajeTxT.getText() + "\n");
+					mensajeTxT.setText("");
+				}				
+			}
+		});
+		mensajeTxT.setHorizontalAlignment(SwingConstants.RIGHT);
+		mensajeTxT.setBounds(10, 7, 585, 20);
+		panelEscritura.add(mensajeTxT);
+		mensajeTxT.setColumns(10);		
 		
 		
-		DefaultListModel listModel = new DefaultListModel();		
-		List<Sala> salas = buscarSalasUsuario(nombreUsuario);
+		JScrollPane contactosPane = new JScrollPane((Component) null);
+		contactosPane.setBounds(0, 324, 252, 109);
+		panelListas.add(contactosPane);		
 		
-		for (Sala sala : salas) {
+		JScrollPane salasPrivadasPane = new JScrollPane((Component) null);
+		salasPrivadasPane.setBounds(0, 181, 252, 109);
+		panelListas.add(salasPrivadasPane);		
+		
+		
+		DefaultListModel listModel = new DefaultListModel();
+		DefaultListModel listPrivadaData = new DefaultListModel();
+		DefaultListModel listContactosData = new DefaultListModel();		
+		
+		List<Sala> salasPublicas = buscarSalasPublicas();
+		for (Sala sala : salasPublicas) {
 			listModel.addElement(sala.getNombre());			
 		}
+		
+		List<Sala> salasPrivadas = buscarSalasPrivadas(nombreUsuario);
+		for (Sala sala : salasPrivadas) {
+			listPrivadaData.addElement(sala.getNombre());			
+		}
+		
+		List<Contacto> contactosUsuario = buscarContactoUsuario(nombreUsuario);
+		for (Contacto contacto : contactosUsuario) {
+			listContactosData.addElement(contacto.getIdContacto());			
+		}				
+		
+		
+		JList listContactos = new JList(listContactosData);	
+		contactosPane.setViewportView(listContactos);
+		
+		JList listSalasPrivadas = new JList(listPrivadaData);
+		salasPrivadasPane.setViewportView(listSalasPrivadas);	
 		
 		JList listSalasSeleccion = new JList(listModel);
 		listSalasSeleccion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -171,12 +223,38 @@ public class Index extends JFrame {
 			    	  labelNombreSalaSeleccionada.setText(listSalasSeleccion.getSelectedValue().toString());
 	                }				
 			}
-        });		
-		panel.setLayout(null);
+        });
+		panelListas.setLayout(null);
 		
-		JScrollPane panelScroll = new JScrollPane(listSalasSeleccion);	
-		panelScroll.setBounds(10, 5, 232, 428);
-		panel.add(panelScroll);
+		JScrollPane panelScroll = new JScrollPane(listSalasSeleccion);
+		panelScroll.setBounds(0, 36, 252, 109);
+		panelListas.add(panelScroll);
+		
+		JLabel lblSalasPublicas = new JLabel("Salas publicas");
+		lblSalasPublicas.setFont(new Font("Arial", Font.BOLD, 13));
+		lblSalasPublicas.setBounds(10, 11, 232, 14);
+		panelListas.add(lblSalasPublicas);
+		
+		JLabel lblSalasPrivadas = new JLabel("Salas privadas");
+		lblSalasPrivadas.setFont(new Font("Arial", Font.BOLD, 13));
+		lblSalasPrivadas.setBounds(10, 156, 232, 14);
+		panelListas.add(lblSalasPrivadas);		
+		
+		JLabel lblContactos = new JLabel("Contactos");
+		lblContactos.setFont(new Font("Arial", Font.BOLD, 13));
+		lblContactos.setBounds(10, 302, 124, 14);
+		panelListas.add(lblContactos);
+		
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new AgregarContacto(nombreUsuario);
+			}
+		});
+		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));
+		btnAgregar.setBounds(153, 295, 89, 23);
+		panelListas.add(btnAgregar);
+		
 		
 		setVisible(true);
 	}
@@ -199,10 +277,23 @@ public class Index extends JFrame {
 		});
 	}
 	
-	private List<Sala> buscarSalasUsuario(String nombreUsuario) {		
+	private List<Sala> buscarSalasPublicas() {		
 		List<Sala> salas = new ArrayList<Sala>();
-		salas.addAll(SalaController.BuscarSalas());
-		salas.addAll(SalaController.BuscarSalaUsuario(nombreUsuario));
+		salas.addAll(SalaController.BuscarSalas()); //Busco todas las salas publicas.		
 		return salas;
 	}
+	
+	private List<Sala> buscarSalasPrivadas(String nombreUsuario){
+		List<Sala> salas = new ArrayList<Sala>();
+		salas.addAll(UsuarioSalaController.BuscarSalaUsuario(nombreUsuario)); //Busco las salas privadas a las que pertenece.
+		return salas;
+	}
+	
+	private List<Contacto> buscarContactoUsuario(String nombreUsuario){
+		List<Contacto> contactos = new ArrayList<Contacto>();
+		contactos.addAll(ContactoController.buscarContactos(nombreUsuario)); //Busco las salas privadas a las que pertenece.
+		return contactos;
+	}
+	
+	
 }

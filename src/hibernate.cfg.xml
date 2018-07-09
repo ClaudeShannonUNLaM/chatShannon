@@ -14,5 +14,6 @@
 		<mapping resource="/hibernate/sala/Sala.hbm.xml" />
 		<mapping resource="/hibernate/usuario/Usuario.hbm.xml" />
 		<mapping resource="/hibernate/usuarioSala/UsuarioSala.hbm.xml" />
+		<mapping resource="/hibernate/contacto/Contacto.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

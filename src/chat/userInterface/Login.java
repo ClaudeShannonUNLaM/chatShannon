@@ -3,6 +3,7 @@ package chat.userInterface;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import hibernate.usuario.UsuarioController;
@@ -23,7 +24,7 @@ public class Login extends JFrame {
 
 	private JPanel contentPane;	
 	private JTextField lblNombreUsuario;
-	private JTextField lblPassUsuario;
+	private JPasswordField lblPassUsuario;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -41,7 +42,7 @@ public class Login extends JFrame {
 	public Login(){
 		this.setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 687, 422);
+		setBounds(100, 100, 603, 392);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));		
@@ -49,27 +50,24 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNombreDeUsuario = new JLabel("Nombre de usuario:");
-		lblNombreDeUsuario.setBounds(272, 143, 123, 14);
+		lblNombreDeUsuario.setFont(new Font("Arial", Font.BOLD, 13));
+		lblNombreDeUsuario.setBounds(25, 142, 150, 14);
 		contentPane.add(lblNombreDeUsuario);
 		
 		JLabel lblContraseaDeUsuario = new JLabel("Contrase\u00F1a de usuario:");
+		lblContraseaDeUsuario.setFont(new Font("Arial", Font.BOLD, 13));
 		lblContraseaDeUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblContraseaDeUsuario.setBounds(246, 234, 138, 14);
+		lblContraseaDeUsuario.setBounds(0, 195, 150, 14);
 		contentPane.add(lblContraseaDeUsuario);
-		
-		JLabel lblImg = new JLabel("");
-		lblImg.setBounds(10, 76, 196, 224);		
-		lblImg.setIcon(new ImageIcon("img\\loginCheck.png"));
-		contentPane.add(lblImg);
 		
 		lblNombreUsuario = new JTextField();
 		lblNombreUsuario.setColumns(10);
-		lblNombreUsuario.setBounds(402, 140, 259, 20);
+		lblNombreUsuario.setBounds(170, 140, 385, 20);
 		contentPane.add(lblNombreUsuario);
 		
-		lblPassUsuario = new JTextField();
+		lblPassUsuario = new JPasswordField();
 		lblPassUsuario.setColumns(10);
-		lblPassUsuario.setBounds(402, 231, 259, 20);
+		lblPassUsuario.setBounds(170, 193, 385, 20);
 		contentPane.add(lblPassUsuario);
 		
 		JButton btnIngresar = new JButton("Ingresar");
@@ -77,8 +75,8 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					
-					if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getText().equals("")) {
-						new Mensaje("Debe ingresar la informaci�n necesaria");
+					if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getPassword().toString().equals("")) {
+						new Mensaje("Debe ingresar la información necesaria");
 						return;
 					}
 					
@@ -87,7 +85,7 @@ public class Login extends JFrame {
 						dispose();
 					}						
 					else
-						new Mensaje("El usuario no est� dentro del sistema");
+						new Mensaje("El usuario no está dentro del sistema");
 					
 				} catch (IOException e1) {					
 					e1.printStackTrace();
@@ -95,7 +93,7 @@ public class Login extends JFrame {
 			}
 		});
 		btnIngresar.setFont(new Font("Arial", Font.BOLD, 11));
-		btnIngresar.setBounds(538, 281, 123, 23);
+		btnIngresar.setBounds(432, 236, 123, 23);
 		contentPane.add(btnIngresar);
 		
 		JButton btnNuevoUsuarioButton = new JButton("Nuevo usuario");
@@ -105,19 +103,19 @@ public class Login extends JFrame {
 				new NuevoUsuario();				
 			}
 		});
-		btnNuevoUsuarioButton.setBounds(182, 329, 286, 23);
+		btnNuevoUsuarioButton.setBounds(148, 281, 286, 23);
 		contentPane.add(btnNuevoUsuarioButton);
 		
 		JLabel lblBienvenido = new JLabel("Bienvenido");
 		lblBienvenido.setFont(new Font("Arial", Font.BOLD, 18));
 		lblBienvenido.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBienvenido.setBounds(88, 11, 467, 23);
+		lblBienvenido.setBounds(70, 11, 467, 23);
 		contentPane.add(lblBienvenido);
 		
 		setVisible(true);
 	}
 	
 	private boolean usuarioExiste() {		
-		return UsuarioController.usuarioYaCreado(lblNombreUsuario.getText(), lblPassUsuario.getText(),false); 
+		return UsuarioController.usuarioYaCreado(lblNombreUsuario.getText().toLowerCase(),new String(lblPassUsuario.getPassword()).toLowerCase(),false); 
 	}
 }

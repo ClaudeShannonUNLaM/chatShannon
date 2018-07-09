@@ -2,6 +2,7 @@ package chat.userInterface;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import hibernate.usuario.UsuarioController;
@@ -21,7 +22,7 @@ public class NuevoUsuario extends JFrame {
 	
 	private JPanel contentPane;
 	private JTextField lblNombreNuevoUsuario;
-	private JTextField lblPassNuevoUsuario;
+	private JPasswordField lblPassNuevoUsuario;
 
 	public NuevoUsuario() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +56,7 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(lblNombreNuevoUsuario);
 		lblNombreNuevoUsuario.setColumns(10);
 		
-		lblPassNuevoUsuario = new JTextField();
+		lblPassNuevoUsuario = new JPasswordField();
 		lblPassNuevoUsuario.setColumns(10);
 		lblPassNuevoUsuario.setBounds(143, 142, 278, 20);
 		contentPane.add(lblPassNuevoUsuario);
@@ -64,7 +65,7 @@ public class NuevoUsuario extends JFrame {
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				 
-				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getText().equals("")) {
+				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getPassword().toString().equals("")) {
 					new Mensaje("Debe ingresar la información necesaria");
 					return;
 				}				
@@ -96,6 +97,6 @@ public class NuevoUsuario extends JFrame {
 	}
 	
 	private boolean crearNuevoUsuario() {		
-		return UsuarioController.crearNuevoUsuario(lblNombreNuevoUsuario.getText(), lblPassNuevoUsuario.getText());		
+		return UsuarioController.crearNuevoUsuario(lblNombreNuevoUsuario.getText().toLowerCase(), new String(lblPassNuevoUsuario.getPassword()).toLowerCase());		
 	}
 }
