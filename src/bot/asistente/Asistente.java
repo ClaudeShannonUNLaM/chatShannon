@@ -21,6 +21,10 @@ public class Asistente {
 		if(!mensaje.contains("@"+nombre))
 			return "";				
 		
+		AsistantSentenceHandler rssAgregar = new AgregarRSSHandler();
+		AsistantSentenceHandler rss = new RssHandler();
+		AsistantSentenceHandler gag = new Meme9GagHandler();
+		AsistantSentenceHandler clima = new ClimaHandler();
 		AsistantSentenceHandler conversor = new ConversorHandler();
 		AsistantSentenceHandler chuckNorris = new ChuckNorrisHandler();
 		AsistantSentenceHandler trivia = new TriviaHandler();
@@ -38,6 +42,10 @@ public class Asistente {
 		AsistantSentenceHandler memes = new MostrarMemeHandler();	
 		AsistantSentenceHandler youtubeHandler = new YoutubeHandler();
 		
+		rssAgregar.setNextAction(rss);
+		rss.setNextAction(gag);
+		gag.setNextAction(clima);
+		clima.setNextAction(agradecer);
 		agradecer.setNextAction(leyesRobotica);
 		leyesRobotica.setNextAction(youtubeHandler);
 		youtubeHandler.setNextAction(calculoMatematico);
@@ -53,6 +61,6 @@ public class Asistente {
 		memes.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return agradecer.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return rssAgregar.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 	}
 }

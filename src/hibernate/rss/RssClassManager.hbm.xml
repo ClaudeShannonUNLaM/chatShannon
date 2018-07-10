@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+      "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="hibernate.rss.RssClassManager" table="Rss">
+		<id name="idRss" type="int">
+            <column name="idRss"/>
+            <generator class="increment" />            
+        </id>
+		<property name="URL" type="string">
+			<column name="URL"/>
+		</property>
+		<property name="idUsuario" type="int">
+			<column name="idUsuario"/>
+		</property>
+		
+	</class>
+</hibernate-mapping>
