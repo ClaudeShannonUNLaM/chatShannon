@@ -8,17 +8,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import hibernate.AdivinarMayorMenorHibernateManager;
 import hibernate.AdivinarMayorMenorMappingClass;
+import hibernate.usuario.UsuarioController;
 public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 	
-	private int techo,piso,ultimoNumeroRespondido,id,idUsuario=1;//idUsuario=getUsuarioLlamador!!!!!!	
+	private int techo,piso,ultimoNumeroRespondido,id,idUsuario;//idUsuario=getUsuarioLlamador!!!!!!	
 	///////////////////////////////////////////////////////////HARCODEADO ESTO SACARLO
 	public AdivinarMayorMenorHandler () {
 		patron = Pattern.compile(".*(jugamos\\?$|más grande|más chico|listo|si\\!$).*");
 	}
-	
+//	public static void main (String []args){
+//		AdivinarMayorMenorHandler a = new AdivinarMayorMenorHandler();
+//		System.out.println(a.giveAnswer("jugamos?", "marinolautaro"));
+//		System.out.println(a.giveAnswer("¡listo!", "marinolautaro"));
+//
+//		System.out.println(a.giveAnswer("más grande", "marinolautaro"));
+//
+//		System.out.println(a.giveAnswer("más chico", "marinolautaro"));
+//
+//	}
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+		Matcher matcher = patron.matcher(mensaje);	
+		UsuarioController u = new UsuarioController();
+		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
 		if (matcher.matches()) {			
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
