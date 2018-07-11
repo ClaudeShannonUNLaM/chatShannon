@@ -31,8 +31,8 @@ public class Cliente extends Thread{
  
             System.out.println("Conectado al servidor de chat");
  
-            new ThreadLectura(socket, this).start();
-            new ThreadEscritura(socket, this).start();
+            new ThreadLectura(socket, this).start();//thread que manda mensajes al server
+            new ThreadEscritura(socket, this).start();//thread que lee mensajes recividos desde el server.
  
         } catch (UnknownHostException ex) {
             System.out.println("Servidor no encontrado: " + ex.getMessage());

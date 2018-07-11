@@ -25,10 +25,10 @@ public class ServerChat{
 			ServerSocket serverSocket = new ServerSocket(puerto);
 			while(true) {
 				System.out.println("Esperando");
-				Socket newSocket = serverSocket.accept();
-				UsuarioThread newUsuario = new UsuarioThread(newSocket, this);
-				usuarioThreads.add(newUsuario);
-				newUsuario.start();
+				Socket newSocket = serverSocket.accept(); //espero a aceptar un nuevo socket
+				UsuarioThread newUsuario = new UsuarioThread(newSocket, this); //una vez creado el socket, creo un nuevo thread de usuario
+				usuarioThreads.add(newUsuario); // agrego el thread a la lista de threads de usuarios
+				newUsuario.start(); // comienzo ejecución del thread
 				System.out.println("Nuevo usuario conectado");
 			}
 			//serverSocket.close();
@@ -37,6 +37,9 @@ public class ServerChat{
 		}
 	}
 	
+	/*
+	 * envia un mensaje a todos los usuarios
+	 */
 	void broadcast(String mensaje, UsuarioThread excluirUsuario) {
         for (UsuarioThread usu : usuarioThreads) {
             if (usu != excluirUsuario) {
@@ -48,7 +51,10 @@ public class ServerChat{
     void addUsuarioNombre(String userName) {
     	usuarioNombres.add(userName);
     }
- 
+    
+    /*
+     *elimina al usuario de la lista y cierra el thread 
+     */
     void removeUsuario(String nombreUsuario, UsuarioThread usu) {
         boolean removed = usuarioNombres.remove(nombreUsuario);
         if (removed) {
