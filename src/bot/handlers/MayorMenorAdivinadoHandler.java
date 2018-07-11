@@ -4,11 +4,15 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import hibernate.AdivinarMayorMenorHibernateManager;
+import hibernate.AdivinarMayorMenorMappingClass;
+import hibernate.adivinado.MayorMenorAdivinadoHibernateManager;
+import hibernate.adivinado.MayorMenorAdivinadoMappingClass;
+import hibernate.usuario.UsuarioController;
 import tests.RF10Tests;
 
 public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
-	private int respuesta;
-//	private int conteoIntentos;
+	private int respuesta, id, idUsuario,conteoIntentos;
 
 	public MayorMenorAdivinadoHandler () {
 		patron = Pattern.compile(".*(del 1 al 100|es el|fue divertido).*");
@@ -16,7 +20,10 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	
 	@Override
 	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+		Matcher matcher = patron.matcher(mensaje);
+		System.out.println(nombreUsuario);
+		UsuarioController u = new UsuarioController();
+		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
 		if (matcher.matches()) {
 
 			switch (matcher.group(1)) { 
@@ -24,16 +31,24 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 				{
 
 					Random rnd = new Random();
-					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
-//					conteoIntentos=0;
+//					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
+					this.respuesta = RF10Tests.ELEGIDO;
+					
+					MayorMenorAdivinadoHibernateManager ammhm = new MayorMenorAdivinadoHibernateManager();
+					ammhm.insertar(idUsuario, this.respuesta);
 		    		return "@"+nombreUsuario+" ¡listo!";
 		    	}
 				case "fue divertido":
 		    		return "@"+nombreUsuario+" si!";
 				case "es el":
 				{
-//					conteoIntentos++;
-					respuesta=RF10Tests.ELEGIDO; //Linea solo utilizada para test
+					MayorMenorAdivinadoHibernateManager ammhm = new MayorMenorAdivinadoHibernateManager();
+					MayorMenorAdivinadoMappingClass ammmc1 = ammhm.consultar(idUsuario);
+					conteoIntentos=ammmc1.getCantidadInt();
+					conteoIntentos++;
+					ammmc1.setCantidadInt(conteoIntentos);
+					ammhm.actualizar(ammmc1);
+					respuesta=ammmc1.getRespuesta();
 		    		String intento = mensaje.replaceAll("\\D", "");
 		    		return "@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento));
 		    	}
@@ -52,8 +67,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 			if(intento>respuesta)
 				return "más chico";
 			else
-//				return "�si! Adivinaste en "+conteoIntentos+" pasos...";
-				return "¡si! Adivinaste!";
+				return "¡si! Adivinaste en "+conteoIntentos+" pasos...";
 		}
 	}
 }
