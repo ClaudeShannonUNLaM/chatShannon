@@ -1,6 +1,5 @@
 package chat.cliente;
 
-//import java.io.Console;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,27 +25,15 @@ public class ThreadEscritura extends Thread {
 	    }
 	 
 	    public void run() {
-	 
-	        //Console console = System.console();
-	    	Scanner console = new Scanner(System.in);
-
-	        //String nombreUsuario = console.readLine("\nIntroduzca su nombre: ");
-	    	System.out.println("Introduzca su nombre: \n");
-	    	String nombreUsuario = console.nextLine();
-	        cliente.setNombreUsuario(nombreUsuario);
-	        writer.println(nombreUsuario);
-	 
 	        String mensaje;
 	 
-	        do {
-	            //mensaje = console.readLine("[" + userName + "]: ");
-	        	mensaje = console.nextLine();
+	        do {	            
+	        	mensaje = "";
 	            writer.println(mensaje);
 	 
 	        } while (!mensaje.equals("desconectar"));
 	 
-	        try {
-	        	console.close();
+	        try {	        	
 	            socket.close();
 	        } catch (IOException ex) {
 	 

@@ -4,13 +4,25 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+
+import chat.serverUtils.ServerRequest;
+import chat.serverUtils.ServerResponse;
+import hibernate.contacto.Contacto;
+import hibernate.contacto.ContactoController;
+import hibernate.sala.Sala;
+import hibernate.sala.SalaController;
+import hibernate.usuario.UsuarioController;
+import hibernate.usuarioSala.UsuarioSalaController;
 
 public class ServerChat{
 
 	int puerto;
-	ArrayList<UsuarioThread> usuarioThreads = new ArrayList<UsuarioThread>();
-	private ArrayList<String> usuarioNombres = new ArrayList<String>();
+	ArrayList<UsuarioThread> usuarioThreads = new ArrayList<UsuarioThread>();	
 	
 	ServerChat(){
 		puerto = 10000;
@@ -23,62 +35,80 @@ public class ServerChat{
 	public void run() {
 		try {
 			ServerSocket serverSocket = new ServerSocket(puerto);
-			while(true) {
-				System.out.println("Esperando");
-				Socket newSocket = serverSocket.accept(); //espero a aceptar un nuevo socket
-				UsuarioThread newUsuario = new UsuarioThread(newSocket, this); //una vez creado el socket, creo un nuevo thread de usuario
-				usuarioThreads.add(newUsuario); // agrego el thread a la lista de threads de usuarios
-				newUsuario.start(); // comienzo ejecución del thread
-				System.out.println("Nuevo usuario conectado");
-			}
-			//serverSocket.close();
+			while(true) {				
+				Socket newSocket = serverSocket.accept(); 
+				UsuarioThread newUsuario = new UsuarioThread(newSocket, this); //Una vez creado el socket, creo un nuevo thread de usuario
+				usuarioThreads.add(newUsuario); // Agrego el thread a la lista de threads de usuarios
+				newUsuario.start(); // Comienzo ejecución del thread que atienda las necesidades de ese usuario.				
+			}			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/*
-	 * envia un mensaje a todos los usuarios
-	 */
-	void broadcast(String mensaje, UsuarioThread excluirUsuario) {
+	//Envia el mensaje a todos los usuarios conectados
+	void broadcast(String mensaje, UsuarioThread excluirUsuario) { 
         for (UsuarioThread usu : usuarioThreads) {
-            if (usu != excluirUsuario) {
+            if (usu != excluirUsuario) { //No se le envia el mensaje al usuario que lo inicio.
                 usu.enviarMensaje(mensaje);
             }
         }
     }
- 
-    void addUsuarioNombre(String userName) {
-    	usuarioNombres.add(userName);
+	
+	//Cierra el thread para un usuario que se desconecto
+    void removeUsuario(UsuarioThread usu) {
+        usuarioThreads.remove(usu);
     }
     
-    /*
-     *elimina al usuario de la lista y cierra el thread 
-     */
-    void removeUsuario(String nombreUsuario, UsuarioThread usu) {
-        boolean removed = usuarioNombres.remove(nombreUsuario);
-        if (removed) {
-            usuarioThreads.remove(usu);
-            System.out.println("El usuario " + nombreUsuario + " se desconectó");
-        }
-    }
- 
-    ArrayList<String> getUsuarioNombres() {
-        return this.usuarioNombres;
-    }
- 
-    boolean tieneUsuarios() {
-        return !this.usuarioNombres.isEmpty();
-    }
+	public boolean loguear(String datos) {
+		return UsuarioController.usuarioYaCreado(datos,datos,false);	
+	}
 	
-	public static void main(String[] args) {
-		/*if (args.length == 1) {
-			ServerChat server = new ServerChat(Integer.parseInt(args[0]));
-        }*/
-		Scanner console = new Scanner(System.in);
-    	System.out.println("Introduzca el puerto:");
-    	int puerto = console.nextInt();
-		ServerChat server = new ServerChat(puerto);
+	
+	public ServerResponse atenderRequest(ServerRequest request) {
+		ServerResponse response;
+		
+		switch (request.getFuncionalidad()) {
+		
+		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
+			
+			List<Sala> salasPublicas =  SalaController.BuscarSalas();
+			List<Sala> salasPrivadas =  UsuarioSalaController.BuscarSalaUsuario(request.getDatos().get("nombreUsuario"));
+			List<Contacto> contactos = ContactoController.buscarContactos(request.getDatos().get("nombreUsuario"));
+			HashMap<String, Object> datos = new HashMap<String,Object>();
+			datos.put("salasPublicas", salasPublicas);
+			datos.put("salasPrivadas", salasPrivadas);
+			datos.put("contactos", contactos);
+			response = new ServerResponse(datos);
+			break;
+			
+			
+		case OBTENERCONTACTOS:
+			
+			break;
+			
+		case OBTENERSALASPRIVADAS:
+			
+			break;
+			
+		case OBTENERSALASPUBLICA:
+			
+			break;
+			
+		case LLAMARBOT:
+			
+			break;
+
+		default:
+			break;
+		}
+		return response;
+	}
+	
+	public static void main(String[] args) {   	
+		ServerChat server = new ServerChat();
 		server.run();
 	}
+	
+
 }

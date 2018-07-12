@@ -1,4 +1,4 @@
-package chat.userInterface;
+package chat.cliente.userInterface;
 
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -18,15 +18,12 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import chat.cliente.Cliente;
 import hibernate.contacto.Contacto;
-import hibernate.contacto.ContactoController;
 import hibernate.sala.Sala;
-import hibernate.sala.SalaController;
-import hibernate.usuario.UsuarioController;
 import hibernate.usuarioSala.UsuarioSalaController;
 
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import java.awt.event.MouseAdapter;
@@ -56,7 +53,7 @@ import java.awt.event.KeyEvent;
 import java.awt.SystemColor;
 
 public class Index extends JFrame {
-
+	
 	private JPanel contentPane;	
 	private Sala SalaSeleccionada;
 	private JTextField mensajeTxT;
@@ -200,10 +197,11 @@ public class Index extends JFrame {
 			listPrivadaData.addElement(sala.getNombre());			
 		}
 		
-		List<Contacto> contactosUsuario = buscarContactoUsuario(nombreUsuario);
+		/*List<Contacto> contactosUsuario = buscarContactoUsuario(nombreUsuario);
 		for (Contacto contacto : contactosUsuario) {
 			listContactosData.addElement(contacto.getIdContacto());			
-		}				
+		}	
+		*/			
 		
 		
 		JList listContactos = new JList(listContactosData);	
@@ -279,21 +277,22 @@ public class Index extends JFrame {
 	
 	private List<Sala> buscarSalasPublicas() {		
 		List<Sala> salas = new ArrayList<Sala>();
-		salas.addAll(SalaController.BuscarSalas()); //Busco todas las salas publicas.		
+		//salas.addAll(SalaController.BuscarSalas()); //Busco todas las salas publicas.		
 		return salas;
 	}
 	
 	private List<Sala> buscarSalasPrivadas(String nombreUsuario){
 		List<Sala> salas = new ArrayList<Sala>();
-		salas.addAll(UsuarioSalaController.BuscarSalaUsuario(nombreUsuario)); //Busco las salas privadas a las que pertenece.
+		//salas.addAll(UsuarioSalaController.BuscarSalaUsuario(nombreUsuario)); //Busco las salas privadas a las que pertenece.
 		return salas;
 	}
 	
+	/*
 	private List<Contacto> buscarContactoUsuario(String nombreUsuario){
 		List<Contacto> contactos = new ArrayList<Contacto>();
 		contactos.addAll(ContactoController.buscarContactos(nombreUsuario)); //Busco las salas privadas a las que pertenece.
 		return contactos;
 	}
-	
+	*/
 	
 }

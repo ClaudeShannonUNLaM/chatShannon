@@ -2,6 +2,7 @@ package hibernate.contacto;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -45,7 +46,7 @@ public class ContactoController extends DataBaseHelper{
 		
 	}
 
-	public static ArrayList<Contacto> buscarContactos(String nombreUsuario) {
+	public static List<Contacto> buscarContactos(String nombreUsuario) {
 		return null;
 	}
 	

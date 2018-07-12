@@ -1,4 +1,4 @@
-package chat.userInterface;
+package chat.cliente.userInterface;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

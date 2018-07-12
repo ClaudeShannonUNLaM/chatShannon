@@ -12,43 +12,34 @@ public class Cliente extends Thread{
     private int puerto;
     private String nombreUsuario;
 	
-	Cliente(String host, int puerto){		
+	public Cliente(String host, int puerto){		
 		this.host = host;
         this.puerto = puerto;
 	}
 	
-    void setNombreUsuario(String nombreUsuario) {
+    public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
  
-    String getNombreUsuario() {
+    public String getNombreUsuario() {
         return this.nombreUsuario;
     }
     
     public void run() {
         try {
             Socket socket = new Socket(host, puerto);
- 
-            System.out.println("Conectado al servidor de chat");
- 
-            new ThreadLectura(socket, this).start();//thread que manda mensajes al server
-            new ThreadEscritura(socket, this).start();//thread que lee mensajes recividos desde el server.
+            new ThreadLectura(socket, this).start(); //Thread que manda mensajes al server
+            new ThreadEscritura(socket, this).start(); //Thread que lee mensajes recividos desde el server.
  
         } catch (UnknownHostException ex) {
             System.out.println("Servidor no encontrado: " + ex.getMessage());
         } catch (IOException ex) {
             System.out.println("I/O Error: " + ex.getMessage());
-        }
- 
+        } 
     }
  
  
-    public static void main(String[] args) {
-        /*if (args.length < 2) return;
- 
-        String host = args[0];
-        int puerto = Integer.parseInt(args[1]);*/
-    	
+    /*public static void main(String[] args) {
     	Scanner console = new Scanner(System.in);
     	System.out.println("Introduzca la dirección del servidor:");
     	String host = console.nextLine();
@@ -60,5 +51,6 @@ public class Cliente extends Thread{
         cliente.run();
         //console.close();
     }
+    */
 
 }

@@ -8,10 +8,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
 
+import com.google.gson.Gson;
+
+import chat.serverUtils.FuncionalidadServerEnum;
+import chat.serverUtils.ServerRequest;
+
 public class UsuarioThread extends Thread{
 	private Socket socket;
     private ServerChat server;
-    private PrintWriter writer;
+    private PrintWriter writer;    
  
     public UsuarioThread(Socket socket, ServerChat server) {
         this.socket = socket;
@@ -20,72 +25,45 @@ public class UsuarioThread extends Thread{
  
     public void run() {
         try {
-        	/*
-        	 * seteo rel input que luego se lo paso al reader que se encarga de leer lo que envía por el socket
-        	 * ver de implementar JSON con librería GSON o Jackson. Sino hay que manejarlo con objectos D:
-        	 */
-            DataInputStream input = new DataInputStream(socket.getInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        	
+            DataInputStream input = new DataInputStream(socket.getInputStream()); 
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input)); //Obtiene lo que el cliente envia
  
-            /*
-             * steo un canar de output para que el writer pueda escribir. 
-             * Esto no debería de utilizarse, ya que solo tiene que devolver datos el sv.
-             * acá solo se usa para indicar los usuarios conectados. se puede sacar en la implementacion
-             */
+            
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-            writer = new PrintWriter(output, true);
- 
-            usuariosConectados();
- 
-            /*
-             * acá es donde iría la logica de logIn. Ahora aca solo se toma el nombre de usuario
-             */
-            String nombreUsuario = reader.readLine();
-            server.addUsuarioNombre(nombreUsuario);
- 
-            String mensajeServer = "Nuevo usuario conectado: " + nombreUsuario;
-            server.broadcast(mensajeServer, this);
- 
+            writer = new PrintWriter(output, true); //Devuelve la respuesta al cliente           
+            
+            
             String mensajeCliente;
- 
-            //scribe siempre y cuando el mensaje escrito no sea desconectar
-            //en el merge con UI, el while es mientras esté logueado o no mande un request de desconección
-            //A DEBATIR
+        	mensajeCliente = reader.readLine();
+        	
+            if(!server.loguear(mensajeCliente))
+            	return;   
+            
+            String mensajeServer = "";
+            Gson gson = new Gson();
+            ServerRequest request;
+        
             do {
-            	mensajeCliente = reader.readLine();
-            	mensajeServer = "[" + nombreUsuario + "]: " + mensajeCliente;
-                server.broadcast(mensajeServer, this);
+            	mensajeCliente = reader.readLine(); 
+            	request = gson.fromJson(mensajeCliente, ServerRequest.class);            	
+            	server.atenderRequest(request);
+                
+            } while (request.getFuncionalidad() != FuncionalidadServerEnum.LOGOFF );
  
-            } while (!mensajeCliente.equals("desconectar"));
- 
-            //mata le sucket
-            server.removeUsuario(nombreUsuario, this);
-            socket.close();
- 
-            mensajeServer = nombreUsuario + " se desconectó.";
-            server.broadcast(mensajeServer, this);
+            //Remuevo el usuario y su socket.
+            server.removeUsuario(this);
+            socket.close();           
  
         } catch (IOException ex) {
             System.out.println("Error UsuarioThread: " + ex.getMessage());
             ex.printStackTrace();
         }
-    }
+    }    
  
-    /*
-     * imprime los usarios conectados. Vuela en el merge con UI
-     */
-    void usuariosConectados() {
-        if (server.tieneUsuarios()) {
-            writer.println("Usuarios conectados: " + server.getUsuarioNombres());
-        } else {
-            writer.println("No hay usuarios conectados");
-        }
-    }
- 
-    /*
-     * este es el metodo que envia mensaje.
-     */
+    
     void enviarMensaje(String message) {
         writer.println(message);
     }
+    
 }

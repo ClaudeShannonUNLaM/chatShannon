@@ -26,13 +26,8 @@ public class ThreadLectura extends Thread {
  
     public void run() {
         while (true) {
-            try {
-                String response = reader.readLine();
-                System.out.println("\n" + response);
- 
-                if (cliente.getNombreUsuario() != null) {
-                    System.out.print("[" + cliente.getNombreUsuario() + "]: ");
-                }
+            try {                            	
+            	String response = reader.readLine();                
             }catch (IOException ex) {
             	if(!ex.getMessage().contains("Socket closed")) {
             		System.out.println("Error leyendo el servidor: " + ex.getMessage());
