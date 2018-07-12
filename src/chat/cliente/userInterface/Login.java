@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import com.google.gson.Gson;
+
 import chat.cliente.Cliente;
 import chat.serverUtils.FuncionalidadServerEnum;
 import chat.serverUtils.ServerRequest;
@@ -94,8 +96,10 @@ public class Login extends JFrame {
 			        map.put("passUsuario", lblPassUsuario.getPassword().toString());
 			        
 			        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);
+					Gson gson = new Gson();					
+					String requestJson = gson.toJson(request);
 					
-					if() {
+					if(true) {
 						new Index(lblNombreUsuario.getText());
 						dispose();
 					}						

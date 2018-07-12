@@ -10,7 +10,8 @@ public class ThreadEscritura extends Thread {
 	 	private PrintWriter writer;
 	    private Socket socket;
 	    private Cliente cliente;
-	 
+	    private String request;
+	    
 	    public ThreadEscritura(Socket socket, Cliente cliente) {
 	        this.socket = socket;
 	        this.cliente = cliente;
@@ -24,20 +25,25 @@ public class ThreadEscritura extends Thread {
 	        }
 	    }
 	 
-	    public void run() {
-	        String mensaje;
+	    public void run() {       	            
+	    	
+	    	while(true) {	    	
+	    		try {
+					wait();
+					writer.println(request);
+				} catch (InterruptedException e) {					
+					e.printStackTrace();
+				}	            
+	    		
+	    	}
 	 
-	        do {	            
-	        	mensaje = "";
-	            writer.println(mensaje);
-	 
-	        } while (!mensaje.equals("desconectar"));
-	 
-	        try {	        	
-	            socket.close();
-	        } catch (IOException ex) {
-	 
-	            System.out.println("Error escribiendo en el servidor: " + ex.getMessage());
-	        }
 	    }
+
+		public String getRequest() {
+			return request;
+		}
+
+		public void setRequest(String mensaje) {
+			this.request = mensaje;
+		}
 }

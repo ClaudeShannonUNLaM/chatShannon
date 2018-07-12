@@ -11,6 +11,8 @@ public class Cliente extends Thread{
 	private String host;
     private int puerto;
     private String nombreUsuario;
+    private Thread ThreadLectura; //Thread que lee mensajes recividos desde el server.
+    private Thread ThreadEscritura; //Thread que manda mensajes al server
 	
 	public Cliente(String host, int puerto){		
 		this.host = host;
@@ -28,8 +30,11 @@ public class Cliente extends Thread{
     public void run() {
         try {
             Socket socket = new Socket(host, puerto);
-            new ThreadLectura(socket, this).start(); //Thread que manda mensajes al server
-            new ThreadEscritura(socket, this).start(); //Thread que lee mensajes recividos desde el server.
+	        ThreadLectura = new ThreadLectura(socket, this); 
+	        ThreadEscritura =  new ThreadEscritura(socket, this);
+	        
+	        ThreadLectura.start();
+	        ThreadEscritura.start();
  
         } catch (UnknownHostException ex) {
             System.out.println("Servidor no encontrado: " + ex.getMessage());

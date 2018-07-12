@@ -79,28 +79,20 @@ public class ServerChat{
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);
 			datos.put("contactos", contactos);
-			response = new ServerResponse(datos);
-			break;
+			response = new ServerResponse(datos);			
 			
 			
-		case OBTENERCONTACTOS:
+		case OBTENERCONTACTOS:			
 			
-			break;
 			
-		case OBTENERSALASPRIVADAS:
+		case OBTENERSALASPRIVADAS:		
 			
-			break;
 			
-		case OBTENERSALASPUBLICA:
+		case OBTENERSALASPUBLICA:	
 			
-			break;
 			
-		case LLAMARBOT:
+		case LLAMARBOT:	
 			
-			break;
-
-		default:
-			break;
 		}
 		return response;
 	}
