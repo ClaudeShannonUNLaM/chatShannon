@@ -6,12 +6,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
+import com.google.gson.Gson;
+
+import chat.serverUtils.ServerResponse;
+
 public class ThreadLectura extends Thread {
     private BufferedReader reader;
     private Socket socket;
     private Cliente cliente;
- 
-    public ThreadLectura(Socket socket, Cliente cliente) {
+    private ServerResponse responseServer;
+    
+    public ServerResponse getResponseServer() {
+		return responseServer;
+	}
+
+	public ThreadLectura(Socket socket, Cliente cliente) {
         this.socket = socket;
         this.cliente = cliente;
  
@@ -27,7 +36,9 @@ public class ThreadLectura extends Thread {
     public void run() {
         while (true) {
             try {                            	
-            	String response = reader.readLine();                
+            	String response = reader.readLine();
+            	Gson gson = new Gson();
+            	responseServer = gson.fromJson(response, ServerResponse.class);
             }catch (IOException ex) {
             	if(!ex.getMessage().contains("Socket closed")) {
             		System.out.println("Error leyendo el servidor: " + ex.getMessage());

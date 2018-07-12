@@ -36,7 +36,7 @@ public class Login extends JFrame {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				try {					
 					@SuppressWarnings("unused")
 					Login frame = new Login();
 				} catch (Exception e) {
@@ -83,15 +83,15 @@ public class Login extends JFrame {
 				try {					
 			        
 					if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getPassword().toString().equals("") || lblIpServidor.getText().equals("")) {
-						new Mensaje("Debe ingresar la información necesaria");
+						new MensajeInterfaz("Debe ingresar la información necesaria");
 						return;
-					}
+					}				
 					
 					cliente = new Cliente(lblIpServidor.getText(), 10000);
-			        cliente.run();
+			        cliente.start(); //VER QUE PASA CON RUN.
 			        cliente.setNombreUsuario(lblNombreUsuario.getText());
 					
-			        HashMap<String, String> map = new HashMap<String,String>();			        
+			        HashMap<String, Object> map = new HashMap<String,Object>();			        
 			        map.put("nombreUsuario", lblNombreUsuario.getText());
 			        map.put("passUsuario", lblPassUsuario.getPassword().toString());
 			        
@@ -99,14 +99,23 @@ public class Login extends JFrame {
 					Gson gson = new Gson();					
 					String requestJson = gson.toJson(request);
 					
-					if(true) {
+					cliente.getThreadEscritura().setRequest(requestJson);
+					cliente.getThreadEscritura().notify();
+					
+					
+					cliente.getThreadLectura().wait();
+					
+					if((boolean) cliente.getThreadLectura().getResponseServer().getDatos().get("loginExitoso")) {
 						new Index(lblNombreUsuario.getText());
 						dispose();
 					}						
 					else
-						new Mensaje("El usuario no está dentro del sistema");
+						new MensajeInterfaz("El usuario no está dentro del sistema");
 					
 				} catch (IOException e1) {					
+					e1.printStackTrace();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -118,7 +127,7 @@ public class Login extends JFrame {
 		JButton btnNuevoUsuarioButton = new JButton("Nuevo usuario");
 		btnNuevoUsuarioButton.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNuevoUsuarioButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {			
 				new NuevoUsuario();				
 			}
 		});
@@ -144,7 +153,7 @@ public class Login extends JFrame {
 		setVisible(true);
 	}
 	
-	private boolean usuarioExiste() {		
+	/*private boolean usuarioExiste() {		
 		return UsuarioController.usuarioYaCreado(lblNombreUsuario.getText().toLowerCase(),new String(lblPassUsuario.getPassword()).toLowerCase(),false); 
-	}
+	}*/
 }

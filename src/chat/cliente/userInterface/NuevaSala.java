@@ -57,15 +57,15 @@ public class NuevaSala extends JFrame {
 					boolean resultado = SalaController.CrearSala(sala);
 					
 					if(resultado) {
-						new Mensaje("Se creo la sala con exito");
+						new MensajeInterfaz("Se creo la sala con exito");
 						dispose();
 					}
 					else {
-						new Mensaje("Ya existe una sala con ese nombre");
+						new MensajeInterfaz("Ya existe una sala con ese nombre");
 					}
 				}
 				else
-					new Mensaje("Debe ingresar el nombre de la sala");
+					new MensajeInterfaz("Debe ingresar el nombre de la sala");
 					
 			}
 		});

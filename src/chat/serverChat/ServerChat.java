@@ -60,40 +60,43 @@ public class ServerChat{
         usuarioThreads.remove(usu);
     }
     
-	public boolean loguear(String datos) {
-		return UsuarioController.usuarioYaCreado(datos,datos,false);	
+	public boolean loguear(ServerRequest datos) {
+		return UsuarioController.usuarioYaCreado((String)datos.getDatos().get("nombreUsuario"),(String)datos.getDatos().get("passUsuario"),false);	
 	}
 	
 	
 	public ServerResponse atenderRequest(ServerRequest request) {
-		ServerResponse response;
+		ServerResponse response = null;
+		HashMap<String, Object> datos = new HashMap<String,Object>();
+		boolean creadoConExito; 
 		
 		switch (request.getFuncionalidad()) {
 		
 		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
 			
 			List<Sala> salasPublicas =  SalaController.BuscarSalas();
-			List<Sala> salasPrivadas =  UsuarioSalaController.BuscarSalaUsuario(request.getDatos().get("nombreUsuario"));
-			List<Contacto> contactos = ContactoController.buscarContactos(request.getDatos().get("nombreUsuario"));
-			HashMap<String, Object> datos = new HashMap<String,Object>();
+			List<Sala> salasPrivadas =  UsuarioSalaController.BuscarSalaUsuario((String)request.getDatos().get("nombreUsuario"));
+			List<Contacto> contactos = ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
+			
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);
 			datos.put("contactos", contactos);
-			response = new ServerResponse(datos);			
+			response = new ServerResponse(datos);
 			
+		case NUEVOUSUARIO:
+			creadoConExito = UsuarioController.crearNuevoUsuario((String)request.getDatos().get("nombreUsuario"),(String) request.getDatos().get("passUsuario"));
+			datos.put("exito", creadoConExito);
+			response = new ServerResponse(datos);
 			
-		case OBTENERCONTACTOS:			
+		case NUEVASALA:			
+			creadoConExito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+			datos.put("exito", creadoConExito);
+			response = new ServerResponse(datos);
 			
-			
-		case OBTENERSALASPRIVADAS:		
-			
-			
-		case OBTENERSALASPUBLICA:	
-			
-			
-		case LLAMARBOT:	
-			
+		case NUEVOCONTACTO:
+			creadoConExito = ContactoController.agregarNuevoContacto((String)request.getDatos().get("usuarioIngresado"),(String)request.getDatos().get("nombreNuevoContacto"));
 		}
+		
 		return response;
 	}
 	

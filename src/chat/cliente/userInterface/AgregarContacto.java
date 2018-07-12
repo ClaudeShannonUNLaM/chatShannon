@@ -45,11 +45,11 @@ public class AgregarContacto extends JFrame {
 				boolean exito = ContactoController.agregarNuevoContacto(nombreUsuarioIngresado.toLowerCase(),textField.getText().toLowerCase());
 				
 				if(exito) {
-					new Mensaje("Se agregó el contacto con éxito");
+					new MensajeInterfaz("Se agregó el contacto con éxito");
 					dispose();
 				}					
 				else
-					new Mensaje("No se encontró el usuario indicado");
+					new MensajeInterfaz("No se encontró el usuario indicado");
 			}
 		});
 		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));

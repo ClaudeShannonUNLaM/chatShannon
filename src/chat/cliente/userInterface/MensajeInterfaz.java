@@ -11,12 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
-public class Mensaje extends JFrame {
+public class MensajeInterfaz extends JFrame {
 
 	private JPanel contentPane;
 
 	
-	public Mensaje(String mensaje) {
+	public MensajeInterfaz(String mensaje) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

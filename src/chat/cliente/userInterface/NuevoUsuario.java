@@ -5,6 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import com.google.gson.Gson;
+
+import chat.cliente.Cliente;
+import chat.serverUtils.FuncionalidadServerEnum;
+import chat.serverUtils.ServerRequest;
 import hibernate.usuario.UsuarioController;
 
 import javax.swing.JLabel;
@@ -15,6 +20,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -23,6 +29,7 @@ public class NuevoUsuario extends JFrame {
 	private JPanel contentPane;
 	private JTextField lblNombreNuevoUsuario;
 	private JPasswordField lblPassNuevoUsuario;
+	private Cliente cliente;
 
 	public NuevoUsuario() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,16 +73,31 @@ public class NuevoUsuario extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				 
 				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getPassword().toString().equals("")) {
-					new Mensaje("Debe ingresar la información necesaria");
+					new MensajeInterfaz("Debe ingresar la información necesaria");
 					return;
 				}				
 				
+				
+		        cliente.start(); 	        
+				
+		        HashMap<String, Object> map = new HashMap<String,Object>();			        
+		        map.put("nombreUsuario", lblNombreNuevoUsuario.getText());
+		        map.put("passUsuario", lblPassNuevoUsuario.getPassword().toString());
+		        
+		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVOUSUARIO);
+				Gson gson = new Gson();					
+				String requestJson = gson.toJson(request);
+				
+				cliente.getThreadEscritura().setRequest(requestJson);
+				cliente.getThreadEscritura().notify();
+				
+				
 				if(crearNuevoUsuario()) {
-					new Mensaje("El usuario se creó con éxito");
+					new MensajeInterfaz("El usuario se creó con éxito");
 					dispose();
 				}					
 				else
-					new Mensaje("El usuario ya existe dentro del chat");
+					new MensajeInterfaz("El usuario ya existe dentro del chat");
 				
 				
 			}

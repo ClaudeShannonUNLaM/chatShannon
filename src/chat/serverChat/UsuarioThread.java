@@ -36,14 +36,13 @@ public class UsuarioThread extends Thread{
             
             String mensajeCliente;
         	mensajeCliente = reader.readLine();
+        	Gson gson = new Gson();
+        	ServerRequest request;
+        	request = gson.fromJson(mensajeCliente, ServerRequest.class);
         	
-            if(!server.loguear(mensajeCliente))
-            	return;   
+            if(!server.loguear(request))
+            	return;
             
-            String mensajeServer = "";
-            Gson gson = new Gson();
-            ServerRequest request;
-        
             do {
             	mensajeCliente = reader.readLine(); 
             	request = gson.fromJson(mensajeCliente, ServerRequest.class);            	
