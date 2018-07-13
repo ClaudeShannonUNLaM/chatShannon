@@ -13,15 +13,25 @@ import com.google.gson.Gson;
 import chat.serverUtils.FuncionalidadServerEnum;
 import chat.serverUtils.ServerRequest;
 import chat.serverUtils.ServerResponse;
+import hibernate.usuario.Usuario;
 
 public class UsuarioThread extends Thread{
 	private Socket socket;
     private ServerChat server;
-    private PrintWriter writer;    
+    private PrintWriter writer;
+    private Usuario usuario;
  
     public UsuarioThread(Socket socket, ServerChat server) {
         this.socket = socket;
         this.server = server;
+    }
+    
+    public void setUsuario(Usuario usuario) {
+    	this.usuario = usuario;
+    }
+    
+    public Usuario getUsuario() {
+    	return this.usuario;
     }
  
     public void run() {
@@ -36,14 +46,14 @@ public class UsuarioThread extends Thread{
             
             
             String mensajeCliente;               
-        	Gson gson = new Gson();
+            Gson gson = new Gson();
         	ServerRequest request;
         	
             do {
             	mensajeCliente = reader.readLine(); 
             	request = gson.fromJson(mensajeCliente, ServerRequest.class);            	
-            	ServerResponse response = server.atenderRequest(request);
-            	enviarMensaje(gson.toJson(response));
+            	ServerResponse response = server.atenderRequest(request,this);
+            	enviarMensaje(response);
                 
             } while (request.getFuncionalidad() != FuncionalidadServerEnum.LOGOFF );
  
@@ -58,7 +68,9 @@ public class UsuarioThread extends Thread{
     }    
  
     
-    void enviarMensaje(String message) {
+    void enviarMensaje(ServerResponse response) {
+    	Gson gson = new Gson();
+    	String message = gson.toJson(response);
         writer.println(message);
     }
     

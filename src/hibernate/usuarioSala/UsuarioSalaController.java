@@ -51,7 +51,7 @@ public class UsuarioSalaController extends DataBaseHelper {
 		
 		return salas;
 	}
-	
+	z
 	
 	private static List<Sala> BuscarSalasPorId(List<UsuarioSala> relaciones){
 		Session sesion = crearSession();		

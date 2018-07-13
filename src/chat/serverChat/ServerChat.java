@@ -18,7 +18,9 @@ import hibernate.contacto.Contacto;
 import hibernate.contacto.ContactoController;
 import hibernate.sala.Sala;
 import hibernate.sala.SalaController;
+import hibernate.usuario.Usuario;
 import hibernate.usuario.UsuarioController;
+import hibernate.usuarioSala.UsuarioSala;
 import hibernate.usuarioSala.UsuarioSalaController;
 
 public class ServerChat{
@@ -68,7 +70,7 @@ public class ServerChat{
 	}
 	
 	
-	public ServerResponse atenderRequest(ServerRequest request) {
+	public ServerResponse atenderRequest(ServerRequest request, UsuarioThread usuThread) {
 		ServerResponse response = null;
 		HashMap<String, Object> datos = new HashMap<String,Object>();
 		boolean exito; 
@@ -77,6 +79,7 @@ public class ServerChat{
 		
 		case LOGIN:
 			exito = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
+			
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "login");
 			break;
@@ -107,8 +110,35 @@ public class ServerChat{
 			exito = ContactoController.agregarNuevoContacto((String)request.getDatos().get("usuarioIngresado"),(String)request.getDatos().get("nombreNuevoContacto"));
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevoContacto");
-			break;		
+			break;	
+
+		case ENVIARMENSAJE:
+			Usuario usuDest = (Usuario) request.getDatos().get("usuarioDestino");
+			Sala salaDest = (Sala) request.getDatos().get("sala");
+			ArrayList<Usuario> destinatarios = new ArrayList<Usuario>();
+
+			if(usuDest != null) {
+				destinatarios.add(usuDest);
+			}else {
+				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
+				//destinatarios = UsuarioSala.getUsuariosBySala(salaDest.getId());
+			}
+			
+			ServerResponse responseMensaje = new ServerResponse(request.getDatos());
+			
+			for(int i = 0; i < usuarioThreads.size(); i++) {
+				for(int j = 0; j < destinatarios.size(); j++) {
+					if(usuarioThreads.get(i).getUsuario().getId() == destinatarios.get(j).getId()) {
+						usuarioThreads.get(i).enviarMensaje(responseMensaje);
+						destinatarios.remove(j);
+						break;
+					}
+				}
+			}
+			
+			break;
 		}
+		
 		
 		response = new ServerResponse(datos);
 		return response;
