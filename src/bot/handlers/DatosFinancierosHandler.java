@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import bot.datosFinancieros.ConsultaCotizacion;
+import chat.serverUtils.Mensaje;
 
 public class DatosFinancierosHandler extends AsistantSentenceHandler {
 	
@@ -23,10 +24,11 @@ public class DatosFinancierosHandler extends AsistantSentenceHandler {
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario){
+	public Mensaje giveAnswer(Mensaje mensaje){
 		
-		Matcher matcher = patron.matcher(mensaje);
-		String respuesta = "@" + nombreUsuario;
+		Matcher matcher = patron.matcher(mensaje.getMensaje());
+		
+		String respuesta = "@" + mensaje.getEmisor();
 	    if (matcher.matches()) {
 	        try {
 				respuesta += resolverDatos();
@@ -36,10 +38,12 @@ public class DatosFinancierosHandler extends AsistantSentenceHandler {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	        return respuesta;
+	        
+	        mensaje.setMensaje(respuesta);
+	        return mensaje;
 	    }
-
-	    return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
+	    
+	    return this.nextHandler.giveAnswer(mensaje);
 	}
 	
 	private String resolverDatos() throws org.apache.http.ParseException, IOException {

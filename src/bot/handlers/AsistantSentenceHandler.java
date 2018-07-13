@@ -3,6 +3,8 @@ package bot.handlers;
 
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public abstract class AsistantSentenceHandler {
 
 	protected AsistantSentenceHandler nextHandler;
@@ -12,5 +14,5 @@ public abstract class AsistantSentenceHandler {
 	      this.nextHandler = nextHandler;
 	}
 	
-	public abstract String giveAnswer(String mensaje, String nombreUsuario);
+	public abstract Mensaje giveAnswer(Mensaje mensaje);
 }
