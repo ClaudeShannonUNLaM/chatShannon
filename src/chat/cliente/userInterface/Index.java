@@ -55,7 +55,13 @@ import java.awt.SystemColor;
 public class Index extends JFrame {
 	
 	private JPanel contentPane;	
-	private Sala SalaSeleccionada;
+	private List<Sala> salasPublicas;
+	private List<Sala> salasPrivadas;
+	private List<Contacto> contactos;
+	private JList listContactos;
+	private JList listSalasPrivadas;
+	private JList listSalasSeleccion;	
+	
 	private JTextField mensajeTxT;
 	private Cliente cliente;
 	
@@ -181,34 +187,14 @@ public class Index extends JFrame {
 		panelListas.add(salasPrivadasPane);		
 		
 		
-		DefaultListModel listModel = new DefaultListModel();
-		DefaultListModel listPrivadaData = new DefaultListModel();
-		DefaultListModel listContactosData = new DefaultListModel();		
-		
-		List<Sala> salasPublicas = buscarSalasPublicas();
-		for (Sala sala : salasPublicas) {
-			listModel.addElement(sala.getNombre());			
-		}
-		
-		List<Sala> salasPrivadas = buscarSalasPrivadas(cliente.getNombreUsuario());
-		for (Sala sala : salasPrivadas) {
-			listPrivadaData.addElement(sala.getNombre());			
-		}
-		
-		/*List<Contacto> contactosUsuario = buscarContactoUsuario(nombreUsuario);
-		for (Contacto contacto : contactosUsuario) {
-			listContactosData.addElement(contacto.getIdContacto());			
-		}	
-		*/			
-		
-		
-		JList listContactos = new JList(listContactosData);	
+		listContactos = new JList();	
 		contactosPane.setViewportView(listContactos);
 		
-		JList listSalasPrivadas = new JList(listPrivadaData);
+		listSalasPrivadas = new JList();
 		salasPrivadasPane.setViewportView(listSalasPrivadas);	
 		
-		JList listSalasSeleccion = new JList(listModel);
+		listSalasSeleccion = new JList();
+		
 		listSalasSeleccion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listSalasSeleccion.setFont(new Font("Arial", Font.BOLD, 16));
 		
@@ -244,7 +230,7 @@ public class Index extends JFrame {
 		JButton btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new AgregarContacto(cliente.getNombreUsuario());
+				new AgregarContacto(cliente);
 			}
 		});
 		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));
@@ -273,24 +259,41 @@ public class Index extends JFrame {
 		});
 	}
 	
-	private List<Sala> buscarSalasPublicas() {		
-		List<Sala> salas = new ArrayList<Sala>();
-		//salas.addAll(SalaController.BuscarSalas()); //Busco todas las salas publicas.		
-		return salas;
+	public void cargarSalasPublicas(List<Sala> salas ) {		
+		salasPublicas = salas;
+		DefaultListModel listModel = new DefaultListModel();		
+		
+		for (Sala sala : salas) {
+			listModel.addElement(sala.getNombre());			
+		}
+		
+		listSalasSeleccion.setModel(listModel);		
+	
 	}
 	
-	private List<Sala> buscarSalasPrivadas(String nombreUsuario){
-		List<Sala> salas = new ArrayList<Sala>();
-		//salas.addAll(UsuarioSalaController.BuscarSalaUsuario(nombreUsuario)); //Busco las salas privadas a las que pertenece.
-		return salas;
+	private void cargarSalasPrivadas(List<Sala> salas ){
+		salasPrivadas = salas;		
+		DefaultListModel listModel = new DefaultListModel();		
+		
+		for (Sala sala : salas) {
+			listModel.addElement(sala.getNombre());			
+		}
+		
+		listSalasPrivadas.setModel(listModel);		
+		
 	}
 	
-	/*
-	private List<Contacto> buscarContactoUsuario(String nombreUsuario){
-		List<Contacto> contactos = new ArrayList<Contacto>();
-		contactos.addAll(ContactoController.buscarContactos(nombreUsuario)); //Busco las salas privadas a las que pertenece.
-		return contactos;
+	
+	private void cargarContactos(List<Contacto> contactos ){
+		this.contactos = contactos;		
+		DefaultListModel listModel = new DefaultListModel();		
+		
+		for (Contacto contacto : contactos) {
+			listModel.addElement(contacto);			
+		}
+		
+		listSalasSeleccion.setModel(listModel);		
 	}
-	*/
+	
 	
 }

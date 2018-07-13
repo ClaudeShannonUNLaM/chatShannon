@@ -77,6 +77,7 @@ public class ServerChat{
 		
 		case LOGIN:
 			exito = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
+			datos.put("nombreUsuario", (String)request.getDatos().get("nombreUsuario"));
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "login");
 			break;
