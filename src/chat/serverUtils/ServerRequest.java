@@ -8,7 +8,7 @@ public class ServerRequest {
 	private FuncionalidadServerEnum funcionalidad;
 	
 	public ServerRequest(HashMap<String, Object> map, FuncionalidadServerEnum funcion) {
-		datos = map;
+		datos = map;		
 		funcionalidad = funcion;
 	}
 	

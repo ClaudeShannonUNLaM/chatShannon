@@ -102,6 +102,8 @@ public class NuevoUsuario extends JFrame {
 		btnCancelar.setFont(new Font("Arial", Font.BOLD, 11));
 		btnCancelar.setBounds(236, 205, 116, 20);
 		contentPane.add(btnCancelar);
+		
+		cliente.getThreadLectura().addPantalla("nuevoUsuario", this);
 		setVisible(true);
 	}
 	
