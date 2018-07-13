@@ -122,10 +122,11 @@ public class ServerChat{
 				destinatarios.add(usuDest);
 			}else {
 				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
-				//destinatarios = UsuarioSala.getUsuariosBySala(salaDest.getId());
+				//destinatarios = UsuarioSala.getUsuariosPorSala(salaDest.getId());
 			}
 			
 			ServerResponse responseMensaje = new ServerResponse(request.getDatos());
+			responseMensaje.getDatos().put("funcionalidad","mensajeRecivido");
 			
 			for(int i = 0; i < usuarioThreads.size(); i++) {
 				for(int j = 0; j < destinatarios.size(); j++) {
