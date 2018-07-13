@@ -59,6 +59,7 @@ public class ServerSeter extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Login(lblIpServidor.getText());
+				dispose();
 			}
 		});
 		btnIngresar.setFont(new Font("Arial", Font.BOLD, 13));

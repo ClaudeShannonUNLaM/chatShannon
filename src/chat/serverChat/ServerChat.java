@@ -1,6 +1,8 @@
 package chat.serverChat;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,11 +34,13 @@ public class ServerChat{
 		this.puerto = puerto;
 	}
 	
+	@SuppressWarnings("resource")
 	public void run() {
-		try {
-			ServerSocket serverSocket = new ServerSocket(puerto);
+		try {			
+			ServerSocket serverSocket = new ServerSocket(puerto);		
 			while(true) {				
 				Socket newSocket = serverSocket.accept(); 
+				System.out.println("SE CONECTO");
 				UsuarioThread newUsuario = new UsuarioThread(newSocket, this); //Una vez creado el socket, creo un nuevo thread de usuario
 				usuarioThreads.add(newUsuario); // Agrego el thread a la lista de threads de usuarios
 				newUsuario.start(); // Comienzo ejecución del thread que atienda las necesidades de ese usuario.				

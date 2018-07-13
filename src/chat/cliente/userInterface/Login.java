@@ -31,14 +31,13 @@ public class Login extends JFrame {
 	private JPanel contentPane;	
 	private JTextField lblNombreUsuario;
 	private JPasswordField lblPassUsuario;
-	private JTextField lblIpServidor;
 
 	
 	public Login(String ipServer){
 		this.setTitle("Login");
 		
 		cliente = new Cliente(ipServer, 10000);
-        cliente.start(); 
+        cliente.run(); 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 606, 351);
@@ -73,7 +72,7 @@ public class Login extends JFrame {
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {								
 			        
-				if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getPassword().toString().equals("") || lblIpServidor.getText().equals("")) {
+				if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getPassword().toString().equals("")) {
 					new MensajeInterfaz("Debe ingresar la información necesaria");
 					return;
 				}
@@ -107,16 +106,6 @@ public class Login extends JFrame {
 		lblBienvenido.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBienvenido.setBounds(70, 11, 467, 23);
 		contentPane.add(lblBienvenido);
-		
-		JLabel lblIpDelServidor = new JLabel("Ip del servidor: ");
-		lblIpDelServidor.setFont(new Font("Arial", Font.BOLD, 13));
-		lblIpDelServidor.setBounds(50, 58, 125, 14);
-		contentPane.add(lblIpDelServidor);
-		
-		lblIpServidor = new JTextField();
-		lblIpServidor.setBounds(168, 56, 387, 20);
-		contentPane.add(lblIpServidor);
-		lblIpServidor.setColumns(10);
 		
 		setVisible(true);
 	}
