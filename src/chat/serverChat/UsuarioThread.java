@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 
 import chat.serverUtils.FuncionalidadServerEnum;
 import chat.serverUtils.ServerRequest;
+import chat.serverUtils.ServerResponse;
 
 public class UsuarioThread extends Thread{
 	private Socket socket;
@@ -34,14 +35,15 @@ public class UsuarioThread extends Thread{
             writer = new PrintWriter(output, true); //Devuelve la respuesta al cliente           
             
             
-            String mensajeCliente;        	
+            String mensajeCliente;               
         	Gson gson = new Gson();
         	ServerRequest request;
         	
             do {
             	mensajeCliente = reader.readLine(); 
             	request = gson.fromJson(mensajeCliente, ServerRequest.class);            	
-            	server.atenderRequest(request);
+            	ServerResponse response = server.atenderRequest(request);
+            	enviarMensaje(gson.toJson(response));
                 
             } while (request.getFuncionalidad() != FuncionalidadServerEnum.LOGOFF );
  

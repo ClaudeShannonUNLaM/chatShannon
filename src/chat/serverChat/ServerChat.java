@@ -39,8 +39,7 @@ public class ServerChat{
 		try {			
 			ServerSocket serverSocket = new ServerSocket(puerto);		
 			while(true) {				
-				Socket newSocket = serverSocket.accept(); 
-				System.out.println("SE CONECTO");
+				Socket newSocket = serverSocket.accept();				
 				UsuarioThread newUsuario = new UsuarioThread(newSocket, this); //Una vez creado el socket, creo un nuevo thread de usuario
 				usuarioThreads.add(newUsuario); // Agrego el thread a la lista de threads de usuarios
 				newUsuario.start(); // Comienzo ejecución del thread que atienda las necesidades de ese usuario.				
@@ -74,12 +73,13 @@ public class ServerChat{
 		HashMap<String, Object> datos = new HashMap<String,Object>();
 		boolean exito; 
 		
-		switch (request.getFuncionalidad()) {
+		switch (request.getFuncionalidad()) { //LoggOff no se atiende, se deja pasar.
+		
 		case LOGIN:
 			exito = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "login");
-			
+			break;
 		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
 			
 			List<Sala> salasPublicas =  SalaController.BuscarSalas();
@@ -90,23 +90,24 @@ public class ServerChat{
 			datos.put("salasPrivadas", salasPrivadas);
 			datos.put("contactos", contactos);
 			datos.put("funcionalidad", "cargaInicial");			
-			
+			break;
 		case NUEVOUSUARIO:
 			exito = UsuarioController.crearNuevoUsuario((String)request.getDatos().get("nombreUsuario"),(String) request.getDatos().get("passUsuario"));
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevoUsuario");
-			
+			break;
 			
 		case NUEVASALA:			
 			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
 			datos.put("exito", exito);
-			datos.put("funcionalidad", "nuevaSala");
-			
+			datos.put("funcionalidad", "nuevaSala");			
+			break;
 			
 		case NUEVOCONTACTO:
 			exito = ContactoController.agregarNuevoContacto((String)request.getDatos().get("usuarioIngresado"),(String)request.getDatos().get("nombreNuevoContacto"));
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevoContacto");
+			break;		
 		}
 		
 		response = new ServerResponse(datos);
