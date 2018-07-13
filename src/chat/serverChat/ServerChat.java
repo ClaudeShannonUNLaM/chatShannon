@@ -68,10 +68,14 @@ public class ServerChat{
 	public ServerResponse atenderRequest(ServerRequest request) {
 		ServerResponse response = null;
 		HashMap<String, Object> datos = new HashMap<String,Object>();
-		boolean creadoConExito; 
+		boolean exito; 
 		
 		switch (request.getFuncionalidad()) {
-		
+		case LOGIN:
+			exito = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
+			datos.put("exito", exito);
+			datos.put("funcionalidad", "login");
+			
 		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
 			
 			List<Sala> salasPublicas =  SalaController.BuscarSalas();
@@ -81,22 +85,27 @@ public class ServerChat{
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);
 			datos.put("contactos", contactos);
-			response = new ServerResponse(datos);
+			datos.put("funcionalidad", "cargaInicial");			
 			
 		case NUEVOUSUARIO:
-			creadoConExito = UsuarioController.crearNuevoUsuario((String)request.getDatos().get("nombreUsuario"),(String) request.getDatos().get("passUsuario"));
-			datos.put("exito", creadoConExito);
-			response = new ServerResponse(datos);
+			exito = UsuarioController.crearNuevoUsuario((String)request.getDatos().get("nombreUsuario"),(String) request.getDatos().get("passUsuario"));
+			datos.put("exito", exito);
+			datos.put("funcionalidad", "nuevoUsuario");
+			
 			
 		case NUEVASALA:			
-			creadoConExito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
-			datos.put("exito", creadoConExito);
-			response = new ServerResponse(datos);
+			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+			datos.put("exito", exito);
+			datos.put("funcionalidad", "nuevaSala");
+			
 			
 		case NUEVOCONTACTO:
-			creadoConExito = ContactoController.agregarNuevoContacto((String)request.getDatos().get("usuarioIngresado"),(String)request.getDatos().get("nombreNuevoContacto"));
+			exito = ContactoController.agregarNuevoContacto((String)request.getDatos().get("usuarioIngresado"),(String)request.getDatos().get("nombreNuevoContacto"));
+			datos.put("exito", exito);
+			datos.put("funcionalidad", "nuevoContacto");
 		}
 		
+		response = new ServerResponse(datos);
 		return response;
 	}
 	

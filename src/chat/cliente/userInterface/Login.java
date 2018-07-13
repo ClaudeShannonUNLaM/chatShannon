@@ -32,22 +32,14 @@ public class Login extends JFrame {
 	private JTextField lblNombreUsuario;
 	private JPasswordField lblPassUsuario;
 	private JTextField lblIpServidor;
+
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {					
-					@SuppressWarnings("unused")
-					Login frame = new Login();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	public Login(){
+	public Login(String ipServer){
 		this.setTitle("Login");
+		
+		cliente = new Cliente(ipServer, 10000);
+        cliente.start(); 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 606, 351);
 		contentPane = new JPanel();
@@ -79,45 +71,21 @@ public class Login extends JFrame {
 		
 		JButton btnIngresar = new JButton("Ingresar");
 		btnIngresar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {					
+			public void actionPerformed(ActionEvent e) {								
 			        
-					if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getPassword().toString().equals("") || lblIpServidor.getText().equals("")) {
-						new MensajeInterfaz("Debe ingresar la información necesaria");
-						return;
-					}				
-					
-					cliente = new Cliente(lblIpServidor.getText(), 10000);
-			        cliente.start(); //VER QUE PASA CON RUN.
-			        cliente.setNombreUsuario(lblNombreUsuario.getText());
-					
-			        HashMap<String, Object> map = new HashMap<String,Object>();			        
-			        map.put("nombreUsuario", lblNombreUsuario.getText());
-			        map.put("passUsuario", lblPassUsuario.getPassword().toString());
-			        
-			        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);
-					Gson gson = new Gson();					
-					String requestJson = gson.toJson(request);
-					
-					cliente.getThreadEscritura().setRequest(requestJson);
-					cliente.getThreadEscritura().notify();
-					
-					
-					cliente.getThreadLectura().wait();
-					
-					if((boolean) cliente.getThreadLectura().getResponseServer().getDatos().get("loginExitoso")) {
-						new Index(lblNombreUsuario.getText());
-						dispose();
-					}						
-					else
-						new MensajeInterfaz("El usuario no está dentro del sistema");
-					
-				} catch (IOException e1) {					
-					e1.printStackTrace();
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if(lblNombreUsuario.getText().equals("")|| lblPassUsuario.getPassword().toString().equals("") || lblIpServidor.getText().equals("")) {
+					new MensajeInterfaz("Debe ingresar la información necesaria");
+					return;
 				}
+				
+		        HashMap<String, Object> map = new HashMap<String,Object>();			        
+		        map.put("nombreUsuario", lblNombreUsuario.getText());
+		        map.put("passUsuario", lblPassUsuario.getPassword().toString());
+		        
+		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);
+				Gson gson = new Gson();					
+				String requestJson = gson.toJson(request);
+				cliente.getThreadEscritura().AddRequest(requestJson);
 			}
 		});
 		btnIngresar.setFont(new Font("Arial", Font.BOLD, 11));
@@ -128,7 +96,7 @@ public class Login extends JFrame {
 		btnNuevoUsuarioButton.setFont(new Font("Arial", Font.BOLD, 11));
 		btnNuevoUsuarioButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {			
-				new NuevoUsuario();				
+				new NuevoUsuario(cliente);				
 			}
 		});
 		btnNuevoUsuarioButton.setBounds(148, 240, 286, 23);
@@ -153,7 +121,13 @@ public class Login extends JFrame {
 		setVisible(true);
 	}
 	
-	/*private boolean usuarioExiste() {		
-		return UsuarioController.usuarioYaCreado(lblNombreUsuario.getText().toLowerCase(),new String(lblPassUsuario.getPassword()).toLowerCase(),false); 
-	}*/
+	public void IngresarSistema(String nombreUsuario, boolean loginExitoso) throws IOException {
+		if(loginExitoso) {
+			cliente.setNombreUsuario(nombreUsuario);
+			new Index(cliente);
+			dispose();
+		}			
+		else
+			new MensajeInterfaz("El usuario no está dentro del sistema");			
+	}
 }

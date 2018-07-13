@@ -57,11 +57,9 @@ public class Index extends JFrame {
 	private JPanel contentPane;	
 	private Sala SalaSeleccionada;
 	private JTextField mensajeTxT;
-	/**
-	 * Create the frame.
-	 * @throws IOException 
-	 */
-	public Index(String nombreUsuario) throws IOException {
+	private Cliente cliente;
+	
+	public Index(Cliente cliente) throws IOException {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 872, 526);
@@ -118,7 +116,7 @@ public class Index extends JFrame {
 		lblFotoUsuario.setBounds(2, 2, 46, 51);
 		panelDatosUsuario.add(lblFotoUsuario);
 		
-		JLabel lblNombreUsuario = new JLabel(nombreUsuario);
+		JLabel lblNombreUsuario = new JLabel(cliente.getNombreUsuario());
 		lblNombreUsuario.setBounds(58, 20, 184, 14);
 		panelDatosUsuario.add(lblNombreUsuario);
 		
@@ -138,7 +136,7 @@ public class Index extends JFrame {
 		JButton btnCrearNuevaSala = new JButton("Crear nueva sala");
 		btnCrearNuevaSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new NuevaSala();
+				new NuevaSala(cliente);
 			}
 		});
 		btnCrearNuevaSala.setFont(new Font("Arial", Font.BOLD, 11));
@@ -192,7 +190,7 @@ public class Index extends JFrame {
 			listModel.addElement(sala.getNombre());			
 		}
 		
-		List<Sala> salasPrivadas = buscarSalasPrivadas(nombreUsuario);
+		List<Sala> salasPrivadas = buscarSalasPrivadas(cliente.getNombreUsuario());
 		for (Sala sala : salasPrivadas) {
 			listPrivadaData.addElement(sala.getNombre());			
 		}
@@ -246,7 +244,7 @@ public class Index extends JFrame {
 		JButton btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new AgregarContacto(nombreUsuario);
+				new AgregarContacto(cliente.getNombreUsuario());
 			}
 		});
 		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));

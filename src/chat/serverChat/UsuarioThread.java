@@ -34,15 +34,10 @@ public class UsuarioThread extends Thread{
             writer = new PrintWriter(output, true); //Devuelve la respuesta al cliente           
             
             
-            String mensajeCliente;
-        	mensajeCliente = reader.readLine();
+            String mensajeCliente;        	
         	Gson gson = new Gson();
         	ServerRequest request;
-        	request = gson.fromJson(mensajeCliente, ServerRequest.class);
         	
-            if(!server.loguear(request))
-            	return;
-            
             do {
             	mensajeCliente = reader.readLine(); 
             	request = gson.fromJson(mensajeCliente, ServerRequest.class);            	
