@@ -52,13 +52,13 @@ public class ServerChat{
 	}
 	
 	//Envia el mensaje a todos los usuarios conectados
-	void broadcast(String mensaje, UsuarioThread excluirUsuario) { 
+	/*void broadcast(String mensaje, UsuarioThread excluirUsuario) { 
         for (UsuarioThread usu : usuarioThreads) {
             if (usu != excluirUsuario) { //No se le envia el mensaje al usuario que lo inicio.
                 usu.enviarMensaje(mensaje);
             }
         }
-    }
+    }*/
 	
 	//Cierra el thread para un usuario que se desconecto
     void removeUsuario(UsuarioThread usu) {
@@ -107,6 +107,12 @@ public class ServerChat{
 			datos.put("funcionalidad", "nuevaSala");			
 			break;
 			
+		case AGREGARUSUARIOSALA:
+			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+			datos.put("exito", exito);
+			datos.put("funcionalidad", "nuevaSala");
+			break;
+			
 		case NUEVOCONTACTO:
 			exito = ContactoController.agregarNuevoContacto((String)request.getDatos().get("usuarioIngresado"),(String)request.getDatos().get("nombreNuevoContacto"));
 			datos.put("exito", exito);
@@ -120,6 +126,7 @@ public class ServerChat{
 
 			if(usuDest != null) {
 				destinatarios.add(usuDest);
+				destinatarios.add(usuThread.getUsuario());
 			}else {
 				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
 				//destinatarios = UsuarioSala.getUsuariosPorSala(salaDest.getId());
