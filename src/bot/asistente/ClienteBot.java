@@ -103,8 +103,8 @@ public class ClienteBot extends Thread {
 	
 	private void login() {
 		datos = new HashMap<String,Object>();
-        datos.put("nombreUsuario", "1");
-        datos.put("passUsuario", "1");
+        datos.put("nombreUsuario", "iooi");
+        datos.put("passUsuario", "91");
 System.out.println("intentoLog");
         ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.LOGIN);				
 		String requestJson = gson.toJson(request);
