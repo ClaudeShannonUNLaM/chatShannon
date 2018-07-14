@@ -1,22 +1,29 @@
-package chat.cliente;
+package bot.asistente;
 
-//import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
-public class Cliente extends Thread{
-	
+import chat.serverUtils.ServerResponse;
+
+public class ClienteBot extends Thread {
+	private Asistente bot;
 	private String host;
     private int puerto;
     private String nombreUsuario;
-    private ThreadLectura threadLectura; //Thread que lee mensajes recividos desde el server.
-    private ThreadEscritura threadEscritura; //Thread que manda mensajes al server
+    private ThreadLecturaBot threadLectura; //Thread que lee mensajes recividos desde el server.
+    private ThreadEscrituraBot threadEscritura; //Thread que manda mensajes al server
 	
-	public Cliente(String host, int puerto){		
+	public ClienteBot(String host, int puerto){		
 		this.host = host;
         this.puerto = puerto;
+        this.bot = new Asistente();
+	}
+	
+	public ClienteBot(String host, int puerto, String nombreBot){		
+		this.host = host;
+        this.puerto = puerto;
+        this.bot = new Asistente(nombreBot);
 	}
 	
     public void setNombreUsuario(String nombreUsuario) {
@@ -30,8 +37,8 @@ public class Cliente extends Thread{
     public void run() {
         try {
             Socket socket = new Socket(host, puerto);
-	        threadLectura = new ThreadLectura(socket, this); 
-	        threadEscritura = new ThreadEscritura(socket, this);
+	        threadLectura = new ThreadLecturaBot(socket, this); 
+	        threadEscritura = new ThreadEscrituraBot(socket, this);
 
 	        threadLectura.start();
 	        threadEscritura.start(); 
@@ -42,11 +49,15 @@ public class Cliente extends Thread{
         } 
     }
 
-	public ThreadLectura getThreadLectura() {
+	public ThreadLecturaBot getThreadLectura() {
 		return threadLectura;
 	}
 
-	public ThreadEscritura getThreadEscritura() {
+	public ThreadEscrituraBot getThreadEscritura() {
 		return threadEscritura;
+	}
+	
+	public void atender(ServerResponse respuesta) {
+		
 	}
 }
