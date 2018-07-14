@@ -13,6 +13,7 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
+import bot.asistente.ClienteBot;
 import chat.serverUtils.Mensaje;
 import chat.serverUtils.ServerRequest;
 import chat.serverUtils.ServerResponse;
@@ -25,7 +26,7 @@ import hibernate.usuario.UsuarioController;
 import hibernate.usuarioSala.UsuarioSala;
 import hibernate.usuarioSala.UsuarioSalaController;
 
-public class ServerChat{
+public class ServerChat extends Thread{
 
 	int puerto;
 	ArrayList<UsuarioThread> usuarioThreads = new ArrayList<UsuarioThread>();	
@@ -229,7 +230,9 @@ public class ServerChat{
 	
 	public static void main(String[] args) {   	
 		ServerChat server = new ServerChat();
-		server.run();
+		server.start();
+		ClienteBot bot = new ClienteBot("localhost",10000);
+		bot.start();
 	}
 	
 
