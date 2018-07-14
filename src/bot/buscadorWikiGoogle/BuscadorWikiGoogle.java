@@ -3,65 +3,74 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+<<<<<<< HEAD
+
+import java.net.URISyntaxException;
+=======
 import java.net.MalformedURLException;
+>>>>>>> a4bbfbfbf898b6e3cbfb947b56abd8702796154a
 import java.net.URL;
+
+import java.net.URLEncoder;
+
 import org.json.JSONException;
 import chat.serverUtils.Mensaje;
-import tests.TestAsistente;
+
 
 public class BuscadorWikiGoogle  {
 		
-	private final static String wikipediaAPI="https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=";
-	private final static String googleAPI="https://www.googleapis.com/customsearch/v1?key=AIzaSyBpZxeSR-UtqGXu4mP4JQONwmpZ8UWTEgc&cx=010014002917633397902:9xiswcj3azq&fields=items(snippet,link)&lr=lang_es&q=";
+	private final static String wikipediaAPI="https://en.wikipedia.org/w/api.php?";
+	private final static String googleAPI="https://www.googleapis.com/customsearch/v1?";
 	private final static String wikipedia="https://en.wikipedia.org/wiki/";
 //
 	
 		
-	public Mensaje buscar(String msj) throws IOException, JSONException
+	public Mensaje buscar(String msj) throws IOException, JSONException, URISyntaxException
 	{	
-		Mensaje mensaje=new Mensaje(null,null,msj);
+		Mensaje mensaje;
 		
-		URL url = new URL(wikipediaAPI + convertirAFormatoWikipedia(msj));
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
+		String parametros="format=json&action=query&prop=extracts&exintro=&explaintext=&titles=";
+		String charset = "UTF-8"; 
+		String wAPI=URLEncoder.encode(parametros,charset);
+		HttpURLConnection conn = (HttpURLConnection) new URL( wikipediaAPI+wAPI+convertirAFormatoWikipedia(msj)) .openConnection();	
+	
 		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Accept", "application/json");
-
+		conn.setRequestProperty("Content-type", "application/json");
+		
+		
 		if (conn.getResponseCode() != 200) 
 		{
 			throw new RuntimeException("Failed : HTTP error code : "
 				+ conn.getResponseCode());
 		}
-
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-			(conn.getInputStream())));
+		 
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
 		String output;
 		
-		while ((output = br.readLine()) != null) {
+		while ((output = br.readLine()) != null)
+		{
 			
-		
-			
-			 
 			if(output.contains("extract:"))
 			{
 				if(output.substring(output.indexOf("extract:")+8,output.length()).contains("may refer to:"))
-					mensaje=buscarEnGoogle(msj);
+					return buscarEnGoogle(msj);
 				else
 				{
+					mensaje=new Mensaje(output.substring(output.indexOf("extract:")+8,output.length()));
+					
 					mensaje.setLink(wikipedia+convertirAFormatoWikipedia(msj));
-					mensaje.setDescripcion(output.substring(output.indexOf("extract:")+8,output.length()));
+				//	conn.disconnect();
+					return mensaje;
 				}
-			}	
-			else
-				mensaje=buscarEnGoogle(msj);
-			
+				
+			}else
+				return buscarEnGoogle(msj +" wikipedia");
 			
 		}
-
-		conn.disconnect();
-				
-		return mensaje;
-
+		return null;
+		
 	}
 	
 	private String convertirAFormatoWikipedia(String mensaje)
@@ -93,13 +102,21 @@ public class BuscadorWikiGoogle  {
 	
 	private Mensaje buscarEnGoogle(String msj) throws IOException
 	{
-		Mensaje mensaje=new Mensaje(null,null,msj);
+		Mensaje mensaje;
+		String parametros="key=AIzaSyBpZxeSR-UtqGXu4mP4JQONwmpZ8UWTEgc&cx=010014002917633397902:9xiswcj3azq&fields=items(snippet,link)&lr=lang_es&q=";
+		String charset = "UTF-8"; 
+		String wAPI=URLEncoder.encode(msj,charset);
 		
-		URL url = new URL(googleAPI + msj);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
+		HttpURLConnection conn = (HttpURLConnection) new URL(googleAPI+parametros+ wAPI).openConnection();	
+		
 		conn.setRequestMethod("GET");
+<<<<<<< HEAD
+		conn.setRequestProperty("Content-Type", "application/json");
+		
+=======
 		conn.setRequestProperty("Accept", "application/json");
 
+>>>>>>> a4bbfbfbf898b6e3cbfb947b56abd8702796154a
 		if (conn.getResponseCode() != 200) 
 		{
 			throw new RuntimeException("Failed : HTTP error code : "
@@ -110,11 +127,21 @@ public class BuscadorWikiGoogle  {
 			(conn.getInputStream())));
 
 		String output;
-		
-		while ((output = br.readLine()) != null)
+		mensaje=new Mensaje("");
+		int cant =0;
+		output = br.readLine();
+		while (cant < 7)
 		{
-			mensaje.setLink(output.substring(output.indexOf("link: ")+7,output.indexOf(",")-1));
-			mensaje.setDescripcion(	output.substring(output.indexOf("snippet: ")+10,output.indexOf("}")-2));
+			if(output.contains("link"))
+			{
+				
+				mensaje.setLink(output.substring(output.indexOf("link")+8,output.indexOf(",")-1));
+			}
+			else
+				if(output.contains("snippet"))
+					mensaje.setMensaje(output.substring(output.indexOf("snippet")+11,output.length()-1));
+			output = br.readLine();
+			cant++;
 		}
 		conn.disconnect();
 		return mensaje;
