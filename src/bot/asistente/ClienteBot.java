@@ -43,8 +43,8 @@ public class ClienteBot extends Thread {
 
 	        threadLectura.start();
 	        threadEscritura.start();
-	        
-	        	        
+
+	        login();
 	        
         } catch (UnknownHostException ex) {
             System.out.println("Servidor no encontrado: " + ex.getMessage());
@@ -67,7 +67,11 @@ public class ClienteBot extends Thread {
 		
 		switch (funcionalidad) {
 			case "login":
-
+					if(!(boolean)response.getDatos().get("exito")) {
+						login();
+					}else {
+						System.out.println("Login exitoso");
+					}
 				break;
 			case "mensajeRecivido":
 				Mensaje mensaje = (Mensaje) response.getDatos().get("mensaje");
@@ -85,7 +89,7 @@ public class ClienteBot extends Thread {
 				}else {
 					respuesta.setSala(mensaje.getSala());
 				}
-				
+
 				datos.put("mensaje",respuesta);
 				ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.ENVIARMENSAJE);
 				String requestServer = gson.toJson(request);
@@ -95,5 +99,15 @@ public class ClienteBot extends Thread {
 		default:
 			break;
 		}
+	}
+	
+	private void login() {
+		datos = new HashMap<String,Object>();
+        datos.put("nombreUsuario", "1");
+        datos.put("passUsuario", "1");
+
+        ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.LOGIN);				
+		String requestJson = gson.toJson(request);
+		threadEscritura.AddRequest(requestJson);
 	}
 }
