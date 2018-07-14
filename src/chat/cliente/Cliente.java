@@ -32,6 +32,9 @@ public class Cliente extends Thread{
         return this.Usuario;
     }
     
+    public int getPuerto() {
+        return this.puerto;
+    }
     public void run() {
         try {
             Socket socket = new Socket(host, puerto);

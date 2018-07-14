@@ -447,7 +447,7 @@ public class Index extends JFrame {
 	}
 	
 	public void desloguear() {
-		new Login(cliente.getHost());
+		new Login(cliente.getHost(),Integer.toString(cliente.getPuerto()));
 		dispose();
 	}
 }

@@ -34,10 +34,10 @@ public class Login extends JFrame {
 	private JPasswordField lblPassUsuario;
 
 	
-	public Login(String ipServer){
+	public Login(String ipServer,String host){
 		this.setTitle("Login");
 		
-		cliente = new Cliente(ipServer, 10000);
+		cliente = new Cliente(ipServer,Integer.parseInt(host));
         cliente.run();
         
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
