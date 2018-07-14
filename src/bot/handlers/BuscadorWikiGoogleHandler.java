@@ -4,6 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+
 import org.json.JSONException;
 
 import bot.buscadorWikiGoogle.BuscadorWikiGoogle;
@@ -22,7 +24,7 @@ public class BuscadorWikiGoogleHandler extends AsistantSentenceHandler{
 			BuscadorWikiGoogle bwg = new BuscadorWikiGoogle();
 			try {
 				objetoMensaje= bwg.buscar(busqueda) ;
-			} catch (IOException | JSONException e) {
+			} catch (IOException | JSONException | URISyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
