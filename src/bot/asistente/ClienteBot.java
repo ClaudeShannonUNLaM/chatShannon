@@ -6,11 +6,13 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import chat.serverUtils.FuncionalidadServerEnum;
 import chat.serverUtils.Mensaje;
 import chat.serverUtils.ServerRequest;
 import chat.serverUtils.ServerResponse;
+import hibernate.sala.Sala;
 import hibernate.usuario.Usuario;
 
 public class ClienteBot extends Thread {
@@ -74,7 +76,10 @@ public class ClienteBot extends Thread {
 					}
 				break;
 			case "mensajeRecivido":
-				Mensaje mensaje = (Mensaje) response.getDatos().get("mensaje");
+
+				LinkedTreeMap<String, Object> men = (LinkedTreeMap<String, Object>) response.getDatos().get("mensaje");	
+				
+				Mensaje mensaje = translateMensaje(men); //Se traduce de GSON a mensaje
 				Mensaje respuesta;
 				try {
 					respuesta = bot.escuchar(mensaje.getMensaje(), mensaje.getEmisor().getNombre());
@@ -109,6 +114,58 @@ System.out.println("intentoLog");
         ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.LOGIN);				
 		String requestJson = gson.toJson(request);
 		threadEscritura.AddRequest(requestJson);
+	}
+	
+	private Mensaje translateMensaje(LinkedTreeMap<String, Object> men) {
+		
+		Mensaje mensaje = new Mensaje();		
+		
+		//Creo el usuario emisor
+		LinkedTreeMap<String, Object> usu = (LinkedTreeMap<String, Object>) men.get("emisor"); 
+		Usuario usuarioAux = new Usuario();
+		
+		double id = (double)usu.get("id");
+		
+		usuarioAux.setId((int)id) ;
+		usuarioAux.setNombre((String)usu.get("nombre"));
+		usuarioAux.setPassword((String)usu.get("password"));
+		usuarioAux.setOnline((boolean)usu.get("online"));
+
+		//Creo la sala desde la que se envio (al menos que provenga de una conversación privada)
+		LinkedTreeMap<String, Object> sa = (LinkedTreeMap<String, Object>) men.get("sala");
+		Sala nuevaSala;
+		
+		if(sa != null) {
+			id = (double)sa.get("id");
+			nuevaSala = new Sala((int)id,(String)sa.get("nombre"),(boolean)sa.get("privada"));	
+		}
+		else
+			nuevaSala = null;
+		
+		
+		//Creo el usuario destinatario			
+		
+		usu = (LinkedTreeMap<String, Object>) men.get("usuarioDestinatario");
+		Usuario destinatario; 
+		
+		if(usu != null) {
+			destinatario = new Usuario();
+			id = (double)usu.get("id");
+			
+			destinatario.setId((int)id) ;
+			destinatario.setNombre((String)usu.get("nombre"));
+			destinatario.setPassword((String)usu.get("password"));
+			destinatario.setOnline((boolean)usu.get("online"));
+		}			
+		else
+			destinatario = null;
+		
+		mensaje.setEmisor(usuarioAux);
+		mensaje.setMensaje((String)men.get("mensaje"));
+		mensaje.setSala(nuevaSala);
+		mensaje.setUsuarioDestinatario(destinatario);
+		
+		return mensaje;
 	}
 	
 	public static void main(String[] args) {
