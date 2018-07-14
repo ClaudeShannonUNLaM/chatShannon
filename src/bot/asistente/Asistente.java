@@ -5,7 +5,7 @@ import java.text.ParseException;
 
 import bot.handlers.*;
 import chat.serverUtils.Mensaje;
-import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
+//import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
 
 public class Asistente {
 	
@@ -18,7 +18,7 @@ public class Asistente {
 		this.nombre = nombre;
 	}
 	
-	public Mensaje escuchar(String mensaje) throws ParseException, IOException{	
+	public Mensaje escuchar(String mensaje, String emisor) throws ParseException, IOException{	
 		if(!mensaje.contains("@"+nombre))
 			return null;				
 		
@@ -56,6 +56,6 @@ public class Asistente {
 		memes.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return agradecer.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return agradecer.giveAnswer(mensaje.toLowerCase(), emisor);				
 	}
 }

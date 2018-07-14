@@ -4,7 +4,12 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import chat.cliente.userInterface.AgregarContacto;
+import chat.cliente.userInterface.Login;
+import chat.cliente.userInterface.NuevaSala;
+import chat.cliente.userInterface.NuevoUsuario;
 import chat.serverUtils.ServerResponse;
+import hibernate.usuario.Usuario;
 
 public class ClienteBot extends Thread {
 	private Asistente bot;
@@ -41,7 +46,9 @@ public class ClienteBot extends Thread {
 	        threadEscritura = new ThreadEscrituraBot(socket, this);
 
 	        threadLectura.start();
-	        threadEscritura.start(); 
+	        threadEscritura.start();
+	        
+	        
         } catch (UnknownHostException ex) {
             System.out.println("Servidor no encontrado: " + ex.getMessage());
         } catch (IOException ex) {
@@ -57,7 +64,24 @@ public class ClienteBot extends Thread {
 		return threadEscritura;
 	}
 	
-	public void atender(ServerResponse respuesta) {
+	public void atender(ServerResponse response) {
+		String funcionalidad = (String)response.getDatos().get("funcionalidad");	
 		
+		switch (funcionalidad) {
+			case "login":
+
+				break;
+			case "mensajeRecivido":
+				String mensaje = (String) response.getDatos().get("mensaje");
+				Usuario usuarioEmi = (Usuario) response.getDatos().get("emisor");
+				try {
+					bot.escuchar(mensaje, usuarioEmi.getNombre());					
+				}catch(Exception e) {
+					
+				}
+				break;
+		default:
+			break;
+		}
 	}
 }
