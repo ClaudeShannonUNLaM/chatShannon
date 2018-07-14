@@ -36,11 +36,12 @@ public class AgregarRSSHandler extends AsistantSentenceHandler{
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}	
-public static void main(String[] args) {
+	public static void main(String[] args) {
 	//http://worldscreen.com/tvdrama/feed/   http://worldscreen.com/tvlatina/feed/  http://rss.cnn.com/rss/edition.rss
 	AgregarRSSHandler r  = new AgregarRSSHandler();
-	System.out.println(r.giveAnswer("quiero guardar: http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml", "marinolautaro").getDescripcion());
+	System.out.println(r.giveAnswer("quiero guardar: http://www.bbc.co.uk/mundo/ultimas_noticias/index.xml", "marinolautaro").getMensaje());
     //worldscreen.com/tvdrama/feed/"));
-	//https://www.pagina12.com.ar/diario/rss/ultimas_noticias.xml}
+	//https://www.pagina12.com.ar/diario/rss/ultimas_noticias.xml
+}
 
 }

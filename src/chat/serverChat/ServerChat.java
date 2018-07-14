@@ -67,7 +67,9 @@ public class ServerChat{
 		
 		case LOGIN:
 			Usuario usuario = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
-			
+			if(usuario != null) {
+				usuThread.setUsuario(usuario);
+			}
 			datos.put("usuario", usuario ); 
 			datos.put("exito", usuario != null);
 			datos.put("funcionalidad", "login");
@@ -150,7 +152,7 @@ public class ServerChat{
 				for(int j = 0; j < destinatarios.size(); j++) {
 					if(usuarioThreads.get(i).getUsuario().getId() == destinatarios.get(j).getId()) {
 						usuarioThreads.get(i).enviarMensaje(responseMensaje);
-						destinatarios.remove(j);
+						//destinatarios.remove(j);
 						break;
 					}
 				}
