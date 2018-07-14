@@ -57,7 +57,7 @@ public class ContactoController extends DataBaseHelper{
 
 			Query q = sesion.createNativeQuery("select u.* from usuario u"
 					+ " inner join contacto c on u.id = c.idContacto "
-					+ " where u.nombre = " + nombreUsuario , Usuario.class);
+					+ " where u.nombre = '" + nombreUsuario + "'" , Usuario.class);
 		  	
 			
 			try{ 

@@ -64,6 +64,10 @@ public class AgregarContacto extends JFrame {
 		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));
 		btnAgregar.setBounds(155, 179, 89, 23);
 		contentPane.add(btnAgregar);
+		
+		this.cliente = cliente;
+		cliente.getThreadLectura().addPantalla("nuevoContacto", this);
+		
 		setVisible(true);
 	}
 	

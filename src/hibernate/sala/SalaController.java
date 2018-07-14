@@ -20,11 +20,12 @@ import hibernate.AdivinarMayorMenorMappingClass;
 import hibernate.usuario.Usuario;
 import hibernate.usuario.UsuarioController;
 import hibernate.usuarioSala.UsuarioSala;
+import hibernate.usuarioSala.UsuarioSalaController;
 
 public class SalaController extends DataBaseHelper {
 	
 	
-	public static boolean CrearSala(Sala sala) {
+	public static boolean CrearSala(int idCreador,Sala sala) {
 		Session session = crearSession();
 		
 		if(exists(sala, session))
@@ -42,6 +43,8 @@ public class SalaController extends DataBaseHelper {
 			}							
 			
 		}	
+		
+		UsuarioSalaController.agregarParticipanteSala(idCreador,sala);
 		
 		session.close();
 		return true;

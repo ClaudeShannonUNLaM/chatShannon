@@ -94,20 +94,28 @@ public class ServerChat{
 			LinkedTreeMap<String, Object> salaJSON = (LinkedTreeMap<String, Object>) request.getDatos().get("nuevaSala");
 			Sala nuevaSala;		
 			
-			double id = (double)salaJSON.get("id");
-			nuevaSala = new Sala((int)id,(String)salaJSON.get("nombre"),(boolean)salaJSON.get("privada"));	
+			double id = (double)salaJSON.get("id");			
+			nuevaSala = new Sala((int)id,(String)salaJSON.get("nombre"),(boolean)salaJSON.get("privada"));
 			
+			double idUsuario = (double)request.getDatos().get("idUsuario");
 			
-			
-			exito = SalaController.CrearSala(nuevaSala);
+			exito = SalaController.CrearSala((int)idUsuario,nuevaSala);
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevaSala");			
 			break;
 			
 		case AGREGARUSUARIOSALA:
-			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+
+			LinkedTreeMap<String, Object> nuevaJSON = (LinkedTreeMap<String, Object>) request.getDatos().get("nuevaSala");					
+			
+			id = (double)nuevaJSON.get("id");
+			nuevaSala = new Sala((int)id,(String)nuevaJSON.get("nombre"),(boolean)nuevaJSON.get("privada"));
+			
+			idUsuario = (double)request.getDatos().get("idUsuario");		
+			
+			exito = UsuarioSalaController.agregarParticipanteSala((int)idUsuario, nuevaSala);
 			datos.put("exito", exito);
-			datos.put("funcionalidad", "nuevaSala");
+			datos.put("funcionalidad", "agregarUsuarioSala");
 			break;
 			
 		case NUEVOCONTACTO:

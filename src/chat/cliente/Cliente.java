@@ -20,7 +20,11 @@ public class Cliente extends Thread{
         this.puerto = puerto;
 	}
 	
-    public void setUsuario(Usuario usuario) {
+    public String getHost() {
+		return host;
+	}
+
+	public void setUsuario(Usuario usuario) {
         this.Usuario = usuario;
     }
  
