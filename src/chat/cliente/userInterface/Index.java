@@ -422,8 +422,18 @@ public class Index extends JFrame {
 		
 		if(!contenidoExtra.equals("")) 
 			textoMensaje += contenidoExtra + "\n";			
+
+		boolean destacar = false;
+		if(mensaje.getMensaje().contains(cliente.getUsuario())){
+			destacar = true;
+		}
 		
-		textoMensaje += mensaje.getEmisor().getNombre() +  ": " + mensaje.getMensaje() + "\n";
+		String mensajeText = mensaje.getEmisor().getNombre() +  ": " + mensaje.getMensaje() + "\n";
+		if(destacar){
+			mensajeText = "<html><body color='orange>" + mensajeText + "</body></html>";
+		}
+
+		textoMensaje += mensajeText;
 		
 		mensajesSalas.set(indexMensaje, textoMensaje);
 		textArea.setText(textoMensaje);
