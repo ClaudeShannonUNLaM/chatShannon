@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONException;
 import chat.serverUtils.Mensaje;
+import tests.TestAsistente;
 
 public class BuscadorWikiGoogle  {
 		
@@ -17,7 +18,7 @@ public class BuscadorWikiGoogle  {
 		
 	public Mensaje buscar(String msj) throws IOException, JSONException
 	{	
-		Mensaje mensaje=new Mensaje();
+		Mensaje mensaje=new Mensaje(null,null,msj);
 		
 		URL url = new URL(wikipediaAPI + convertirAFormatoWikipedia(msj));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
@@ -53,7 +54,7 @@ public class BuscadorWikiGoogle  {
 			else
 				mensaje=buscarEnGoogle(msj);
 			
-			//}
+			
 		}
 
 		conn.disconnect();
@@ -91,7 +92,7 @@ public class BuscadorWikiGoogle  {
 	
 	private Mensaje buscarEnGoogle(String msj) throws IOException
 	{
-		Mensaje mensaje=new Mensaje();
+		Mensaje mensaje=new Mensaje(null,null,msj);
 		
 		URL url = new URL(googleAPI + msj);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
