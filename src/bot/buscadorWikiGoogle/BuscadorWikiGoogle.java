@@ -3,12 +3,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-<<<<<<< HEAD
 
 import java.net.URISyntaxException;
-=======
 import java.net.MalformedURLException;
->>>>>>> a4bbfbfbf898b6e3cbfb947b56abd8702796154a
 import java.net.URL;
 
 import java.net.URLEncoder;
@@ -110,13 +107,8 @@ public class BuscadorWikiGoogle  {
 		HttpURLConnection conn = (HttpURLConnection) new URL(googleAPI+parametros+ wAPI).openConnection();	
 		
 		conn.setRequestMethod("GET");
-<<<<<<< HEAD
 		conn.setRequestProperty("Content-Type", "application/json");
 		
-=======
-		conn.setRequestProperty("Accept", "application/json");
-
->>>>>>> a4bbfbfbf898b6e3cbfb947b56abd8702796154a
 		if (conn.getResponseCode() != 200) 
 		{
 			throw new RuntimeException("Failed : HTTP error code : "
