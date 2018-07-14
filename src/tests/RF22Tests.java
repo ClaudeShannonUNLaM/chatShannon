@@ -25,13 +25,13 @@ public class RF22Tests {
 	
 	@Test
 	public void memeRegexTest() throws ParseException, IOException{
-		assertEquals("img\\memes\\its trap.jpg",shannon.escuchar("quiero ver el meme its trap, @shannon"));
+		assertEquals("img\\memes\\its trap.jpg",shannon.escuchar("quiero ver el meme its trap, @shannon",USUARIO));
 	}
 	
 	@Test 
 	public void memejFrameTest() throws ParseException, IOException, InterruptedException {
 		
-		Mensaje img=shannon.escuchar("quiero ver el meme take my money, @shannon");
+		Mensaje img=shannon.escuchar("quiero ver el meme take my money, @shannon",USUARIO);
 		if(img!=null){
 		/*
 			meme =new GeneradorMeme(img.getImagen(),img.getDescripcion());

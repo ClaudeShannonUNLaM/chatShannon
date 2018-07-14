@@ -32,14 +32,14 @@ public class TestAsistente{
 	public void noTeEntiendo() throws ParseException, IOException{
 		String mensaje = "chacha @shannon";
 		
-		Assert.assertEquals("Disculpa... no entiendo el pedido, @"+USUARIO+" ¿podrías repetirlo?", shannon.escuchar(mensaje));
+		Assert.assertEquals("Disculpa... no entiendo el pedido, @"+USUARIO+" ¿podrías repetirlo?", shannon.escuchar(mensaje,USUARIO));
 	}
 	
 	@Test
 	public void saludo() throws ParseException, IOException{
 		String mensaje = "Hola @shannon";
 		
-		Assert.assertEquals("¡Hola, @"+USUARIO+"!", shannon.escuchar(mensaje));
+		Assert.assertEquals("¡Hola, @"+USUARIO+"!", shannon.escuchar(mensaje,USUARIO));
 	}
 	
 
@@ -54,7 +54,7 @@ public class TestAsistente{
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
 					"@"+USUARIO+" son las "+formato.format(c.getTime()),
-					shannon.escuchar(mensaje)
+					shannon.escuchar(mensaje,USUARIO)
 			);
 		}
 	}
@@ -70,7 +70,7 @@ public class TestAsistente{
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
 					"@"+USUARIO+" hoy es " + formato.format(c.getTime()),
-					shannon.escuchar(mensaje)
+					shannon.escuchar(mensaje,USUARIO)
 			);
 		}
 	}
@@ -84,7 +84,7 @@ public class TestAsistente{
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
 					"@"+USUARIO+" hoy es " + formato.format(c.getTime()),
-					shannon.escuchar(mensaje)
+					shannon.escuchar(mensaje,USUARIO)
 			);
 		}
 }
