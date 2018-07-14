@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-import javax.swing.JFrame;
-
 import com.google.gson.Gson;
 
 import chat.serverUtils.ServerResponse;
@@ -50,9 +48,5 @@ public class ThreadLecturaBot extends Thread {
                 break;
             }
         }
-    }    
-    
-    public void addPantalla(String nombrePantalla,JFrame frame) {
-    	pantallasHandler.addPantalla(nombrePantalla, frame);
-    }    
+    }
 }
