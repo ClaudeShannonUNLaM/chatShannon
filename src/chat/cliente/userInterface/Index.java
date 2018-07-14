@@ -320,7 +320,7 @@ public class Index extends JFrame {
 		});
 	}
 	 
-	public void cargarDatosIndex(List<Sala> salasPublicas, List<Sala> salasPrivadas,List<Usuario> contactos ) {
+	public void cargarDatosIndex(ArrayList<Sala> salasPublicas, ArrayList<Sala> salasPrivadas, ArrayList<Usuario> contactos ) {
 		
 		salas = salasPublicas;		
 		for (Sala sala : salasPrivadas) { //Cargo todas las salas

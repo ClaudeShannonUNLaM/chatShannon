@@ -1,6 +1,7 @@
 package chat.clienteUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.JFrame;
 
 import org.junit.runner.Request;
 
+import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 
 import chat.serverUtils.Mensaje;
@@ -40,10 +42,14 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 		switch (funcionalidad) {
 			case "login":
 				
+				//WorkArround al cambio de clases de GSON.
 				if((boolean)response.getDatos().get("exito")) {
-					LinkedTreeMap<String, Object> usu = (LinkedTreeMap<String, Object>) response.getDatos().get("usuario"); //WorkArround al cambio de clases de GSON.
+					
+					LinkedTreeMap<String, Object> usu = (LinkedTreeMap<String, Object>) response.getDatos().get("usuario"); 
 					Usuario usuario = new Usuario();
+					
 					double id = (double)usu.get("id");
+					
 					usuario.setId((int)id) ;
 					usuario.setNombre((String)usu.get("nombre"));
 					usuario.setPassword((String)usu.get("password"));
@@ -54,16 +60,39 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				}
 				else {
 					((Login)pantallas.get("login")).
-					IngresarSistema(new Usuario(),
-									false);
+					IngresarSistema(new Usuario(), false);
 				}
 					
 				break;
-			case "cargaInicial":
+			case "cargaInicial":			
+				
+				//WorkArround al cambio de clases de GSON.
+				ArrayList<LinkedTreeMap<String, Object>> mapPublicas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
+				ArrayList<LinkedTreeMap<String, Object>> mapPrivadas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
+				ArrayList<LinkedTreeMap<String, Object>> mapContactos = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
+				ArrayList<Sala> publicas = new ArrayList<Sala>();
+				ArrayList<Sala> privadas = new ArrayList<Sala>();
+				ArrayList<Usuario> contactos = new ArrayList<Usuario>();
+				
+				for (LinkedTreeMap<String, Object> dato : mapPublicas) {
+					double id = (double)dato.get("id");
+					Sala nuevaSala = new Sala((int)id,(String)dato.get("nombre"),false);
+					publicas.add(nuevaSala);
+				}
+				
+				for (LinkedTreeMap<String, Object> dato : mapPrivadas) {
+					double id = (double)dato.get("id");
+					Sala nuevaSala = new Sala((int)id,(String)dato.get("nombre"),true);
+					privadas.add(nuevaSala);
+				}				
+				
+				/*for (LinkedTreeMap<String, Object> dato : mapContactos) {
+					
+				}*/
+				
+				
 				((Index)pantallas.get("index")).
-				cargarDatosIndex((List<Sala>)response.getDatos().get("salasPublicas"),
-						(List<Sala>)response.getDatos().get("salasPrivadas"),
-						(List<Usuario>)response.getDatos().get("contactos"));
+				cargarDatosIndex(publicas,privadas,contactos);
 				break;
 				
 			case "nuevoUsuario":
@@ -80,6 +109,9 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				
 				break;
 			case "mensajeRecivido":
+
+				//WorkArround al cambio de clases de GSON.
+				LinkedTreeMap<String, Object> men = (LinkedTreeMap<String, Object>) response.getDatos().get("usuario"); 
 				Mensaje mensaje = (Mensaje)response.getDatos().get("mensaje");
 				
 				if(mensaje.getSala() != null) //El mensaje es para una sala.

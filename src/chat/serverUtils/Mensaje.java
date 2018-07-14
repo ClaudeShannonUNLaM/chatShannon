@@ -15,6 +15,17 @@ public class Mensaje {
 	private String descripcion;
 	private String link;
 	
+	public Mensaje() {
+		emisor = null;
+		sala = null;
+		usuarioDestinatario = null;
+		video = null;
+		imagen = null;
+		mensaje = null;
+		descripcion = null;
+		link = null;
+	}
+	
 	public Mensaje(Usuario emisor,Sala sala,String mensaje) {
 		this.emisor = emisor;
 		this.sala = sala;
