@@ -33,6 +33,13 @@ public class ThreadEscritura extends Thread {
 				writer.println(listaRequest.get(0));
 				listaRequest.remove(0);
 			}
+			else {
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {					
+					e.printStackTrace();
+				}
+			}
 				
     	}
     }	

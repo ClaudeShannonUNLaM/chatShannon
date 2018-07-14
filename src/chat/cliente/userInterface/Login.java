@@ -109,7 +109,8 @@ public class Login extends JFrame {
 		contentPane.add(lblBienvenido);
 		
 		
-		cliente.getThreadLectura().addPantalla("login", this);
+		cliente.getThreadLectura().addPantalla("login", this);	
+		
 		setVisible(true);
 	}
 	
@@ -122,4 +123,5 @@ public class Login extends JFrame {
 		else
 			new MensajeInterfaz("El usuario no está dentro del sistema");			
 	}
+	
 }

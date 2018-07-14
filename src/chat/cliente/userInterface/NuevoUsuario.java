@@ -107,8 +107,8 @@ public class NuevoUsuario extends JFrame {
 		setVisible(true);
 	}
 	
-	public void notificarCreacionNuevoUsuario(boolean creadoConExito) {
-		if(creadoConExito) {
+	public void notificarCreacionNuevoUsuario(boolean creadoConExito) {		
+		if(creadoConExito) {			
 			new MensajeInterfaz("El usuario se creó con éxito");
 			dispose();
 		}

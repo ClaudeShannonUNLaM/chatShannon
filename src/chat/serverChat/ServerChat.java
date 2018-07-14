@@ -67,7 +67,7 @@ public class ServerChat{
 		case LOGIN:
 			Usuario usuario = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
 			
-			datos.put("Usuario", usuario ); 
+			datos.put("usuario", usuario ); 
 			datos.put("exito", usuario != null);
 			datos.put("funcionalidad", "login");
 			break;
@@ -120,8 +120,9 @@ public class ServerChat{
 				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
 				//destinatarios = UsuarioSala.getUsuariosPorSala(salaDest.getId());
 			}			
+			datos.put("mensaje",mensaje);
 			
-			ServerResponse responseMensaje = new ServerResponse(request.getDatos());
+			ServerResponse responseMensaje = new ServerResponse(datos);
 			responseMensaje.getDatos().put("funcionalidad","mensajeRecivido");		
 
 			for(int i = 0; i < usuarioThreads.size(); i++) {

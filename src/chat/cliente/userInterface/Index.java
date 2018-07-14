@@ -284,9 +284,24 @@ public class Index extends JFrame {
 			}
 		});
 		btnCrearNuevaSala.setFont(new Font("Arial", Font.BOLD, 11));
+		
+		
+		cargarDatosIniciales();
 		setVisible(true);
 	}
 	
+	private void cargarDatosIniciales() {
+		
+		HashMap<String, Object> map = new HashMap<String,Object>();	
+        map.put("nombreUsuario",this.cliente.getUsuario().getNombre());
+        
+        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.CARGARDATOSINICIALES);
+		Gson gson = new Gson();					
+		String requestJson = gson.toJson(request);
+		cliente.getThreadEscritura().AddRequest(requestJson);		
+		
+	}
+
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -358,8 +373,7 @@ public class Index extends JFrame {
 		Sala salaMensaje = mensaje.getSala();
 		int indexMensaje = salas.indexOf(salaMensaje);
 		
-		String textoMensaje = mensajesSalas.get(indexMensaje);
-		mensajesSalas.get(indexMensaje);
+		String textoMensaje = mensajesSalas.get(indexMensaje);		
 		
 		String contenidoExtra = ""; 
 		if(mensaje.getImagen() != null) {
@@ -367,7 +381,7 @@ public class Index extends JFrame {
 		}
 		
 		if(mensaje.getVideo() != null) {
-			contenidoExtra = "<video> <source src=\"" + mensaje.getVideo() + " type=\"video/mp4\"></video>";
+			contenidoExtra = "<html><body><video> <source src=\"" + mensaje.getVideo() + " type=\"video/mp4\"></video></body></html>";
 		}		
 		
 		if(!contenidoExtra.equals("")) 
@@ -379,7 +393,13 @@ public class Index extends JFrame {
 	}
 	
 	public void agregarMensajeContacto(Mensaje mensaje) {
+		Usuario usuarioDestino = mensaje.getUsuarioDestinatario();
+		int indexMensaje = contactos.indexOf(usuarioDestino);
 		
+		String textoMensaje = mensajesContactos.get(indexMensaje);
+		textoMensaje += mensaje.getMensaje() + "\n";
+		
+		mensajesContactos.set(indexMensaje, textoMensaje);
 	}
 	
 }
