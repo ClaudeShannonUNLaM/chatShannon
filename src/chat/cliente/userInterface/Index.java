@@ -354,8 +354,11 @@ public class Index extends JFrame {
 	}
 	 
 	public void cargarDatosIndex(ArrayList<Sala> salasPublicas, ArrayList<Sala> salasPrivadas, ArrayList<Usuario> contactos ) {
+		salas = new ArrayList<Sala>();	
 		
-		salas = salasPublicas;		
+		for (Sala sala : salasPublicas) { //Cargo todas las salas
+			salas.add(sala);	
+		}
 		for (Sala sala : salasPrivadas) { //Cargo todas las salas
 			salas.add(sala);	
 		}
