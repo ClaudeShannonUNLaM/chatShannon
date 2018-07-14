@@ -1,14 +1,12 @@
 package chat.cliente.userInterface;
 
-import java.awt.EventQueue;
+
 import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -18,10 +16,15 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import com.google.gson.Gson;
+
 import chat.cliente.Cliente;
+import chat.serverUtils.FuncionalidadServerEnum;
+import chat.serverUtils.Mensaje;
+import chat.serverUtils.ServerRequest;
 import hibernate.contacto.Contacto;
 import hibernate.sala.Sala;
-import hibernate.usuarioSala.UsuarioSalaController;
+import hibernate.usuario.Usuario;
 
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -31,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JTextArea;
@@ -51,17 +55,23 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.SystemColor;
+import javax.swing.JTextPane;
 
 public class Index extends JFrame {
 	
 	private JPanel contentPane;	
-	private List<Sala> salasPublicas;
-	private List<Sala> salasPrivadas;
-	private List<Contacto> contactos;
-	private JList listContactos;
-	private JList listSalasPrivadas;
-	private JList listSalasSeleccion;	
 	
+	private List<Sala> salas; //Mantengo las salas 
+	private List<Usuario> contactos;
+	
+	private ArrayList<String> mensajesSalas; 		
+	private ArrayList<String> mensajesContactos; 
+	
+	private JList listContactos; 
+	private JList listSalasPrivadas;
+	private JList listSalasPublicas;	
+	
+	private Object conversacionSeleccionada;
 	private JTextField mensajeTxT;
 	private Cliente cliente;
 	
@@ -92,8 +102,7 @@ public class Index extends JFrame {
 		popupMenu_1.add(mntmVerIntegrantes_1);
 		panelMensajes.setLayout(null);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setWrapStyleWord(true);
+		JTextPane textArea = new JTextPane();
 		textArea.setBackground(SystemColor.menu);
 		textArea.setFont(new Font("Arial", Font.PLAIN, 14));
 		textArea.setEditable(false);
@@ -122,7 +131,7 @@ public class Index extends JFrame {
 		lblFotoUsuario.setBounds(2, 2, 46, 51);
 		panelDatosUsuario.add(lblFotoUsuario);
 		
-		JLabel lblNombreUsuario = new JLabel(cliente.getNombreUsuario());
+		JLabel lblNombreUsuario = new JLabel(cliente.getUsuario().getNombre());
 		lblNombreUsuario.setBounds(58, 20, 184, 14);
 		panelDatosUsuario.add(lblNombreUsuario);
 		
@@ -138,16 +147,6 @@ public class Index extends JFrame {
 		JMenuItem mntmVerIntegrantes = new JMenuItem("Ver integrantes");
 		mntmVerIntegrantes.setIcon(new ImageIcon("img\\wach.png"));
 		popupMenu.add(mntmVerIntegrantes);
-		
-		JButton btnCrearNuevaSala = new JButton("Crear nueva sala");
-		btnCrearNuevaSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				new NuevaSala(cliente);
-			}
-		});
-		btnCrearNuevaSala.setFont(new Font("Arial", Font.BOLD, 11));
-		btnCrearNuevaSala.setBounds(428, 18, 151, 23);
-		panelOpciones.add(btnCrearNuevaSala);
 		
 		JLabel labelNombreSalaSeleccionada = new JLabel("");
 		labelNombreSalaSeleccionada.setFont(new Font("Arial", Font.BOLD, 26));
@@ -167,7 +166,25 @@ public class Index extends JFrame {
 					return;
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					textArea.append("  " + lblNombreUsuario.getText() + ": " +   mensajeTxT.getText() + "\n");
+					
+					//textArea.setText("  " + lblNombreUsuario.getText() + ": " +   mensajeTxT.getText() + "\n");
+					HashMap<String, Object> map = new HashMap<String,Object>();
+					
+					if(contactos.contains(conversacionSeleccionada) ) {
+						map.put("usuarioDestino", ((Usuario)conversacionSeleccionada));	
+					}
+					else {
+						map.put("usuarioDestino", ((Usuario)conversacionSeleccionada));
+					}
+					
+					Mensaje mensaje = new Mensaje();
+			        map.put("mensaje",mensaje);
+			        
+			        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.ENVIARMENSAJE);
+					Gson gson = new Gson();					
+					String requestJson = gson.toJson(request);
+					cliente.getThreadEscritura().AddRequest(requestJson);
+					
 					mensajeTxT.setText("");
 				}				
 			}
@@ -193,22 +210,23 @@ public class Index extends JFrame {
 		listSalasPrivadas = new JList();
 		salasPrivadasPane.setViewportView(listSalasPrivadas);	
 		
-		listSalasSeleccion = new JList();
+		listSalasPublicas = new JList();
 		
-		listSalasSeleccion.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listSalasSeleccion.setFont(new Font("Arial", Font.BOLD, 16));
+		listSalasPublicas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listSalasPublicas.setFont(new Font("Arial", Font.BOLD, 16));
 		
-		listSalasSeleccion.addListSelectionListener(new ListSelectionListener() {     
+		listSalasPublicas.addListSelectionListener(new ListSelectionListener() {     
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-			      if (!e.getValueIsAdjusting()) {
-			    	  labelNombreSalaSeleccionada.setText(listSalasSeleccion.getSelectedValue().toString());
+			      if (!e.getValueIsAdjusting()) {			    	  
+			    	  textArea.setText("  " + lblNombreUsuario.getText() + ": " +   mensajeTxT.getText() + "\n"); //Se cambia el mensaje siendo mostrado
+			    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());
 	                }				
 			}
         });
 		panelListas.setLayout(null);
 		
-		JScrollPane panelScroll = new JScrollPane(listSalasSeleccion);
+		JScrollPane panelScroll = new JScrollPane(listSalasPublicas);
 		panelScroll.setBounds(0, 36, 252, 109);
 		panelListas.add(panelScroll);
 		
@@ -237,6 +255,19 @@ public class Index extends JFrame {
 		btnAgregar.setBounds(153, 295, 89, 23);
 		panelListas.add(btnAgregar);
 		
+		JButton btnCrearNuevaSala = new JButton("Nueva");
+		btnCrearNuevaSala.setBounds(138, 8, 104, 23);
+		panelListas.add(btnCrearNuevaSala);
+		btnCrearNuevaSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new NuevaSala(cliente);
+			}
+		});
+		btnCrearNuevaSala.setFont(new Font("Arial", Font.BOLD, 11));
+		
+		
+		mensajesSalas= new ArrayList<String>();
+		mensajesContactos = new ArrayList<String>();
 		
 		setVisible(true);
 	}
@@ -259,41 +290,72 @@ public class Index extends JFrame {
 		});
 	}
 	
-	public void cargarSalasPublicas(List<Sala> salas ) {		
-		salasPublicas = salas;
-		DefaultListModel listModel = new DefaultListModel();		
+	public void cargarDatosIndex(List<Sala> salasPublicas, List<Sala> salasPrivadas,List<Usuario> contactos ) {
 		
-		for (Sala sala : salas) {
-			listModel.addElement(sala.getNombre());			
+		salas = salasPublicas;		
+		for (Sala sala : salasPrivadas) { //Cargo todas las salas
+			salas.add(sala);	
 		}
 		
-		listSalasSeleccion.setModel(listModel);		
+		this.contactos = contactos;
+		
+		cargarSalasPublicas(salasPublicas);
+		cargarSalasPrivadas(salasPrivadas);
+		cargarContactos(contactos);
 	
 	}
 	
-	private void cargarSalasPrivadas(List<Sala> salas ){
-		salasPrivadas = salas;		
+	private void cargarSalasPublicas(List<Sala> salasPublicas) {
 		DefaultListModel listModel = new DefaultListModel();		
 		
-		for (Sala sala : salas) {
-			listModel.addElement(sala.getNombre());			
+		for (Sala sala : salasPublicas) {
+			listModel.addElement(sala.getNombre());
+			mensajesSalas.add("");			
 		}
 		
-		listSalasPrivadas.setModel(listModel);		
+		listSalasPublicas.setModel(listModel);
+	}
+	
+	private void cargarSalasPrivadas(List<Sala> salasPrivadas) {
+		DefaultListModel listModel = new DefaultListModel();		
+		
+		for (Sala sala : salasPrivadas) {
+			listModel.addElement(sala.getNombre());
+			mensajesSalas.add("");			
+		}
+		
+		listSalasPrivadas.setModel(listModel);
+	}	
+	
+	public void cargarContactos(List<Usuario> contactos ){				
+		DefaultListModel listModel = new DefaultListModel();		
+		
+		for (Usuario contacto : contactos) {
+			listModel.addElement(contacto.getNombre());
+			mensajesContactos.add("");
+		}
+		
+		listContactos.setModel(listModel);	
 		
 	}
 	
 	
-	private void cargarContactos(List<Contacto> contactos ){
-		this.contactos = contactos;		
-		DefaultListModel listModel = new DefaultListModel();		
+	/*
+	 * 
+	
+	private List<Mensaje> mensajesPrivados;
+	private List<Mensaje> mensajesContactos;
+	 * 
+	 * */
+	public void agregarMensajePublico(Mensaje mensaje) {		
+
+	}
+	public void agregarMensajePrivado(Mensaje mensaje) {
 		
-		for (Contacto contacto : contactos) {
-			listModel.addElement(contacto);			
-		}
-		
-		listSalasSeleccion.setModel(listModel);		
 	}
 	
+	public void agregarMensajeContacto(Mensaje mensaje) {
+		
+	}
 	
 }

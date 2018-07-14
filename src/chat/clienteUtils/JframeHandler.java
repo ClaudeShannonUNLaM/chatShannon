@@ -55,11 +55,7 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				
 				break;
 			case "mensajeRecivido":
-				/*agregar mensaje en la lista segun sala o destinatario
-				* si el mensaje emisor es el mismo que el usuario logueado, desbloquear el text area para mandar mensaje
-				*(si es que mandste uno)
-				*
-				*/
+				
 				break;
 
 		default:
