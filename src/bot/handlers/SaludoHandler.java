@@ -3,6 +3,8 @@ package bot.handlers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public class SaludoHandler extends AsistantSentenceHandler{
 	
 	public SaludoHandler(){		
@@ -10,10 +12,12 @@ public class SaludoHandler extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Matcher matcher = patron.matcher(mensaje);
+		Mensaje msj=new Mensaje();
 		if(matcher.matches()){			
-			return "¡Hola, @" + nombreUsuario + "!";										
+			msj.setDescripcion("¡Hola, @" + nombreUsuario + "!");
+			return 	msj;									
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);		

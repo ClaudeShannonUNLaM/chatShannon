@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import bot.handlers.AsistantSentenceHandler;
+import chat.serverUtils.Mensaje;
 import hibernate.deudaAsistente.DeudaAsistente;
 import hibernate.deudaAsistente.DeudaController;
 
@@ -13,9 +14,9 @@ public class VerDeudaDeHandler  extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		if(matcher.matches()){
+			if(matcher.matches()){
 			String deudor = matcher.group(1);
 			
 			return verDeuda(nombreUsuario, deudor);
@@ -24,8 +25,10 @@ public class VerDeudaDeHandler  extends AsistantSentenceHandler{
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
 	}
 
-	private String verDeuda(String prestamista,String deudor) {
+	private Mensaje verDeuda(String prestamista,String deudor) {
 		String respuesta = "@" + prestamista;
+		
+		Mensaje msj=new Mensaje();
 		DeudaAsistente deuda = DeudaController.buscarDeuda(prestamista, deudor);
 		if(deuda != null && deuda.getValor() > 0) {
 			respuesta += " @" + deudor + " te debe $" + deuda.getValor();
@@ -36,7 +39,7 @@ public class VerDeudaDeHandler  extends AsistantSentenceHandler{
 				respuesta += " Vos le debés $" + deuda.getValor();
 			}
 		}
-
-		return respuesta;
+		msj.setDescripcion(respuesta);
+		return msj;
 	}
 }

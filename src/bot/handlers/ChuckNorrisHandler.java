@@ -7,6 +7,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public class ChuckNorrisHandler extends AsistantSentenceHandler {
 
 	private String[] facts = {"Chuck Norris arrojó una granada y mató a 50 personas, luego explotó.",
@@ -50,7 +52,8 @@ public class ChuckNorrisHandler extends AsistantSentenceHandler {
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario){
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario){
+		Mensaje msj =new Mensaje();
 		Matcher matcher = patron.matcher(mensaje);		
 	    if (matcher.matches()) {
 	    	Scanner s = null;
@@ -72,10 +75,12 @@ public class ChuckNorrisHandler extends AsistantSentenceHandler {
 				PrintWriter pw = new PrintWriter(archivo);
 				pw.print(NorrisIndex);
 				pw.close();
-				return respuesta;
+				msj.setDescripcion(respuesta);
+				return msj;
 								
-			} catch (FileNotFoundException e) {				
-				return "Hubo un error abriendo el archivo";
+			} catch (FileNotFoundException e) {
+				msj.setDescripcion("Hubo un error abriendo el archivo");
+				return msj;
 			}	        		    	
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
