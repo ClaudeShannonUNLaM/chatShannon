@@ -55,7 +55,7 @@ public class AgregarContacto extends JFrame {
 		        map.put("usuarioIngresado", cliente.getUsuario().getNombre().toLowerCase());
 		        map.put("nombreNuevoContacto", textField.getText().toLowerCase());
 		        
-		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);
+		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVOCONTACTO);
 				Gson gson = new Gson();					
 				String requestJson = gson.toJson(request);
 				cliente.getThreadEscritura().AddRequest(requestJson);
@@ -64,6 +64,10 @@ public class AgregarContacto extends JFrame {
 		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));
 		btnAgregar.setBounds(155, 179, 89, 23);
 		contentPane.add(btnAgregar);
+		
+		this.cliente = cliente;
+		cliente.getThreadLectura().addPantalla("nuevoContacto", this);
+		
 		setVisible(true);
 	}
 	

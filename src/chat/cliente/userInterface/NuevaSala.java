@@ -35,7 +35,7 @@ public class NuevaSala extends JFrame {
 
 	public NuevaSala(Cliente cliente) {
 		this.cliente = cliente;
-		
+		cliente.getThreadLectura().addPantalla("nuevaSala", this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -68,7 +68,8 @@ public class NuevaSala extends JFrame {
 					Sala sala = new Sala(lblNombreNuevaSala.getText(),chckbxPrivada.isSelected());
 					
 					HashMap<String, Object> map = new HashMap<String,Object>();			        
-			        map.put("nuevaSala", sala);			        
+			        map.put("nuevaSala", sala);			     
+			        map.put("idUsuario", cliente.getUsuario().getId());
 			        
 			        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVASALA);
 					Gson gson = new Gson();					

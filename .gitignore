@@ -5,3 +5,4 @@ bin/
 .metadata
 chat.sqlite
 !.keep
+/database/chat.sqlite

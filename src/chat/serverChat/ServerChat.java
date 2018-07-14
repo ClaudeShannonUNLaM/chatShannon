@@ -74,11 +74,13 @@ public class ServerChat{
 			datos.put("exito", usuario != null);
 			datos.put("funcionalidad", "login");
 			break;
+			
 		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
 			
-			List<Sala> salasPublicas =  SalaController.BuscarSalas();
-			List<Sala> salasPrivadas =  UsuarioSalaController.BuscarSalaUsuario((String)request.getDatos().get("nombreUsuario"));
-			List<Usuario> contactos = new ArrayList<Usuario>();//ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
+			List<Sala> salasPublicas =  UsuarioSalaController.BuscarSalasPublicas((String)request.getDatos().get("nombreUsuario"));
+			List<Sala> salasPrivadas =  UsuarioSalaController.buscarSalasPrivadas((String)request.getDatos().get("nombreUsuario"));
+			double idUsuarioIngresado = (double)request.getDatos().get("idUsuario");
+			List<Usuario> contactos = ContactoController.buscarContactos((int)idUsuarioIngresado);
 			
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);
@@ -92,15 +94,31 @@ public class ServerChat{
 			break;
 			
 		case NUEVASALA:			
-			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+			LinkedTreeMap<String, Object> salaJSON = (LinkedTreeMap<String, Object>) request.getDatos().get("nuevaSala");
+			Sala nuevaSala;		
+			
+			double id = (double)salaJSON.get("id");			
+			nuevaSala = new Sala((int)id,(String)salaJSON.get("nombre"),(boolean)salaJSON.get("privada"));
+			
+			double idUsuario = (double)request.getDatos().get("idUsuario");
+			
+			exito = SalaController.CrearSala((int)idUsuario,nuevaSala);
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevaSala");			
 			break;
 			
 		case AGREGARUSUARIOSALA:
-			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+
+			LinkedTreeMap<String, Object> nuevaJSON = (LinkedTreeMap<String, Object>) request.getDatos().get("nuevaSala");					
+			
+			id = (double)nuevaJSON.get("id");
+			nuevaSala = new Sala((int)id,(String)nuevaJSON.get("nombre"),(boolean)nuevaJSON.get("privada"));
+			
+			idUsuario = (double)request.getDatos().get("idUsuario");		
+			
+			exito = UsuarioSalaController.agregarParticipanteSala((int)idUsuario, nuevaSala);
 			datos.put("exito", exito);
-			datos.put("funcionalidad", "nuevaSala");
+			datos.put("funcionalidad", "agregarUsuarioSala");
 			break;
 			
 		case NUEVOCONTACTO:

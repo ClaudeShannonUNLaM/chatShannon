@@ -17,5 +17,5 @@
 		<mapping resource="/hibernate/contacto/Contacto.hbm.xml" />
 				<mapping resource="/hibernate/rss/RssClassManager.hbm.xml" />
 		<mapping resource="/hibernate/adivinado/MayorMenorAdivinadoHandler.hbm.xml" />
-    </session-factory>
+    </session-factory>    
 </hibernate-configuration>

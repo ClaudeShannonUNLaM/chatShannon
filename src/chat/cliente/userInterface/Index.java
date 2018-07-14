@@ -102,6 +102,7 @@ public class Index extends JFrame {
 		panelMensajes.setLayout(null);
 		
 		textArea = new JTextPane();
+		textArea.setEnabled(false);
 		textArea.setBackground(SystemColor.menu);
 		textArea.setFont(new Font("Arial", Font.PLAIN, 14));
 		textArea.setEditable(false);
@@ -124,13 +125,8 @@ public class Index extends JFrame {
 		panelDatosUsuario.setBounds(0, 0, 252, 56);
 		contentPane.add(panelDatosUsuario);
 		panelDatosUsuario.setLayout(null);
-		
-		JLabel lblFotoUsuario = new JLabel("");
 		Image imagenUsuario = ImageIO.read(new File(("img\\user.png" )));
-		Image imagenUsuarioResized = imagenUsuario.getScaledInstance(46, 51, Image.SCALE_DEFAULT);		
-		lblFotoUsuario.setIcon(new ImageIcon(imagenUsuarioResized));
-		lblFotoUsuario.setBounds(2, 2, 46, 51);
-		panelDatosUsuario.add(lblFotoUsuario);
+		Image imagenUsuarioResized = imagenUsuario.getScaledInstance(46, 51, Image.SCALE_DEFAULT);
 		
 		JLabel lblNombreUsuario = new JLabel(cliente.getUsuario().getNombre());
 		lblNombreUsuario.setBounds(58, 20, 184, 14);
@@ -153,6 +149,22 @@ public class Index extends JFrame {
 		labelNombreSalaSeleccionada.setFont(new Font("Arial", Font.BOLD, 26));
 		labelNombreSalaSeleccionada.setBounds(31, 11, 320, 34);
 		panelOpciones.add(labelNombreSalaSeleccionada);
+		
+		JButton btnDesloguearse = new JButton("Salir");
+		btnDesloguearse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				HashMap<String, Object> map = new HashMap<String,Object>();
+		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGOFF);
+				Gson gson = new Gson();					
+				String requestJson = gson.toJson(request);
+				cliente.getThreadEscritura().AddRequest(requestJson);
+				desloguear();
+			}
+		});
+		btnDesloguearse.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnDesloguearse.setBounds(453, 11, 129, 34);
+		panelOpciones.add(btnDesloguearse);
 		
 		JPanel panelEscritura = new JPanel();
 		panelEscritura.setBounds(251, 452, 605, 35);
@@ -297,13 +309,12 @@ public class Index extends JFrame {
 	private void cargarDatosIniciales() {
 		
 		HashMap<String, Object> map = new HashMap<String,Object>();	
-        map.put("nombreUsuario",this.cliente.getUsuario().getNombre());
+        map.put("idUsuario",this.cliente.getUsuario().getId());
         
         ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.CARGARDATOSINICIALES);
 		Gson gson = new Gson();					
 		String requestJson = gson.toJson(request);
-		cliente.getThreadEscritura().AddRequest(requestJson);		
-		
+		cliente.getThreadEscritura().AddRequest(requestJson);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -415,5 +426,10 @@ public class Index extends JFrame {
 			indice++;
 		}		
 		return indice;
+	}
+	
+	public void desloguear() {
+		new Login(cliente.getHost());
+		dispose();
 	}
 }

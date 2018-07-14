@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import dataBaseConection.DataBaseHelper;
 import hibernate.usuario.Usuario;
@@ -46,8 +49,31 @@ public class ContactoController extends DataBaseHelper{
 		
 	}
 
-	public static List<Contacto> buscarContactos(String nombreUsuario) {
-		return null;
+	public static List<Usuario> buscarContactos(int idUsuarioIngresado) { //Devuelve los contactos del usuario
+		
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		Session sesion = crearSession();		
+		try {			
+
+			Query q = sesion.createNativeQuery("select u.* from usuario u"
+					+ " inner join contacto c on u.id = c.idContacto "
+					+ " where c.idUsuario = " + idUsuarioIngresado , Usuario.class);
+		  	
+			
+			try{ 
+				usuarios = q.getResultList();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecuci�n si no se encuentra el registro
+			}						
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();            
+        }
+		
+		return usuarios;	  	
+		
 	}
 	
 }

@@ -15,6 +15,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import chat.serverUtils.Mensaje;
 import chat.serverUtils.ServerResponse;
 import chat.cliente.userInterface.*;
+import hibernate.contacto.Contacto;
 import hibernate.sala.Sala;
 import hibernate.usuario.Usuario;
 
@@ -40,9 +41,8 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 		
 
 		switch (funcionalidad) {
-			case "login":
+			case "login":				
 				
-				//WorkArround al cambio de clases de GSON.
 				if((boolean)response.getDatos().get("exito")) {
 					
 					LinkedTreeMap<String, Object> usu = (LinkedTreeMap<String, Object>) response.getDatos().get("usuario"); 
@@ -64,12 +64,11 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				}
 					
 				break;
-			case "cargaInicial":			
-				
-				//WorkArround al cambio de clases de GSON.
+			case "cargaInicial":	
+								
 				ArrayList<LinkedTreeMap<String, Object>> mapPublicas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
-				ArrayList<LinkedTreeMap<String, Object>> mapPrivadas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
-				ArrayList<LinkedTreeMap<String, Object>> mapContactos = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
+				ArrayList<LinkedTreeMap<String, Object>> mapPrivadas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPrivadas");
+				ArrayList<LinkedTreeMap<String, Object>> mapContactos = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("contactos");
 				ArrayList<Sala> publicas = new ArrayList<Sala>();
 				ArrayList<Sala> privadas = new ArrayList<Sala>();
 				ArrayList<Usuario> contactos = new ArrayList<Usuario>();
@@ -86,9 +85,12 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 					privadas.add(nuevaSala);
 				}				
 				
-				/*for (LinkedTreeMap<String, Object> dato : mapContactos) {
-					
-				}*/
+				for (LinkedTreeMap<String, Object> dato : mapContactos) {
+					Usuario contacto = new Usuario((String)dato.get("nombre"),(String)dato.get("password"));
+					double id  = (double)dato.get("id");
+					contacto.setId((int)id);
+					contactos.add(contacto);
+				}
 				
 				
 				((Index)pantallas.get("index")).
