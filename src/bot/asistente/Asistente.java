@@ -14,13 +14,14 @@ public class Asistente {
 	private String nombre;		 
 	
 	public Asistente(){
-		this("Shannon");
+		this("shannon");
 	}
 	public Asistente(String nombre){
 		this.nombre = nombre;
 	}
 	
-	public Mensaje escuchar(String mensaje, String emisor) throws ParseException, IOException{	
+	public Mensaje escuchar(String mensaje, String emisor) throws ParseException, IOException{
+		mensaje = mensaje.toLowerCase();
 		if(!mensaje.contains("@"+nombre))
 			return null;				
 		
@@ -67,7 +68,7 @@ public class Asistente {
 		memes.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return lebac.giveAnswer(mensaje.toLowerCase(),emisor); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return lebac.giveAnswer(mensaje,emisor); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
 		//return agradecer.giveAnswer(mensaje.toLowerCase(), emisor);				
 	}
 }
