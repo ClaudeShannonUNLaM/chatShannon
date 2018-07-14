@@ -99,7 +99,7 @@ public class RF13Tests {
 			);
 			Assert.assertEquals(
 				"En una ocasión, Chuck Norris fue acusado de tres intentos de asesinato en el condado de Boulder, pero el juez rápidamente retiró los cargos porque Chuck Norris no 'intentó' el asesinato.",
-				jenkins.escuchar("@jenkins quiero datos de chuck norris",USUARIO)
+				jenkins.escuchar("@jenkins quiero datos de chuck norris",USUARIO).getMensaje()
 			);
 			Assert.assertEquals(
 				"Los principales desinfectantes para manos afirman que pueden matar el 99.9 por ciento de los gérmenes. Chuck Norris puede matar al 100 por ciento de lo que sea que él quiera.",
