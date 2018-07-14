@@ -2,6 +2,7 @@ package chat.clienteUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -9,6 +10,9 @@ import org.junit.runner.Request;
 
 import chat.serverUtils.ServerResponse;
 import chat.cliente.userInterface.*;
+import hibernate.sala.Sala;
+import hibernate.usuario.Usuario;
+
 public class JframeHandler { //Se encarga de distribuir la info que devuelve
 							 //el server por las distintas pantallas
 	private HashMap<String, JFrame> pantallas;
@@ -32,15 +36,16 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 		switch (funcionalidad) {
 			case "login":
 				((Login)pantallas.get("login")).
-				IngresarSistema((String)response.getDatos().get("nombreusuario"),
+				IngresarSistema((Usuario)response.getDatos().get("usuario"),
 								(boolean)response.getDatos().get("exito"));	
 				break;
-			/*case "cargaInicial":
+			case "cargaInicial":
 				((Index)pantallas.get("index")).
-				IngresarSistema((String)response.getDatos().get("nombreusuario"),
-								(boolean)response.getDatos().get("exito"));
+				cargarDatosIndex((List<Sala>)response.getDatos().get("salasPublicas"),
+						(List<Sala>)response.getDatos().get("salasPrivadas"),
+						(List<Usuario>)response.getDatos().get("contactos"));
 				break;
-				*/
+				
 			case "nuevoUsuario":
 				((NuevoUsuario)pantallas.get("nuevoUsuario")).
 				notificarCreacionNuevoUsuario((boolean)response.getDatos().get("exito"));
@@ -55,11 +60,8 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				
 				break;
 			case "mensajeRecivido":
+				return;
 				
-				break;
-
-		default:
-			break;
 		}
 		
 	}

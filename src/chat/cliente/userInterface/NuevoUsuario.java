@@ -79,8 +79,8 @@ public class NuevoUsuario extends JFrame {
 				} 	        
 				
 		        HashMap<String, Object> map = new HashMap<String,Object>();			        
-		        map.put("nombreUsuario", lblNombreNuevoUsuario.getText());
-		        map.put("passUsuario", lblPassNuevoUsuario.getPassword().toString());
+		        map.put("nombreUsuario", lblNombreNuevoUsuario.getText().toLowerCase());
+		        map.put("passUsuario",new String(lblPassNuevoUsuario.getPassword()).toLowerCase());
 		        
 		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVOUSUARIO);
 				Gson gson = new Gson();					

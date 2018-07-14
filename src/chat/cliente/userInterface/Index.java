@@ -1,8 +1,6 @@
 package chat.cliente.userInterface;
 
-
 import java.awt.Image;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
@@ -15,20 +13,15 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import com.google.gson.Gson;
-
 import chat.cliente.Cliente;
 import chat.serverUtils.FuncionalidadServerEnum;
 import chat.serverUtils.Mensaje;
 import chat.serverUtils.ServerRequest;
-import hibernate.contacto.Contacto;
 import hibernate.sala.Sala;
 import hibernate.usuario.Usuario;
-
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -36,21 +29,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
-import javax.swing.JMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.CompoundBorder;
-import javax.swing.JMenuBar;
+
 import javax.swing.JList;
 import java.awt.Font;
-import javax.swing.JTree;
+
 import javax.swing.ListSelectionModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -62,7 +52,7 @@ public class Index extends JFrame {
 	private JPanel contentPane;	
 	
 	private List<Sala> salas; //Mantengo las salas 
-	private List<Usuario> contactos;
+	private List<Usuario> contactos; //Mantengo los usuarios
 	
 	private ArrayList<String> mensajesSalas; 		
 	private ArrayList<String> mensajesContactos; 
@@ -72,10 +62,17 @@ public class Index extends JFrame {
 	private JList listSalasPublicas;	
 	
 	private Object conversacionSeleccionada;
+	private boolean salaSeleccionada; //Me dice si se esta hablando con una sala o con un contacto
+	
 	private JTextField mensajeTxT;
 	private Cliente cliente;
 	
 	public Index(Cliente cliente) throws IOException {
+		this.cliente = cliente;
+		this.cliente.getThreadLectura().addPantalla("index", this);
+		
+		mensajesSalas= new ArrayList<String>();
+		mensajesContactos = new ArrayList<String>();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 872, 526);
@@ -165,19 +162,20 @@ public class Index extends JFrame {
 				if(mensajeTxT.getText() == "")
 					return;
 				
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {					
 					
-					//textArea.setText("  " + lblNombreUsuario.getText() + ": " +   mensajeTxT.getText() + "\n");
 					HashMap<String, Object> map = new HashMap<String,Object>();
+					Mensaje mensaje = new Mensaje(cliente.getUsuario(),mensajeTxT.getText());
 					
-					if(contactos.contains(conversacionSeleccionada) ) {
-						map.put("usuarioDestino", ((Usuario)conversacionSeleccionada));	
+					if(salaSeleccionada) { //El mensaje debe ser enviado a una sala
+						mensaje.setUsuarioDestinatario(null);
+						mensaje.setSala((Sala)conversacionSeleccionada);
 					}
 					else {
-						map.put("usuarioDestino", ((Usuario)conversacionSeleccionada));
-					}
+						mensaje.setUsuarioDestinatario((Usuario)conversacionSeleccionada);
+						mensaje.setSala(null);						
+					}					
 					
-					Mensaje mensaje = new Mensaje();
 			        map.put("mensaje",mensaje);
 			        
 			        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.ENVIARMENSAJE);
@@ -210,6 +208,23 @@ public class Index extends JFrame {
 		listSalasPrivadas = new JList();
 		salasPrivadasPane.setViewportView(listSalasPrivadas);	
 		
+		listSalasPrivadas.addListSelectionListener(new ListSelectionListener() {     
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+		      if (!e.getValueIsAdjusting()) {
+		    	  String texto = mensajesSalas.get(listSalasPublicas.getComponentCount() + listSalasPrivadas.getSelectedIndex() - 1);
+		    	  
+		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
+		    	  
+		    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());			    	  
+		    	  conversacionSeleccionada = salas.get(listSalasPublicas.getSelectedIndex()) ;
+		    	  salaSeleccionada = true;
+                }				
+			}
+        });
+		
+		
+		
 		listSalasPublicas = new JList();
 		
 		listSalasPublicas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -218,10 +233,15 @@ public class Index extends JFrame {
 		listSalasPublicas.addListSelectionListener(new ListSelectionListener() {     
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-			      if (!e.getValueIsAdjusting()) {			    	  
-			    	  textArea.setText("  " + lblNombreUsuario.getText() + ": " +   mensajeTxT.getText() + "\n"); //Se cambia el mensaje siendo mostrado
-			    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());
-	                }				
+		      if (!e.getValueIsAdjusting()) {
+		    	  String texto = mensajesSalas.get(listSalasPublicas.getSelectedIndex());
+		    	  
+		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
+		    	  
+		    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());			    	  
+		    	  conversacionSeleccionada = salas.get(listSalasPublicas.getSelectedIndex()) ;
+		    	  salaSeleccionada = true;
+                }				
 			}
         });
 		panelListas.setLayout(null);
@@ -264,11 +284,6 @@ public class Index extends JFrame {
 			}
 		});
 		btnCrearNuevaSala.setFont(new Font("Arial", Font.BOLD, 11));
-		
-		
-		mensajesSalas= new ArrayList<String>();
-		mensajesContactos = new ArrayList<String>();
-		
 		setVisible(true);
 	}
 	
@@ -289,7 +304,7 @@ public class Index extends JFrame {
 			}
 		});
 	}
-	
+	 
 	public void cargarDatosIndex(List<Sala> salasPublicas, List<Sala> salasPrivadas,List<Usuario> contactos ) {
 		
 		salas = salasPublicas;		

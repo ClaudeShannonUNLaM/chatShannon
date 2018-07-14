@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import com.google.gson.Gson;
 
+import chat.serverUtils.Mensaje;
 import chat.serverUtils.ServerRequest;
 import chat.serverUtils.ServerResponse;
 import hibernate.contacto.Contacto;
@@ -78,17 +79,17 @@ public class ServerChat{
 		switch (request.getFuncionalidad()) { //LoggOff no se atiende, se deja pasar.
 		
 		case LOGIN:
-			exito = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
+			Usuario usuario = UsuarioController.usuarioYaCreado((String)request.getDatos().get("nombreUsuario"),(String)request.getDatos().get("passUsuario"),false);
 			
-			datos.put("nombreUsuario", (String)request.getDatos().get("nombreUsuario"));
-			datos.put("exito", exito);
+			datos.put("Usuario", usuario ); 
+			datos.put("exito", usuario != null);
 			datos.put("funcionalidad", "login");
 			break;
 		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
 			
 			List<Sala> salasPublicas =  SalaController.BuscarSalas();
 			List<Sala> salasPrivadas =  UsuarioSalaController.BuscarSalaUsuario((String)request.getDatos().get("nombreUsuario"));
-			List<Contacto> contactos = ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
+			List<Usuario> contactos = new ArrayList<Usuario>();//ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
 			
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);
@@ -120,8 +121,10 @@ public class ServerChat{
 			break;	
 
 		case ENVIARMENSAJE:
-			Usuario usuDest = (Usuario) request.getDatos().getOrDefault("usuarioDestino", null);
-			Sala salaDest = (Sala) request.getDatos().getOrDefault("sala", null);
+			Mensaje mensaje = (Mensaje)request.getDatos().get("mensaje");
+			
+			Usuario usuDest = mensaje.getUsuarioDestinatario();
+			Sala salaDest = mensaje.getSala();
 			ArrayList<Usuario> destinatarios = new ArrayList<Usuario>();
 
 			if(usuDest != null) {
@@ -130,7 +133,7 @@ public class ServerChat{
 			}else {
 				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
 				//destinatarios = UsuarioSala.getUsuariosPorSala(salaDest.getId());
-			}
+			}			
 			
 			ServerResponse responseMensaje = new ServerResponse(request.getDatos());
 			responseMensaje.getDatos().put("funcionalidad","mensajeRecivido");		
@@ -146,8 +149,7 @@ public class ServerChat{
 			}
 			
 			break;
-		}
-		
+		}	
 		
 		response = new ServerResponse(datos);
 		return response;

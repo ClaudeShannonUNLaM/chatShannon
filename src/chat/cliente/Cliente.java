@@ -20,7 +20,7 @@ public class Cliente extends Thread{
         this.puerto = puerto;
 	}
 	
-    public void setNombreUsuario(Usuario usuario) {
+    public void setUsuario(Usuario usuario) {
         this.Usuario = usuario;
     }
  
