@@ -67,6 +67,8 @@ public class Index extends JFrame {
 	private JTextField mensajeTxT;
 	private Cliente cliente;
 	
+	private JTextPane textArea;
+	
 	public Index(Cliente cliente) throws IOException {
 		this.cliente = cliente;
 		this.cliente.getThreadLectura().addPantalla("index", this);
@@ -99,13 +101,15 @@ public class Index extends JFrame {
 		popupMenu_1.add(mntmVerIntegrantes_1);
 		panelMensajes.setLayout(null);
 		
-		JTextPane textArea = new JTextPane();
+		textArea = new JTextPane();
 		textArea.setBackground(SystemColor.menu);
 		textArea.setFont(new Font("Arial", Font.PLAIN, 14));
 		textArea.setEditable(false);
 		textArea.setBounds(0, 0, 605, 397);		
-		textArea.setForeground(Color.BLACK);
+		textArea.setForeground(Color.BLACK);	
+		
 		panelMensajes.add(textArea);
+		
 		
 		Component verticalGlue = Box.createVerticalGlue();
 		verticalGlue.setBounds(84, 42, 0, 14);
@@ -159,7 +163,7 @@ public class Index extends JFrame {
 		mensajeTxT.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(mensajeTxT.getText() == "")
+				if(mensajeTxT.getText().equals(""))
 					return;
 				
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {					
@@ -371,7 +375,7 @@ public class Index extends JFrame {
 
 	public void agregarMensajeSala(Mensaje mensaje) {		
 		Sala salaMensaje = mensaje.getSala();
-		int indexMensaje = salas.indexOf(salaMensaje);
+		int indexMensaje = buscarIndexMensaje(salaMensaje);
 		
 		String textoMensaje = mensajesSalas.get(indexMensaje);		
 		
@@ -387,9 +391,10 @@ public class Index extends JFrame {
 		if(!contenidoExtra.equals("")) 
 			textoMensaje += contenidoExtra + "\n";			
 		
-		textoMensaje += mensaje.getMensaje() + "\n";
+		textoMensaje += mensaje.getEmisor().getNombre() +  ": " + mensaje.getMensaje() + "\n";
 		
 		mensajesSalas.set(indexMensaje, textoMensaje);
+		textArea.setText(textoMensaje);
 	}
 	
 	public void agregarMensajeContacto(Mensaje mensaje) {
@@ -402,4 +407,13 @@ public class Index extends JFrame {
 		mensajesContactos.set(indexMensaje, textoMensaje);
 	}
 	
+	private int buscarIndexMensaje(Sala salaMensaje) {
+		int indice = 0;
+		for (Sala sala : salas) {
+			if(sala.getId() == salaMensaje.getId())
+				break;
+			indice++;
+		}		
+		return indice;
+	}
 }
