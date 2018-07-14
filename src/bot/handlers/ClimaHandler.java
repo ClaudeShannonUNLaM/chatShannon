@@ -39,7 +39,7 @@ public class ClimaHandler extends AsistantSentenceHandler{
 	}
 //	public static void main(String [] args){
 //		ClimaHandler c = new ClimaHandler();
-//		System.out.println(c.giveAnswer("clima pronostico", "aa"));
+//		System.out.println(c.giveAnswer("clima pronostico", "aa").getDescripcion());
 //	}
 	private static String responderClima() throws JSONException {
 		 try {
