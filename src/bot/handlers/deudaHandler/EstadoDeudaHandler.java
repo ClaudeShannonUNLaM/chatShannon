@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import bot.handlers.AsistantSentenceHandler;
+import chat.serverUtils.Mensaje;
 import hibernate.deudaAsistente.DeudaAsistente;
 import hibernate.deudaAsistente.DeudaController;
 
@@ -14,16 +15,19 @@ public class EstadoDeudaHandler extends AsistantSentenceHandler{
 	}
 
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Matcher matcher = patron.matcher(mensaje);	
+		Mensaje msj;
 		if(matcher.matches()){
 			String respuesta = "@" + nombreUsuario;
 			List<DeudaAsistente> prestamos = DeudaController.buscarDeudas(nombreUsuario,"");
 			List<DeudaAsistente> deudas = DeudaController.buscarDeudas("",nombreUsuario);
 			
 			if(prestamos == null && deudas == null)
-				return respuesta + " no debe ni le deben nada.";
-
+			{
+				msj=new Mensaje(respuesta + " no debe ni le deben nada.");
+				return msj;
+			}
 			if(deudas != null)
 				for(int i = 0; i < deudas.size(); i++)
 					respuesta += " le debés $" + deudas.get(i).getValor() + " a @" + deudas.get(i).getPrestamista() + ".";
@@ -31,8 +35,9 @@ public class EstadoDeudaHandler extends AsistantSentenceHandler{
 			if(prestamos != null)
 				for(int i = 0; i < prestamos.size(); i++)
 					respuesta += " @" + prestamos.get(i).getDeudor() + " te debe $" + prestamos.get(i).getValor() + ".";
-
-			return respuesta;
+			
+			msj=new Mensaje(respuesta);
+			return msj;
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);

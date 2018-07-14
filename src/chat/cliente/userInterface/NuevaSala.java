@@ -1,9 +1,14 @@
-package chat.userInterface;
+package chat.cliente.userInterface;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.google.gson.Gson;
+
+import chat.cliente.Cliente;
+import chat.serverUtils.FuncionalidadServerEnum;
+import chat.serverUtils.ServerRequest;
 import hibernate.sala.Sala;
 import hibernate.sala.SalaController;
 
@@ -14,6 +19,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
@@ -24,9 +30,13 @@ public class NuevaSala extends JFrame {
 	private JPanel contentPane;
 	private JTextField lblNombreNuevaSala;	
 	private JCheckBox chckbxPrivada;
+	private Cliente cliente;
 	
 
-	public NuevaSala() {
+	public NuevaSala(Cliente cliente) {
+		this.cliente = cliente;
+		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -52,20 +62,21 @@ public class NuevaSala extends JFrame {
 		JButton btnCrear = new JButton("Crear");
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
+				
 				if(!lblNombreNuevaSala.getText().isEmpty()) {
-					Sala sala = new Sala(lblNombreNuevaSala.getText(),chckbxPrivada.isSelected());					
-					boolean resultado = SalaController.CrearSala(sala);
 					
-					if(resultado) {
-						new Mensaje("Se creo la sala con exito");
-						dispose();
-					}
-					else {
-						new Mensaje("Ya existe una sala con ese nombre");
-					}
+					Sala sala = new Sala(lblNombreNuevaSala.getText(),chckbxPrivada.isSelected());
+					
+					HashMap<String, Object> map = new HashMap<String,Object>();			        
+			        map.put("nuevaSala", sala);			        
+			        
+			        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVASALA);
+					Gson gson = new Gson();					
+					String requestJson = gson.toJson(request);
+					cliente.getThreadEscritura().AddRequest(requestJson);
 				}
 				else
-					new Mensaje("Debe ingresar el nombre de la sala");
+					new MensajeInterfaz("Debe ingresar el nombre de la sala");
 					
 			}
 		});
@@ -88,5 +99,15 @@ public class NuevaSala extends JFrame {
 		chckbxPrivada.setBounds(167, 148, 97, 23);
 		contentPane.add(chckbxPrivada);
 		setVisible(true);
+	}
+	
+	public void informarCreacionSala(boolean exito) {		
+		if(exito) {
+			new MensajeInterfaz("Se creo la sala con exito");
+			dispose();
+		}
+		else {
+			new MensajeInterfaz("Ya existe una sala con ese nombre");
+		}
 	}
 }

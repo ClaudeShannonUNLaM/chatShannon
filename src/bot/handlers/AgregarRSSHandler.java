@@ -2,6 +2,8 @@ package bot.handlers;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import chat.serverUtils.Mensaje;
 import hibernate.usuario.*;
 
 import hibernate.rss.*;
@@ -21,14 +23,16 @@ public class AgregarRSSHandler extends AsistantSentenceHandler{
 //	    }else System.out.println("a");
 //	}
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Matcher matcher = patron.matcher(mensaje);
+		Mensaje msj=new Mensaje(mensaje);
 	    if (matcher.find()) {
 	    	RssCreation r = new RssCreation();
 	    	UsuarioController u = new UsuarioController();
 	    	r.insertar(matcher.group(0), u.BuscarUsuario(nombreUsuario).getId());
 	    	//guardar en la base de datos  para tal usuario
-	    	return "@" + nombreUsuario + ", he registrado tu RSS: " + matcher.group(0);
+	    	msj.setDescripcion("@" + nombreUsuario + ", he registrado tu RSS: " + matcher.group(0));
+	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}	

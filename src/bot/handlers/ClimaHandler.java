@@ -13,18 +13,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import chat.serverUtils.Mensaje;
+
 public class ClimaHandler extends AsistantSentenceHandler{
 	
 
 	public ClimaHandler(){
-		patron = Pattern.compile(".*(clima|soleado|lluvia|llover|paraguas|pronóstico)");
+		patron = Pattern.compile(".*(clima|soleado|lluvia|llover|paraguas|pronÃ³stico)");
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Matcher matcher = patron.matcher(mensaje);
+		Mensaje msj = new Mensaje (mensaje);
 	    if (matcher.find()) {	    	
-	    	return "@" + nombreUsuario + ", hoy el clima está " + responderClima();
+	    	try {
+				msj.setDescripcion("@" + nombreUsuario + ", hoy el clima está " + responderClima());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}
@@ -32,7 +41,7 @@ public class ClimaHandler extends AsistantSentenceHandler{
 //		ClimaHandler c = new ClimaHandler();
 //		System.out.println(c.giveAnswer("clima pronostico", "aa"));
 //	}
-	private static String responderClima() {
+	private static String responderClima() throws JSONException {
 		 try {
 
 				URL url = new URL("http://api.openweathermap.org/data/2.5/weather?id=3435910&APPID=b5e3387905861d71e52851e398db3f9f");
@@ -53,13 +62,24 @@ public class ClimaHandler extends AsistantSentenceHandler{
 				//System.out.println("Output from Server .... \n");
 				while ((output = br.readLine()) != null) {
 					//System.out.println(output);
-					JSONObject obj = new JSONObject(output);
+					JSONObject obj = null;
+					try {
+						obj = new JSONObject(output);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					// String pageName = obj.getJSONObject("pageInfo").getString("pageName");
 					
 					//JSONArray arr = obj.getJSONArray("{}");
 					//for (int i = 0; i < arr.length(); i++)
 					//{
-					clima= obj.getString("weather");
+					try {
+						clima= obj.getString("weather");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					//System.out.println(clima);
 					//}
 				//	return clima.split("main")[1];
@@ -77,10 +97,6 @@ public class ClimaHandler extends AsistantSentenceHandler{
 				return "Error en la api del clima";
 			  } catch (IOException e) {
 
-				e.printStackTrace();
-				return "Error en la api del clima";
-			  } catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return "Error en la api del clima";
 			  }

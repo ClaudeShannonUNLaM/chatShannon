@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import chat.serverUtils.Mensaje;
 import hibernate.AdivinarMayorMenorHibernateManager;
 import hibernate.AdivinarMayorMenorMappingClass;
 import hibernate.usuario.UsuarioController;
@@ -27,7 +29,9 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 //
 //	}
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Mensaje msj =new Mensaje(mensaje);
+
 		Matcher matcher = patron.matcher(mensaje);	
 		UsuarioController u = new UsuarioController();
 		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
@@ -35,7 +39,8 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
 				{
-					return "@"+nombreUsuario+" ¡sale y vale! Pensá un numero del 1 al 100";
+					msj.setDescripcion("@"+nombreUsuario+" ¡sale y vale! Pensá un numero del 1 al 100");
+					return msj;
 				}
 				case "listo" :
 				{
@@ -44,7 +49,8 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					ultimoNumeroRespondido=50;
 					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
 					ammhm.insertar(techo, piso, ultimoNumeroRespondido,idUsuario);
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					msj.setDescripcion("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
+					return msj;
 				}
 				case "más chico":
 				{
@@ -65,11 +71,13 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					ammmc12.setIdUsuario(idUsuario);
 					//System.out.println("AMMMC ID "+ammmc1.getIdUsuario()+"AMMMC TECHO"+ammmc1.getTecho());
 					ammhm.actualizar(ammmc12);
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					msj.setDescripcion("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
+					return msj;
 		    	}
 				case "si!":
 				{
-					return "@"+nombreUsuario+" fue divertido :)";
+					msj.setDescripcion("@"+nombreUsuario+" fue divertido :)");
+					return msj;
 				}
 				case "más grande":
 				{
@@ -91,7 +99,8 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					ammmc22.setIdUsuario(idUsuario);
 //					System.out.println("AMMMC ID "+ammmc.getIdUsuario()+"AMMMC TECHO"+ammmc.getTecho());
 					ammhm.actualizar(ammmc22);
-					return "@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?";
+					msj.setDescripcion("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
+					return msj;
 		    	}
 			}
 		}

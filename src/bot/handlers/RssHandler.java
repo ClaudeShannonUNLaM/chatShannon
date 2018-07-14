@@ -6,6 +6,8 @@ import java.io.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import chat.serverUtils.Mensaje;
 import hibernate.usuario.*;
 import hibernate.rss.*;
 
@@ -24,7 +26,8 @@ public class RssHandler extends AsistantSentenceHandler {
 
 		//faltaria agregar rss a la base de datos
 		@Override
-		public String giveAnswer(String mensaje, String nombreUsuario) {
+		public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+			Mensaje msj = new Mensaje (mensaje);
 			getURLSfromBDD();
 			String concatenacion ="";
 			Matcher matcher = patron.matcher(mensaje);		
@@ -34,7 +37,8 @@ public class RssHandler extends AsistantSentenceHandler {
 		    	URLS = r.devolverListaURLS(u.BuscarUsuario(nombreUsuario).getId());
 		    	for(String S : URLS)
 		    		concatenacion+=readRSSFeed(S);
-		    		return "Estas son las principales noticias, @" + nombreUsuario + " : " + concatenacion; 
+		    		msj.setDescripcion("Estas son las principales noticias, @" + nombreUsuario + " : " + concatenacion);
+		    		return msj;
 		    } else 
 		    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 		}		

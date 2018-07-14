@@ -3,6 +3,8 @@ package bot.handlers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public class LeyesRoboticaHandler extends AsistantSentenceHandler {
 
 	
@@ -13,14 +15,15 @@ private String leyesRobotica="Las Leyes de la Robotica son: " + "1) Un robot no 
 	
 	
 	public LeyesRoboticaHandler() {
-		patron = Pattern.compile(".*(?:decime|Decime|cuales|Cuales|Cu�les).*(?:leyes de la robotica|Leyes de la Robotica).*");
+		patron = Pattern.compile(".*(?:decime|Decime|cuales|Cuales|Cuáles).*(?:leyes de la robotica|Leyes de la Robotica).*");
 	}
 	
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Mensaje msj ;
 		Matcher matcher = patron.matcher(mensaje);		
 	    if (matcher.matches()) {
-	    	return leyesRobotica;
+	    	msj=new Mensaje(leyesRobotica);
+	    	return msj;
 	    }
 		return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
 	}

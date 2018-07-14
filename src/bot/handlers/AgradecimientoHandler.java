@@ -3,6 +3,8 @@ package bot.handlers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public class AgradecimientoHandler extends AsistantSentenceHandler{
 	
 
@@ -11,10 +13,12 @@ public class AgradecimientoHandler extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Matcher matcher = patron.matcher(mensaje);	
+		Mensaje msj;
 	    if (matcher.find()) {	    	
-	    	return "No es nada, @" + nombreUsuario;
+	    	msj=new Mensaje("No es nada, @" + nombreUsuario);
+	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}		

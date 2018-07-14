@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import bot.handlers.AsistantSentenceHandler;
+import chat.serverUtils.Mensaje;
 import dataBaseConection.DataBaseHelper;
 import hibernate.deudaAsistente.DeudaAsistente;
 import hibernate.deudaAsistente.DeudaController;
@@ -17,14 +18,15 @@ public class AgregarDeudaHandler extends AsistantSentenceHandler {
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
+		Mensaje msj;
 		if(matcher.matches()){
 			int valor = Integer.parseInt(matcher.group(1));
 			String prestamista = matcher.group(2);
 			DeudaController.agregarDeuda(prestamista, nombreUsuario, valor);
-			
-			return "@" + nombreUsuario + " anotado.";
+			msj=new Mensaje("@" + nombreUsuario + " anotado.");
+			return msj;
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);

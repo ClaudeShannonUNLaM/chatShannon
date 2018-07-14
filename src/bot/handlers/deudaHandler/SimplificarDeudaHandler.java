@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import bot.handlers.AsistantSentenceHandler;
+import chat.serverUtils.Mensaje;
 import hibernate.deudaAsistente.DeudaAsistente;
 import hibernate.deudaAsistente.DeudaController;
 
@@ -13,8 +14,9 @@ public class SimplificarDeudaHandler extends AsistantSentenceHandler {
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Matcher matcher = patron.matcher(mensaje);
+		Mensaje msj;
 		if(matcher.matches()){
 			String[] usuarios = new String[2];
 			usuarios[0] = matcher.group(1);
@@ -25,12 +27,14 @@ public class SimplificarDeudaHandler extends AsistantSentenceHandler {
 			DeudaAsistente prestamo = buscarDeudor(nombreUsuario,usuarios);
 			
 			if(deuda == null || prestamo == null)
-				return "@" + nombreUsuario + " no se pueden simplificar las deudas";
+			{	msj=new Mensaje("@" + nombreUsuario + " no se pueden simplificar las deudas");
+				return msj;
+			}
 			DeudaController.pagoDeuda(deuda.getPrestamista(), nombreUsuario, prestamo.getValor());
 			DeudaController.pagoDeuda(nombreUsuario, prestamo.getDeudor(), prestamo.getValor());
 			DeudaController.agregarDeuda(deuda.getPrestamista(), prestamo.getDeudor(), prestamo.getValor());
-			
-			return "@" + nombreUsuario + " bueno.";
+			msj=new Mensaje("@" + nombreUsuario + " bueno.");
+			return msj;
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);

@@ -1,5 +1,8 @@
 package bot.handlers;
 
+import java.io.File;
+
+import chat.serverUtils.Mensaje;
 
 public class MostrarMemeHandler extends AsistantSentenceHandler {
 
@@ -11,15 +14,18 @@ public class MostrarMemeHandler extends AsistantSentenceHandler {
 
 	}
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 	
-	String path="img\\memes\\";	
-	
+	File img;	
+	Mensaje msj;
 	for(int i=0;i<nomMemes.length;i++)
 	{
 		if(mensaje.toLowerCase().contains(nomMemes[i]))
 		{
-			return path + nomMemes[i] +".jpg";
+			img=new File("img\\memes\\" + nomMemes[i] +".jpg");
+			msj=new Mensaje("MEME: "+ nomMemes[i]);
+			msj.setImagen(img);
+			return msj;
 		}
 	}
 	

@@ -1,9 +1,15 @@
-package chat.userInterface;
+package chat.cliente.userInterface;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import com.google.gson.Gson;
+
+import chat.cliente.Cliente;
+import chat.serverUtils.FuncionalidadServerEnum;
+import chat.serverUtils.ServerRequest;
 import hibernate.usuario.UsuarioController;
 
 import javax.swing.JLabel;
@@ -14,6 +20,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
@@ -21,9 +28,11 @@ public class NuevoUsuario extends JFrame {
 	
 	private JPanel contentPane;
 	private JTextField lblNombreNuevoUsuario;
-	private JTextField lblPassNuevoUsuario;
+	private JPasswordField lblPassNuevoUsuario;
+	private Cliente cliente;
 
-	public NuevoUsuario() {
+	public NuevoUsuario(Cliente cliente) {
+		this.cliente = cliente;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -55,7 +64,7 @@ public class NuevoUsuario extends JFrame {
 		contentPane.add(lblNombreNuevoUsuario);
 		lblNombreNuevoUsuario.setColumns(10);
 		
-		lblPassNuevoUsuario = new JTextField();
+		lblPassNuevoUsuario = new JPasswordField();
 		lblPassNuevoUsuario.setColumns(10);
 		lblPassNuevoUsuario.setBounds(143, 142, 278, 20);
 		contentPane.add(lblPassNuevoUsuario);
@@ -64,19 +73,20 @@ public class NuevoUsuario extends JFrame {
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				 
-				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getText().equals("")) {
-					new Mensaje("Debe ingresar la información necesaria");
+				if(lblNombreNuevoUsuario.getText().equals("")|| lblPassNuevoUsuario.getPassword().toString().equals("")) {
+					new MensajeInterfaz("Debe ingresar la información necesaria");
 					return;
-				}				
+				} 	        
 				
-				if(crearNuevoUsuario()) {
-					new Mensaje("El usuario se creó con éxito");
-					dispose();
-				}					
-				else
-					new Mensaje("El usuario ya existe dentro del chat");
+		        HashMap<String, Object> map = new HashMap<String,Object>();			        
+		        map.put("nombreUsuario", lblNombreNuevoUsuario.getText());
+		        map.put("passUsuario", lblPassNuevoUsuario.getPassword().toString());
+		        
+		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVOUSUARIO);
+				Gson gson = new Gson();					
+				String requestJson = gson.toJson(request);
 				
-				
+				cliente.getThreadEscritura().AddRequest(requestJson);
 			}
 		});
 		btnCrear.setFont(new Font("Arial", Font.BOLD, 11));
@@ -92,10 +102,17 @@ public class NuevoUsuario extends JFrame {
 		btnCancelar.setFont(new Font("Arial", Font.BOLD, 11));
 		btnCancelar.setBounds(236, 205, 116, 20);
 		contentPane.add(btnCancelar);
+		
+		cliente.getThreadLectura().addPantalla("nuevoUsuario", this);
 		setVisible(true);
 	}
 	
-	private boolean crearNuevoUsuario() {		
-		return UsuarioController.crearNuevoUsuario(lblNombreNuevoUsuario.getText(), lblPassNuevoUsuario.getText());		
+	public void notificarCreacionNuevoUsuario(boolean creadoConExito) {
+		if(creadoConExito) {
+			new MensajeInterfaz("El usuario se creó con éxito");
+			dispose();
+		}
+		else
+			new MensajeInterfaz("El usuario ya existe dentro del chat");				
 	}
 }

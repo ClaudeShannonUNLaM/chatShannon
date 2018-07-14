@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
 import hibernate.AdivinarMayorMenorHibernateManager;
 import hibernate.AdivinarMayorMenorMappingClass;
 import hibernate.adivinado.MayorMenorAdivinadoHibernateManager;
@@ -19,7 +20,8 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Mensaje msj = new Mensaje(mensaje);
 		Matcher matcher = patron.matcher(mensaje);
 		System.out.println(nombreUsuario);
 		UsuarioController u = new UsuarioController();
@@ -36,10 +38,12 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 					
 					MayorMenorAdivinadoHibernateManager ammhm = new MayorMenorAdivinadoHibernateManager();
 					ammhm.insertar(idUsuario, this.respuesta);
-		    		return "@"+nombreUsuario+" ¡listo!";
+		    		msj.setDescripcion("@"+nombreUsuario+" ¡listo!");
+		    		return msj;
 		    	}
 				case "fue divertido":
-		    		return "@"+nombreUsuario+" si!";
+					msj.setDescripcion("@"+nombreUsuario+" si!");
+					return msj;
 				case "es el":
 				{
 					MayorMenorAdivinadoHibernateManager ammhm = new MayorMenorAdivinadoHibernateManager();
@@ -50,7 +54,8 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 					ammhm.actualizar(ammmc1);
 					respuesta=ammmc1.getRespuesta();
 		    		String intento = mensaje.replaceAll("\\D", "");
-		    		return "@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento));
+		    		msj.setDescripcion("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
+		    		return msj;
 		    	}
 			}
 		}
@@ -61,7 +66,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	
 	public String evaluarIntento (int intento) {
 		if(intento<respuesta)
-			return "más grande";
+			return "mÃ¡s grande";
 		else
 		{
 			if(intento>respuesta)

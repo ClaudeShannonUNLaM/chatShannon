@@ -8,6 +8,7 @@ import bot.conversorMedidas.ConversorCapacidad;
 import bot.conversorMedidas.ConversorLongitud;
 import bot.conversorMedidas.ConversorMasa;
 import bot.conversorMedidas.ConversorTiempo;
+import chat.serverUtils.Mensaje;
 
 public class ConversorHandler extends AsistantSentenceHandler {	
 	
@@ -16,17 +17,22 @@ public class ConversorHandler extends AsistantSentenceHandler {
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {	    
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {	    
 		Matcher matcher = patron.matcher(mensaje);
+		Mensaje msj ;
 		
 	    if (matcher.matches()) {	    	
 	    	Conversor conversor;	    	
 	    	conversor = definirConversor(matcher.group(1));
 	    	
 	    	if(conversor != null)
-	    		return "@" + nombreUsuario + conversor.Convert(matcher.group(1),matcher.group(2),matcher.group(3));
+	    	{	msj=new Mensaje("@" + nombreUsuario + conversor.Convert(matcher.group(1),matcher.group(2),matcher.group(3)));
+	    		return msj;
 	    	
-	    	return "@" + nombreUsuario + " la medida pedida no fue reconocida, lo siento";
+	    	}
+	    	
+	    	msj=new Mensaje("@" + nombreUsuario + " la medida pedida no fue reconocida, lo siento");
+	    	return msj;
 	    	
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);

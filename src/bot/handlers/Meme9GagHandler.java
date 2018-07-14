@@ -20,6 +20,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import chat.serverUtils.Mensaje;
+
 public class Meme9GagHandler extends AsistantSentenceHandler{
 	//***********IMPORTANTE***********************************************************************
 	/*CHICOS*********************************************************************************************************/
@@ -29,12 +31,16 @@ public class Meme9GagHandler extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		Mensaje msj = new Mensaje (mensaje);
+		
 		Matcher matcher = patron.matcher(mensaje);		
 		String rutaALaImagen;
 	    if (matcher.find()) {	    	
 	    	rutaALaImagen=responderMeme();
-	    	return "Tomá, @" + nombreUsuario;
+	    	msj.setImagen(new File(rutaALaImagen));
+	    	msj.setDescripcion("Tomá¡, @" + nombreUsuario);
+	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}	

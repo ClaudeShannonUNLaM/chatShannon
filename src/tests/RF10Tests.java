@@ -21,144 +21,148 @@ public class RF10Tests {
 		jenkins = new Asistente("jenkins");
 	}
 
-//	@Test
-//	public void adivinando() throws ParseException, IOException {
-//		Assert.assertEquals(
-//				"@delucas ¡sale y vale! Pensá un numero del 1 al 100",
-//				jenkins.escuchar("@jenkins jugamos?")
-//			);
-//		
-//		Assert.assertEquals(
-//				"@delucas ¿es el 50?",
-//				jenkins.escuchar("@jenkins listo")
-//			);
-//		
-//		Assert.assertEquals(
-//				"@delucas ¿es el 75?",
-//				jenkins.escuchar("@jenkins más grande")
-//			);
-//		
-//		Assert.assertEquals(
-//				"@delucas ¿es el 62?",
-//				jenkins.escuchar("@jenkins más chico")
-//			);
-//		
-//		Assert.assertEquals(
-//				"@delucas ¿es el 68?",
-//				jenkins.escuchar("@jenkins más grande")
-//			);
-//		
-//		Assert.assertEquals(
-//				"@delucas fue divertido :)",
-//				jenkins.escuchar("@jenkins si!")
-//			);
-//	}
+	@Test
+	public void adivinando() throws ParseException, IOException {
+		Assert.assertEquals(
+				"@delucas ¡sale y vale! Pensá un numero del 1 al 100",
+				jenkins.escuchar("@jenkins jugamos?",USUARIO)
+			);
+		
+		Assert.assertEquals(
+				"@delucas ¿es el 50?",
+				jenkins.escuchar("@jenkins listo",USUARIO)
+			);
+		
+		Assert.assertEquals(
+				"@delucas ¿es el 75?",
+				jenkins.escuchar("@jenkins más grande",USUARIO)
+			);
+		
+		Assert.assertEquals(
+				"@delucas ¿es el 62?",
+				jenkins.escuchar("@jenkins más chico",USUARIO)
+			);
+		
+		Assert.assertEquals(
+				"@delucas ¿es el 68?",
+				jenkins.escuchar("@jenkins más grande",USUARIO)
+			);
+		
+		Assert.assertEquals(
+				"@delucas fue divertido :)",
+				jenkins.escuchar("@jenkins si!",USUARIO)
+			);
+	}
 //	@Test
 //	public void adivinando3() throws ParseException, IOException {
 //		Assert.assertEquals(
 //				"@delucas ¡sale y vale! Pensa un numero del 1 al 100",
-//				jenkins.escuchar("@jenkins jugamos?")
+//				jenkins.escuchar("@jenkins jugamos?",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 50?",
-//				jenkins.escuchar("@jenkins listo")
+//				jenkins.escuchar("@jenkins listo",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 75?",
-//				jenkins.escuchar("@jenkins mas grande")
+//				jenkins.escuchar("@jenkins mas grande",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 87?",
-//				jenkins.escuchar("@jenkins mas grande")
+//				jenkins.escuchar("@jenkins mas grande",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 81?",
-//				jenkins.escuchar("@jenkins mas chico")
+//				jenkins.escuchar("@jenkins mas chico",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas fue divertido :)",
-//				jenkins.escuchar("@jenkins si!")
+//				jenkins.escuchar("@jenkins si!",USUARIO)
 //			);
 //	}
 //	@Test
 //	public void adivinando2() throws ParseException, IOException {
 //		Assert.assertEquals(
 //				"@delucas ¡sale y vale! Pensa un numero del 1 al 100",
-//				jenkins.escuchar("@jenkins jugamos?")
+//				jenkins.escuchar("@jenkins jugamos?",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 50?",
-//				jenkins.escuchar("@jenkins listo")
+//				jenkins.escuchar("@jenkins listo",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 25?",
-//				jenkins.escuchar("@jenkins mas chico")
+//				jenkins.escuchar("@jenkins mas chico",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 12?",
-//				jenkins.escuchar("@jenkins mas chico")
+//				jenkins.escuchar("@jenkins mas chico",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas ¿es el 18?",
-//				jenkins.escuchar("@jenkins mas grande")
+//				jenkins.escuchar("@jenkins mas grande",USUARIO)
 //			);
 //		
 //		Assert.assertEquals(
 //				"@delucas fue divertido :)",
-//				jenkins.escuchar("@jenkins si!")
+//				jenkins.escuchar("@jenkins si!",USUARIO)
 //			);
 //	}
 	
-/*	@Test
+	@Test
 	public void pensandoNumero12() throws ParseException, IOException {
 		ELEGIDO=12;
 		Assert.assertEquals(
 				"@delucas ¡listo!",
-				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100")
+				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100",USUARIO)
 			);
 		
 		Assert.assertEquals(
 				"@delucas más chico",
-				jenkins.escuchar("@jenkins es el 50?")
+				jenkins.escuchar("@jenkins es el 50?",USUARIO)
 			);
 		
 		Assert.assertEquals(
-				"@delucas ¡si! Adivinaste en 1 pasos...",
-				jenkins.escuchar("@jenkins es el 12?")
+				"@delucas ¡si! Adivinaste!",
+				jenkins.escuchar("@jenkins es el 12?",USUARIO)
 			);
 	}
-*/
 
 	@Test
 	public void pensandoNumero73() throws ParseException, IOException {
 		ELEGIDO = 73;
 		Assert.assertEquals(
 				"@delucas ¡listo!",
-				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100")
+				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100",USUARIO)
 			);
 		
 		Assert.assertEquals(
 				"@delucas más grande",
-				jenkins.escuchar("@jenkins es el 50?")
+				jenkins.escuchar("@jenkins es el 50?",USUARIO)
 			);
 		
 		Assert.assertEquals(
 				"@delucas más chico",
-				jenkins.escuchar("@jenkins es el 92?")
+				jenkins.escuchar("@jenkins es el 92?",USUARIO)
 			);
 		
 		Assert.assertEquals(
-				"@delucas ¡si! Adivinaste en 3 pasos...",
-				jenkins.escuchar("@jenkins es el 73?")
+				"@delucas ¡si! Adivinaste!",
+				jenkins.escuchar("@jenkins es el 73?",USUARIO)
+		);
+		
+		Assert.assertEquals(
+				"@delucas ¡si! Adivinaste!",
+				jenkins.escuchar("@jenkins es el 73?",USUARIO)
 			);
 		
 	}

@@ -25,57 +25,57 @@ public class RF05Test {
 	public void TriviasFacts() throws ParseException, IOException {
 		Assert.assertEquals(
 				"Cleopatra vivió más cerca de la invención del iPhone que de la construcción de la Gran Pirámide.",
-				jenkins.escuchar("@jenkins quiero datos de trivia")
+				jenkins.escuchar("@jenkins quiero datos de trivia",USUARIO)
 			);
 		
 		Assert.assertEquals(
 				"Rusia tiene una superficie más grande que Plutón.",
-				jenkins.escuchar("@jenkins dame datos importantes")
+				jenkins.escuchar("@jenkins dame datos importantes",USUARIO)
 			);
 		
 		Assert.assertEquals(
 				"Arabia Saudí importa camellos de Australia.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);
 		Assert.assertEquals(
 				"El nombre completo del juguete de Barbie es Barbara Millicent Roberts.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"Woody, de Toy Story, tiene un nombre completo y es Woody Pride.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"Las zanahorias eran originalmente de color púrpura.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"El corazón de una ballena azul es tan grande que un ser humano podría nadar a través de las arterias.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"Una maquina expendedora puede matarte más fácilmente que un tiburón.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"La Universidad de Oxford es más antigua que el imperio azteca.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"Francia seguía ejecutando personas con una guillotina cuando la primera película de Star Wars se estrenó.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"Los armadillos casi siempre dan a luz a cuatrillizos idénticos.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"Eduard Punset es en realidad más viejo que el pan de molde.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		Assert.assertEquals(
 				"El unicornio es el animal nacional de Escocia.",
-				jenkins.escuchar("@jenkins quiero saber algo interesante")
+				jenkins.escuchar("@jenkins quiero saber algo interesante",USUARIO)
 			);	
 		
 	}

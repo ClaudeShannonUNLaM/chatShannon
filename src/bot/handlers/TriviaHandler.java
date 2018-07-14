@@ -7,6 +7,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public class TriviaHandler extends AsistantSentenceHandler {
 
 	private String[] trivias = {
@@ -33,32 +35,35 @@ public class TriviaHandler extends AsistantSentenceHandler {
 	}	
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {	
-		Matcher matcher = patron.matcher(mensaje);		
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {	
+		Matcher matcher = patron.matcher(mensaje);
+		Mensaje msj ;
 	    if (matcher.matches()) {
 	    	Scanner s = null;
 			try {
 				String respuesta = "";
 				s = new Scanner(archivo);
-				int TriviaIndex = s.nextInt();
+				int triviaIndex = s.nextInt();
 				s.close();
 				
-				if(TriviaIndex == trivias.length){
-					TriviaIndex = 1;					
+				if(triviaIndex == trivias.length){
+					triviaIndex = 1;					
 					respuesta = trivias[0];
 				}
 				else{
-					TriviaIndex++;
-					respuesta = trivias[TriviaIndex - 1];
+					triviaIndex++;
+					respuesta = trivias[triviaIndex - 1];
 				}			
 							
 				PrintWriter pw = new PrintWriter(archivo);
-				pw.print(TriviaIndex);
+				pw.print(triviaIndex);
 				pw.close();
-				return respuesta;
+				msj=new Mensaje(respuesta);
+				return msj;
 								
-			} catch (FileNotFoundException e) {				
-				return "Hubo un error abriendo el archivo";
+			} catch (FileNotFoundException e) {
+				msj=new Mensaje("Hubo un error abriendo el archivo");
+				return msj;
 			}	        		    	
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);	

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import bot.handlers.AsistantSentenceHandler;
+import chat.serverUtils.Mensaje;
 import hibernate.deudaAsistente.DeudaController;
 
 public class ReciboPagoHandler extends AsistantSentenceHandler{
@@ -12,13 +13,16 @@ public class ReciboPagoHandler extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
+		Mensaje msj;
+		
 		if(matcher.matches()){
 			String deudor = matcher.group(1);
 			int pago = Integer.parseInt(matcher.group(2));
 			DeudaController.pagoDeuda(nombreUsuario, deudor, pago);
-			return "@" + nombreUsuario + " anotado.";
+			msj=new Mensaje("@" + nombreUsuario + " anotado.");
+			return msj;
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
