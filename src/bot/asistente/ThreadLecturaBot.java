@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-<<<<<<< HEAD
-import javax.swing.JFrame;
-
-=======
->>>>>>> 00d0f4f0d86567a8463bd824a77903f09cf306b0
 import com.google.gson.Gson;
 
 import chat.serverUtils.ServerResponse;
