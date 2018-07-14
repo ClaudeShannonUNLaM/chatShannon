@@ -43,20 +43,20 @@ public class TriviaHandler extends AsistantSentenceHandler {
 			try {
 				String respuesta = "";
 				s = new Scanner(archivo);
-				int TriviaIndex = s.nextInt();
+				int triviaIndex = s.nextInt();
 				s.close();
 				
-				if(TriviaIndex == trivias.length){
-					TriviaIndex = 1;					
+				if(triviaIndex == trivias.length){
+					triviaIndex = 1;					
 					respuesta = trivias[0];
 				}
 				else{
-					TriviaIndex++;
-					respuesta = trivias[TriviaIndex - 1];
+					triviaIndex++;
+					respuesta = trivias[triviaIndex - 1];
 				}			
 							
 				PrintWriter pw = new PrintWriter(archivo);
-				pw.print(TriviaIndex);
+				pw.print(triviaIndex);
 				pw.close();
 				msj.setDescripcion(respuesta);
 				return msj;

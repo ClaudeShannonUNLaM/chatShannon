@@ -31,6 +31,7 @@ public class ThreadEscritura extends Thread {
     	while(true) {			
 			if(!listaRequest.isEmpty()) {
 				writer.println(listaRequest.get(0));
+				listaRequest.remove(0);
 			}
 				
     	}

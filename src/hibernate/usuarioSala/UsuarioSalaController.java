@@ -53,6 +53,32 @@ public class UsuarioSalaController extends DataBaseHelper {
 	}
 	
 	
+	public List<Usuario> getUsuariosPorSala(int SalaId) {
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+/*		Session sesion = crearSession();		
+		try {
+			Root<Sala> rp = cq.from(Sala.class);
+			
+			Query q = sesion.createQuery("from Usuario as u "
+					+ " inner join UsuarioSala as us  "
+					+ " where 1 = 1 " + );
+			
+			try{
+				usuarios = q.list();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecuci�n si no se encuentra el registro
+			}						
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();            
+        }
+	*/	
+		return usuarios;
+	}
+	
+	
 	private static List<Sala> BuscarSalasPorId(List<UsuarioSala> relaciones){
 		Session sesion = crearSession();		
 		List<Sala> salas = new ArrayList<Sala>();

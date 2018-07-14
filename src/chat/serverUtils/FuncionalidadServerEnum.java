@@ -7,7 +7,8 @@ public enum FuncionalidadServerEnum {
 	NUEVOUSUARIO(3),	
 	ENVIARMENSAJE(4),
 	NUEVASALA(5),	
-	NUEVOCONTACTO(6),
+	NUEVOCONTACTO(6),	
+	AGREGARUSUARIOSALA(7),
 	LOGOFF(7);
 	
 	private int valor;

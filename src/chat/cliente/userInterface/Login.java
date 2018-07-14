@@ -37,8 +37,8 @@ public class Login extends JFrame {
 		this.setTitle("Login");
 		
 		cliente = new Cliente(ipServer, 10000);
-        cliente.run(); 
-		
+        cliente.run();
+        
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 606, 351);
 		contentPane = new JPanel();
@@ -107,6 +107,8 @@ public class Login extends JFrame {
 		lblBienvenido.setBounds(70, 11, 467, 23);
 		contentPane.add(lblBienvenido);
 		
+		
+		cliente.getThreadLectura().addPantalla("login", this);
 		setVisible(true);
 	}
 	
