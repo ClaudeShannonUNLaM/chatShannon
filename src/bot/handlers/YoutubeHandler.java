@@ -5,6 +5,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.JFrame;
 
+import chat.serverUtils.Mensaje;
+
 public class YoutubeHandler extends AsistantSentenceHandler{
 
 	public YoutubeHandler() {
@@ -13,10 +15,12 @@ public class YoutubeHandler extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		if(matcher.matches()){			
-			return "Aqui tienes.";										
+		Mensaje msj=new Mensaje ();
+		if(matcher.matches()){
+			msj.setDescripcion("Aqui tienes.");
+			return msj;										
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);

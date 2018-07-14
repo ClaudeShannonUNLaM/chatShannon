@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import bot.fecha.Fecha;
+import chat.serverUtils.Mensaje;
 
 public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 	
@@ -16,12 +17,11 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Calendar fechaCalculo= Calendar.getInstance();
 		fechaCalculo.set(Calendar.YEAR,2018);
 		fechaCalculo.set(Calendar.MONTH,4);
 		fechaCalculo.set(Calendar.DAY_OF_MONTH,31);
-				
 		Matcher matcher = patron.matcher(mensaje);		
 	    if(matcher.find()) {								
 			if(mensaje.contains("qué día será dentro de"))
@@ -38,7 +38,7 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 					 catch (java.text.ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						return "";
+						return null;
 					}
 			}
 			else if(mensaje.contains("cuántos días faltan para el")){
@@ -50,17 +50,17 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 				 catch (java.text.ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					return "";
+					return null;
 				}
 			}
-			return "";
+			return null;
 	    }
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
 	}
 	
 	
-	private String calcular(String mensaje, String nombreUsuario, boolean averiguarDiasPasados){		
+	private Mensaje calcular(String mensaje, String nombreUsuario, boolean averiguarDiasPasados){		
 			
 			StringTokenizer cadenaCompleta = new StringTokenizer(mensaje);
 			String partes,periodo = "";
@@ -117,20 +117,28 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 		return fechaCalculo;
 	}	
 	
-	private String diasPasaron(long dias,Calendar f1,Calendar f2, String nombreUsuario){
-		return "@" + nombreUsuario + " entre el "+ Fecha.fechaACadenaSinDia(f2) 
-				+ " y el " + Fecha.fechaACadenaSinDia(f1) + " pasaron " + (dias) + " días";
+	private Mensaje diasPasaron(long dias,Calendar f1,Calendar f2, String nombreUsuario){
+		Mensaje msj=new Mensaje();		
+		msj.setDescripcion("@" + nombreUsuario + " entre el "+ Fecha.fechaACadenaSinDia(f2) 
+				+ " y el " + Fecha.fechaACadenaSinDia(f1) + " pasaron " + (dias) + " días");
+		return msj;
 	}	
 	
-	private String diasFaltan(long dias, String nombreUsuario){
-		return "@" + nombreUsuario +" faltan "+ dias +" días";
+	private Mensaje diasFaltan(long dias, String nombreUsuario){
+		Mensaje msj=new Mensaje();		
+		msj.setDescripcion("@" + nombreUsuario +" faltan "+ dias +" días");
+		return msj;
 	}
 	
-	private String fechaHace(Calendar f1, String nombreUsuario){		
-		return "@" + nombreUsuario + " fue el "+ Fecha.fechaACadena(f1);
+	private Mensaje fechaHace(Calendar f1, String nombreUsuario){		
+		Mensaje msj=new Mensaje();		
+		msj.setDescripcion("@" + nombreUsuario + " fue el "+ Fecha.fechaACadena(f1));
+		return msj;
 	}
 	
-	private String fechaDentro(Calendar f1, String nombreUsuario){		
-		return "@" + nombreUsuario + " será el "+ Fecha.fechaACadena(f1);
+	private Mensaje fechaDentro(Calendar f1, String nombreUsuario){		
+		Mensaje msj=new Mensaje();		
+		msj.setDescripcion("@" + nombreUsuario + " será el "+ Fecha.fechaACadena(f1));
+		return msj;
 	}
 }

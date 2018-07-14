@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
 import tests.RF10Tests;
 
 public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
@@ -15,8 +16,9 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	}
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
+		Mensaje msj=new Mensaje();
 		if (matcher.matches()) {
 
 			switch (matcher.group(1)) { 
@@ -25,17 +27,18 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 
 					Random rnd = new Random();
 					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
-//					conteoIntentos=0;
-		    		return "@"+nombreUsuario+" ¡listo!";
+					msj.setDescripcion("@"+nombreUsuario+" ¡listo!");
+		    		return msj;
 		    	}
 				case "fue divertido":
-		    		return "@"+nombreUsuario+" si!";
+					msj.setDescripcion("@"+nombreUsuario+" si!");
+					return msj;
 				case "es el":
-				{
-//					conteoIntentos++;
+				{	
 					respuesta=RF10Tests.ELEGIDO; //Linea solo utilizada para test
 		    		String intento = mensaje.replaceAll("\\D", "");
-		    		return "@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento));
+		    		msj.setDescripcion("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
+		    		return msj;
 		    	}
 			}
 		}

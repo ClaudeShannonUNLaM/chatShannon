@@ -32,8 +32,8 @@ public class Cliente extends Thread{
         try {
             Socket socket = new Socket(host, puerto);
 	        threadLectura = new ThreadLectura(socket, this); 
-	        threadEscritura =  new ThreadEscritura(socket, this);
-	        
+	        threadEscritura = new ThreadEscritura(socket, this);
+
 	        threadLectura.start();
 	        threadEscritura.start(); 
         } catch (UnknownHostException ex) {

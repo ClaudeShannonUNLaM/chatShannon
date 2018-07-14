@@ -1,10 +1,11 @@
 package bot.handlers.deudaHandler;
 
 import bot.handlers.AsistantSentenceHandler;
+import chat.serverUtils.Mensaje;
 
 public class DeudaDefaultHandler  extends AsistantSentenceHandler{
 	
-	public String giveAnswer(String mensaje, String nombreUsuario) {
-		return "";
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
+		return null;
 	}
 }
