@@ -105,9 +105,14 @@ public class ClienteBot extends Thread {
 		datos = new HashMap<String,Object>();
         datos.put("nombreUsuario", "1");
         datos.put("passUsuario", "1");
-
+System.out.println("intentoLog");
         ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.LOGIN);				
 		String requestJson = gson.toJson(request);
 		threadEscritura.AddRequest(requestJson);
+	}
+	
+	public static void main(String[] args) {
+		ClienteBot bot = new ClienteBot("localhost",10000);
+		bot.run();
 	}
 }

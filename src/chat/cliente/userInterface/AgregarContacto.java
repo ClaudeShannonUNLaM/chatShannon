@@ -52,7 +52,7 @@ public class AgregarContacto extends JFrame {
 //		ContactoController.agregarNuevoContacto(nombreUsuarioIngresado.toLowerCase(),textField.getText().toLowerCase());
 				
 				HashMap<String, Object> map = new HashMap<String,Object>();			        
-		        map.put("usuarioIngresado", cliente.getNombreUsuario());
+		        map.put("usuarioIngresado", cliente.getUsuario().getNombre().toLowerCase());
 		        map.put("nombreNuevoContacto", textField.getText().toLowerCase());
 		        
 		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);

@@ -3,8 +3,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+<<<<<<< HEAD
 
 import java.net.URISyntaxException;
+=======
+import java.net.MalformedURLException;
+>>>>>>> a4bbfbfbf898b6e3cbfb947b56abd8702796154a
 import java.net.URL;
 
 import java.net.URLEncoder;
@@ -18,7 +22,7 @@ public class BuscadorWikiGoogle  {
 	private final static String wikipediaAPI="https://en.wikipedia.org/w/api.php?";
 	private final static String googleAPI="https://www.googleapis.com/customsearch/v1?";
 	private final static String wikipedia="https://en.wikipedia.org/wiki/";
-
+//
 	
 		
 	public Mensaje buscar(String msj) throws IOException, JSONException, URISyntaxException
@@ -106,8 +110,13 @@ public class BuscadorWikiGoogle  {
 		HttpURLConnection conn = (HttpURLConnection) new URL(googleAPI+parametros+ wAPI).openConnection();	
 		
 		conn.setRequestMethod("GET");
+<<<<<<< HEAD
 		conn.setRequestProperty("Content-Type", "application/json");
 		
+=======
+		conn.setRequestProperty("Accept", "application/json");
+
+>>>>>>> a4bbfbfbf898b6e3cbfb947b56abd8702796154a
 		if (conn.getResponseCode() != 200) 
 		{
 			throw new RuntimeException("Failed : HTTP error code : "

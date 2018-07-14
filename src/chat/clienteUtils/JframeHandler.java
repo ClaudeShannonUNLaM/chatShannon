@@ -2,13 +2,20 @@ package chat.clienteUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.JFrame;
 
 import org.junit.runner.Request;
 
+import com.google.gson.internal.LinkedTreeMap;
+
+import chat.serverUtils.Mensaje;
 import chat.serverUtils.ServerResponse;
 import chat.cliente.userInterface.*;
+import hibernate.sala.Sala;
+import hibernate.usuario.Usuario;
+
 public class JframeHandler { //Se encarga de distribuir la info que devuelve
 							 //el server por las distintas pantallas
 	private HashMap<String, JFrame> pantallas;
@@ -29,18 +36,36 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 	public void atender(ServerResponse response) throws IOException {		
 		String funcionalidad = (String)response.getDatos().get("funcionalidad");	
 		
+
 		switch (funcionalidad) {
 			case "login":
-				((Login)pantallas.get("login")).
-				IngresarSistema((String)response.getDatos().get("nombreusuario"),
-								(boolean)response.getDatos().get("exito"));	
+				
+				if((boolean)response.getDatos().get("exito")) {
+					LinkedTreeMap<String, Object> usu = (LinkedTreeMap<String, Object>) response.getDatos().get("usuario"); //WorkArround al cambio de clases de GSON.
+					Usuario usuario = new Usuario();
+					double id = (double)usu.get("id");
+					usuario.setId((int)id) ;
+					usuario.setNombre((String)usu.get("nombre"));
+					usuario.setPassword((String)usu.get("password"));
+					usuario.setOnline((boolean)usu.get("online"));
+					
+					((Login)pantallas.get("login")).
+					IngresarSistema(usuario, true);	
+				}
+				else {
+					((Login)pantallas.get("login")).
+					IngresarSistema(new Usuario(),
+									false);
+				}
+					
 				break;
-			/*case "cargaInicial":
+			case "cargaInicial":
 				((Index)pantallas.get("index")).
-				IngresarSistema((String)response.getDatos().get("nombreusuario"),
-								(boolean)response.getDatos().get("exito"));
+				cargarDatosIndex((List<Sala>)response.getDatos().get("salasPublicas"),
+						(List<Sala>)response.getDatos().get("salasPrivadas"),
+						(List<Usuario>)response.getDatos().get("contactos"));
 				break;
-				*/
+				
 			case "nuevoUsuario":
 				((NuevoUsuario)pantallas.get("nuevoUsuario")).
 				notificarCreacionNuevoUsuario((boolean)response.getDatos().get("exito"));
@@ -55,15 +80,17 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				
 				break;
 			case "mensajeRecivido":
-				/*agregar mensaje en la lista segun sala o destinatario
-				* si el mensaje emisor es el mismo que el usuario logueado, desbloquear el text area para mandar mensaje
-				*(si es que mandste uno)
-				*
-				*/
+				Mensaje mensaje = (Mensaje)response.getDatos().get("mensaje");
+				
+				if(mensaje.getSala() != null) //El mensaje es para una sala.
+					((Index)pantallas.get("index")).
+					agregarMensajeSala(mensaje);
+				else					
+					((Index)pantallas.get("index")). //El mensaje es para uncontacto.
+					agregarMensajeContacto(mensaje);
+				
 				break;
-
-		default:
-			break;
+				
 		}
 		
 	}

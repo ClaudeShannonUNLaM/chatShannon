@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import chat.cliente.Cliente;
 import chat.serverUtils.FuncionalidadServerEnum;
 import chat.serverUtils.ServerRequest;
+import hibernate.usuario.Usuario;
 import hibernate.usuario.UsuarioController;
 
 import javax.swing.JLabel;
@@ -78,8 +79,8 @@ public class Login extends JFrame {
 				}
 				
 		        HashMap<String, Object> map = new HashMap<String,Object>();			        
-		        map.put("nombreUsuario", lblNombreUsuario.getText());
-		        map.put("passUsuario", lblPassUsuario.getPassword().toString());
+		        map.put("nombreUsuario", lblNombreUsuario.getText().toLowerCase());
+		        map.put("passUsuario", new String(lblPassUsuario.getPassword()).toLowerCase());
 		        
 		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);
 				Gson gson = new Gson();					
@@ -108,17 +109,19 @@ public class Login extends JFrame {
 		contentPane.add(lblBienvenido);
 		
 		
-		cliente.getThreadLectura().addPantalla("login", this);
+		cliente.getThreadLectura().addPantalla("login", this);	
+		
 		setVisible(true);
 	}
 	
-	public void IngresarSistema(String nombreUsuario, boolean loginExitoso) throws IOException {
+	public void IngresarSistema(Usuario Usuario, boolean loginExitoso) throws IOException {
 		if(loginExitoso) {
-			cliente.setNombreUsuario(nombreUsuario);
+			cliente.setUsuario(Usuario);
 			new Index(cliente);
 			dispose();
 		}			
 		else
 			new MensajeInterfaz("El usuario no está dentro del sistema");			
 	}
+	
 }

@@ -23,11 +23,11 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Mensaje msj = new Mensaje(mensaje);
 		Matcher matcher = patron.matcher(mensaje);
-		System.out.println(nombreUsuario);
+		//System.out.println(nombreUsuario);
 		UsuarioController u = new UsuarioController();
-		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
 		
 		if (matcher.matches()) {
+			idUsuario=u.BuscarUsuario(nombreUsuario).getId();
 
 			switch (matcher.group(1)) { 
 				case "del 1 al 100" :

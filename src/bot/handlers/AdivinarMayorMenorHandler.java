@@ -34,9 +34,9 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 
 		Matcher matcher = patron.matcher(mensaje);	
 		UsuarioController u = new UsuarioController();
+		if (matcher.matches()) {			
 		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
 	
-		if (matcher.matches()) {			
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
 				{

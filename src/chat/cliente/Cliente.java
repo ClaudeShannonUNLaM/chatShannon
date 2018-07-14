@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import hibernate.usuario.Usuario;
 
 public class Cliente extends Thread{
 	
 	private String host;
     private int puerto;
-    private String nombreUsuario;
+    private Usuario Usuario;
     private ThreadLectura threadLectura; //Thread que lee mensajes recividos desde el server.
     private ThreadEscritura threadEscritura; //Thread que manda mensajes al server
 	
@@ -19,12 +20,12 @@ public class Cliente extends Thread{
         this.puerto = puerto;
 	}
 	
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.Usuario = usuario;
     }
  
-    public String getNombreUsuario() {
-        return this.nombreUsuario;
+    public Usuario getUsuario() {
+        return this.Usuario;
     }
     
     public void run() {
