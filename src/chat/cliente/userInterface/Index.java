@@ -413,29 +413,31 @@ public class Index extends JFrame {
 		
 		String contenidoExtra = ""; 
 		if(mensaje.getImagen() != null) {
-			contenidoExtra = "<html><body><img src=\"" + mensaje.getImagen() + "\"></body></html>";
+			contenidoExtra = "<img src=\"" + mensaje.getImagen() + "\">";
 		}
 		
 		if(mensaje.getVideo() != null) {
-			contenidoExtra = "<html><body><video> <source src=\"" + mensaje.getVideo() + " type=\"video/mp4\"></video></body></html>";
+			contenidoExtra = "<video> <source src=\"" + mensaje.getVideo() + " type=\"video/mp4\"></video>";
 		}		
 		
 		if(!contenidoExtra.equals("")) 
-			textoMensaje += contenidoExtra + "\n";			
+			textoMensaje += contenidoExtra + "<br/>";			
 
 		boolean destacar = false;
-		if(mensaje.getMensaje().contains(cliente.getUsuario())){
+		if(mensaje.getMensaje().contains("@" + cliente.getUsuario().getNombre().toLowerCase())){
 			destacar = true;
 		}
 		
-		String mensajeText = mensaje.getEmisor().getNombre() +  ": " + mensaje.getMensaje() + "\n";
+		String mensajeText = mensaje.getEmisor().getNombre() +  ": " + mensaje.getMensaje() + "<br/>";
 		if(destacar){
-			mensajeText = "<html><body color='orange>" + mensajeText + "</body></html>";
+			mensajeText = "<b>" + mensajeText + "</b>";
 		}
 
 		textoMensaje += mensajeText;
 		
 		mensajesSalas.set(indexMensaje, textoMensaje);
+		textoMensaje = "<html><head><style>body{font-family:arial;color:black;}</style></head><body>" + textoMensaje + "</body></html";
+		textArea.setContentType("text/html");
 		textArea.setText(textoMensaje);
 	}
 	
