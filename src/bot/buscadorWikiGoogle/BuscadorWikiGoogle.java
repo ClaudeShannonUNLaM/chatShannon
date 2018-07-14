@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import org.json.JSONException;
 import chat.serverUtils.Mensaje;
@@ -13,7 +14,7 @@ public class BuscadorWikiGoogle  {
 	private final static String wikipediaAPI="https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=";
 	private final static String googleAPI="https://www.googleapis.com/customsearch/v1?key=AIzaSyBpZxeSR-UtqGXu4mP4JQONwmpZ8UWTEgc&cx=010014002917633397902:9xiswcj3azq&fields=items(snippet,link)&lr=lang_es&q=";
 	private final static String wikipedia="https://en.wikipedia.org/wiki/";
-
+//
 	
 		
 	public Mensaje buscar(String msj) throws IOException, JSONException
@@ -98,7 +99,7 @@ public class BuscadorWikiGoogle  {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
-		
+
 		if (conn.getResponseCode() != 200) 
 		{
 			throw new RuntimeException("Failed : HTTP error code : "
