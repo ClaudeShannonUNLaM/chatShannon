@@ -111,14 +111,13 @@ public class ServerChat{
 			
 			Usuario usuDest = mensaje.getUsuarioDestinatario();
 			Sala salaDest = mensaje.getSala();
-			ArrayList<Usuario> destinatarios = new ArrayList<Usuario>();
+			List<Usuario> destinatarios = new ArrayList<Usuario>();
 
 			if(usuDest != null) {
 				destinatarios.add(usuDest);
 				destinatarios.add(usuThread.getUsuario());
 			}else {
-				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
-				//destinatarios = UsuarioSala.getUsuariosPorSala(salaDest.getId());
+				destinatarios = UsuarioSalaController.getUsuariosPorSala(salaDest.getId());
 			}			
 			datos.put("mensaje",mensaje);
 			

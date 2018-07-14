@@ -26,13 +26,13 @@ public class RF21Tests {
 	
 	@Test
 	public void youtubeTest() throws ParseException, IOException{
-		assertEquals("Aqui tienes.",jenkins.escuchar("Quiero ver videos donde argentina sale campeon, @jenkins"));
+		assertEquals("Aqui tienes.",jenkins.escuchar("Quiero ver videos donde argentina sale campeon, @jenkins",USUARIO));
 	}
 	
 	@Test 
 	public void jFrameYoutubetest() throws ParseException, IOException, InterruptedException {
 		
-		if(jenkins.escuchar("Quiero ver videos donde argentina sale campeon, @jenkins").equals("Aqui tienes.")){
+		if(jenkins.escuchar("Quiero ver videos donde argentina sale campeon, @jenkins",USUARIO).equals("Aqui tienes.")){
 			
 			video = new ReproductorVideo();
 			Thread.sleep(200000);

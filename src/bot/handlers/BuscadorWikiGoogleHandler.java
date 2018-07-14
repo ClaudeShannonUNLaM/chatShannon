@@ -16,7 +16,7 @@ public class BuscadorWikiGoogleHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		String busqueda = obtenerCadenaDeBusqueda(mensaje.trim());		
-		objetoMensaje=new Mensaje();
+		
 		if(!busqueda.isEmpty())
 		{
 			BuscadorWikiGoogle bwg = new BuscadorWikiGoogle();

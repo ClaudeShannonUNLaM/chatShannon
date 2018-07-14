@@ -39,7 +39,7 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 	private Mensaje respuestaHoy(String mensaje, String tipo, String nombreUsuario){
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat formato;
-		Mensaje msj=new Mensaje();
+		Mensaje msj ;
 		switch(tipo){
 			case "hora":
 				formato = new SimpleDateFormat("hh:mm a");
@@ -55,7 +55,7 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 				mensaje = "@"+ nombreUsuario +" hoy es "+ formato.format(c.getTime());
 				break;
 		}
-		msj.setDescripcion(mensaje);
+		msj=new Mensaje(mensaje);
 		return msj;
 	}
 

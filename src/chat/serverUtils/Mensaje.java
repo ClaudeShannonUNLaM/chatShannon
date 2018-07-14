@@ -15,17 +15,21 @@ public class Mensaje {
 	private String descripcion;
 	private String link;
 	
-	public Mensaje(Usuario emisor,String mensaje) {
-		this.emisor = emisor;		
-		this.mensaje = mensaje;	
-	}
-	
-	public Mensaje(Usuario emisor, Sala sala, String mensaje){
+	public Mensaje(Usuario emisor,Sala sala,String mensaje) {
 		this.emisor = emisor;
 		this.sala = sala;
 		this.mensaje = mensaje;
 	}
 
+	public Mensaje(Usuario emisor,String mensaje) {
+		this.emisor = emisor;		
+		this.mensaje = mensaje;	
+	}
+	public Mensaje(String mensaje)
+	{
+		this.mensaje=mensaje;
+	}
+	
 	public Usuario getEmisor() {
 		return emisor;
 	}

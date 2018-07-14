@@ -118,27 +118,23 @@ public class DiferenciaFechasHandler extends AsistantSentenceHandler{
 	}	
 	
 	private Mensaje diasPasaron(long dias,Calendar f1,Calendar f2, String nombreUsuario){
-		Mensaje msj=new Mensaje();		
-		msj.setDescripcion("@" + nombreUsuario + " entre el "+ Fecha.fechaACadenaSinDia(f2) 
+		Mensaje msj=new Mensaje("@" + nombreUsuario + " entre el "+ Fecha.fechaACadenaSinDia(f2) 
 				+ " y el " + Fecha.fechaACadenaSinDia(f1) + " pasaron " + (dias) + " días");
 		return msj;
 	}	
 	
 	private Mensaje diasFaltan(long dias, String nombreUsuario){
-		Mensaje msj=new Mensaje();		
-		msj.setDescripcion("@" + nombreUsuario +" faltan "+ dias +" días");
+		Mensaje msj=new Mensaje("@" + nombreUsuario +" faltan "+ dias +" días");
 		return msj;
 	}
 	
 	private Mensaje fechaHace(Calendar f1, String nombreUsuario){		
-		Mensaje msj=new Mensaje();		
-		msj.setDescripcion("@" + nombreUsuario + " fue el "+ Fecha.fechaACadena(f1));
+		Mensaje msj=new Mensaje("@" + nombreUsuario + " fue el "+ Fecha.fechaACadena(f1));
 		return msj;
 	}
 	
 	private Mensaje fechaDentro(Calendar f1, String nombreUsuario){		
-		Mensaje msj=new Mensaje();		
-		msj.setDescripcion("@" + nombreUsuario + " será el "+ Fecha.fechaACadena(f1));
+		Mensaje msj=new Mensaje("@" + nombreUsuario + " será el "+ Fecha.fechaACadena(f1));
 		return msj;
 	}
 }

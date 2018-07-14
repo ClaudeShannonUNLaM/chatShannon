@@ -3,21 +3,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import org.json.JSONException;
 import chat.serverUtils.Mensaje;
+import tests.TestAsistente;
 
 public class BuscadorWikiGoogle  {
 		
 	private final static String wikipediaAPI="https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=";
 	private final static String googleAPI="https://www.googleapis.com/customsearch/v1?key=AIzaSyBpZxeSR-UtqGXu4mP4JQONwmpZ8UWTEgc&cx=010014002917633397902:9xiswcj3azq&fields=items(snippet,link)&lr=lang_es&q=";
 	private final static String wikipedia="https://en.wikipedia.org/wiki/";
-
+//
 	
 		
 	public Mensaje buscar(String msj) throws IOException, JSONException
 	{	
-		Mensaje mensaje=new Mensaje();
+		Mensaje mensaje=new Mensaje(null,null,msj);
 		
 		URL url = new URL(wikipediaAPI + convertirAFormatoWikipedia(msj));
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
@@ -53,7 +55,7 @@ public class BuscadorWikiGoogle  {
 			else
 				mensaje=buscarEnGoogle(msj);
 			
-			//}
+			
 		}
 
 		conn.disconnect();
@@ -91,13 +93,13 @@ public class BuscadorWikiGoogle  {
 	
 	private Mensaje buscarEnGoogle(String msj) throws IOException
 	{
-		Mensaje mensaje=new Mensaje();
+		Mensaje mensaje=new Mensaje(null,null,msj);
 		
 		URL url = new URL(googleAPI + msj);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();	
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");
-		
+
 		if (conn.getResponseCode() != 200) 
 		{
 			throw new RuntimeException("Failed : HTTP error code : "

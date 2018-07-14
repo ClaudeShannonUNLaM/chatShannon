@@ -53,7 +53,7 @@ public class ChuckNorrisHandler extends AsistantSentenceHandler {
 	
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario){
-		Mensaje msj =new Mensaje();
+		Mensaje msj ;
 		Matcher matcher = patron.matcher(mensaje);		
 	    if (matcher.matches()) {
 	    	Scanner s = null;
@@ -75,11 +75,11 @@ public class ChuckNorrisHandler extends AsistantSentenceHandler {
 				PrintWriter pw = new PrintWriter(archivo);
 				pw.print(NorrisIndex);
 				pw.close();
-				msj.setDescripcion(respuesta);
+				msj=new Mensaje(respuesta);
 				return msj;
 								
 			} catch (FileNotFoundException e) {
-				msj.setDescripcion("Hubo un error abriendo el archivo");
+				msj=new Mensaje("Hubo un error abriendo el archivo");
 				return msj;
 			}	        		    	
 	    } else 

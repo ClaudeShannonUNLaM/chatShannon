@@ -3,16 +3,25 @@ package bot.asistente;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
+import com.google.gson.Gson;
+
+import chat.serverUtils.FuncionalidadServerEnum;
+import chat.serverUtils.Mensaje;
+import chat.serverUtils.ServerRequest;
 import chat.serverUtils.ServerResponse;
+import hibernate.usuario.Usuario;
 
 public class ClienteBot extends Thread {
 	private Asistente bot;
 	private String host;
     private int puerto;
-    private String nombreUsuario;
+    private Usuario usuario;
     private ThreadLecturaBot threadLectura; //Thread que lee mensajes recividos desde el server.
     private ThreadEscrituraBot threadEscritura; //Thread que manda mensajes al server
+    private Gson gson = new Gson();
+    private HashMap<String,Object> datos;
 	
 	public ClienteBot(String host, int puerto){		
 		this.host = host;
@@ -25,14 +34,6 @@ public class ClienteBot extends Thread {
         this.puerto = puerto;
         this.bot = new Asistente(nombreBot);
 	}
-	
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
- 
-    public String getNombreUsuario() {
-        return this.nombreUsuario;
-    }
     
     public void run() {
         try {
@@ -41,7 +42,10 @@ public class ClienteBot extends Thread {
 	        threadEscritura = new ThreadEscrituraBot(socket, this);
 
 	        threadLectura.start();
-	        threadEscritura.start(); 
+	        threadEscritura.start();
+
+	        login();
+	        
         } catch (UnknownHostException ex) {
             System.out.println("Servidor no encontrado: " + ex.getMessage());
         } catch (IOException ex) {
@@ -57,7 +61,58 @@ public class ClienteBot extends Thread {
 		return threadEscritura;
 	}
 	
-	public void atender(ServerResponse respuesta) {
+	public void atender(ServerResponse response) {
+		String funcionalidad = (String)response.getDatos().get("funcionalidad");
+		datos = new HashMap<String,Object>();
 		
+		switch (funcionalidad) {
+			case "login":
+					if(!(boolean)response.getDatos().get("exito")) {
+						login();
+					}else {
+						System.out.println("Login exitoso");
+					}
+				break;
+			case "mensajeRecivido":
+				Mensaje mensaje = (Mensaje) response.getDatos().get("mensaje");
+				Mensaje respuesta;
+				try {
+					respuesta = bot.escuchar(mensaje.getMensaje(), mensaje.getEmisor().getNombre());
+				}catch(Exception e) {
+					respuesta = new Mensaje("Error analizando su solicitud");
+				}
+
+				mensaje.setEmisor(usuario);
+				
+				if(mensaje.getUsuarioDestinatario() != null) {
+					respuesta.setUsuarioDestinatario(mensaje.getEmisor());
+				}else {
+					respuesta.setSala(mensaje.getSala());
+				}
+
+				datos.put("mensaje",respuesta);
+				ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.ENVIARMENSAJE);
+				String requestServer = gson.toJson(request);
+				
+				threadEscritura.AddRequest(requestServer);
+				break;
+		default:
+			break;
+		}
+	}
+	
+	private void login() {
+		datos = new HashMap<String,Object>();
+        datos.put("nombreUsuario", "1");
+        datos.put("passUsuario", "1");
+System.out.println("intentoLog");
+        ServerRequest request = new ServerRequest(datos,FuncionalidadServerEnum.LOGIN);				
+		String requestJson = gson.toJson(request);
+		threadEscritura.AddRequest(requestJson);
+	}
+	
+	public static void main(String[] args) {
+		ClienteBot bot = new ClienteBot("localhost",10000);
+		bot.run();
 	}
 }

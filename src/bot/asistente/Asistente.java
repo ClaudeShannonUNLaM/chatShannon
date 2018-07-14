@@ -5,7 +5,9 @@ import java.text.ParseException;
 
 import bot.handlers.*;
 import chat.serverUtils.Mensaje;
-import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
+//import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
+import tests.TestAsistente;
+
 
 public class Asistente {
 	
@@ -18,10 +20,14 @@ public class Asistente {
 		this.nombre = nombre;
 	}
 	
-	public Mensaje escuchar(String mensaje) throws ParseException, IOException{	
+	public Mensaje escuchar(String mensaje, String emisor) throws ParseException, IOException{	
 		if(!mensaje.contains("@"+nombre))
 			return null;				
 		
+		AsistantSentenceHandler rssAgregar = new AgregarRSSHandler();
+		AsistantSentenceHandler rss = new RssHandler();
+		AsistantSentenceHandler gag = new Meme9GagHandler();
+		AsistantSentenceHandler clima = new ClimaHandler();
 		AsistantSentenceHandler conversor = new ConversorHandler();
 		AsistantSentenceHandler chuckNorris = new ChuckNorrisHandler();
 		AsistantSentenceHandler trivia = new TriviaHandler();
@@ -35,11 +41,16 @@ public class Asistente {
 		AsistantSentenceHandler agradecer = new AgradecimientoHandler();
 		AsistantSentenceHandler leyesRobotica = new LeyesRoboticaHandler();
 		AsistantSentenceHandler deuda = new DeudaHandler();
-		
+		AsistantSentenceHandler lebac = new DatosFinancierosHandler();
 		AsistantSentenceHandler memes = new MostrarMemeHandler();	
 		AsistantSentenceHandler youtubeHandler = new YoutubeHandler();
 		AsistantSentenceHandler buscadorWikiGoogle= new BuscadorWikiGoogleHandler();
 		
+		lebac.setNextAction(rssAgregar);
+		rssAgregar.setNextAction(rss);
+		rss.setNextAction(gag);
+		gag.setNextAction(clima);
+		clima.setNextAction(agradecer);
 		agradecer.setNextAction(leyesRobotica);
 		leyesRobotica.setNextAction(youtubeHandler);
 		youtubeHandler.setNextAction(calculoMatematico);
@@ -56,6 +67,7 @@ public class Asistente {
 		memes.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return agradecer.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return lebac.giveAnswer(mensaje.toLowerCase(),emisor); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		//return agradecer.giveAnswer(mensaje.toLowerCase(), emisor);				
 	}
 }

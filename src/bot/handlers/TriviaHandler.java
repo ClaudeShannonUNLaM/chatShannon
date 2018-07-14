@@ -37,7 +37,7 @@ public class TriviaHandler extends AsistantSentenceHandler {
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {	
 		Matcher matcher = patron.matcher(mensaje);
-		Mensaje msj=new Mensaje();
+		Mensaje msj ;
 	    if (matcher.matches()) {
 	    	Scanner s = null;
 			try {
@@ -58,11 +58,11 @@ public class TriviaHandler extends AsistantSentenceHandler {
 				PrintWriter pw = new PrintWriter(archivo);
 				pw.print(triviaIndex);
 				pw.close();
-				msj.setDescripcion(respuesta);
+				msj=new Mensaje(respuesta);
 				return msj;
 								
 			} catch (FileNotFoundException e) {
-				msj.setDescripcion("Hubo un error abriendo el archivo");
+				msj=new Mensaje("Hubo un error abriendo el archivo");
 				return msj;
 			}	        		    	
 	    } else 

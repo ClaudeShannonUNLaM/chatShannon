@@ -31,7 +31,6 @@ public class AdivinarMayorMenorHibernateManager {
 		ammh.setTecho(techo);
 		ammh.setUltimoNumeroRespondido(ultimo);
 		ammh.setIdUsuario(idUsuario);
-		ammh.setIdAdivinar(idUsuario);
 		Transaction tx = session.beginTransaction();
 		try {
 			session.save(ammh);

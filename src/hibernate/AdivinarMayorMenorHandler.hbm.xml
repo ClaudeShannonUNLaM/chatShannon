@@ -4,15 +4,16 @@
 <!-- Generated Jun 15, 2018 11:34:03 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="hibernate.AdivinarMayorMenorMappingClass" table="AdivinarMayorMenor">
-        <id name="idUsuario" type="int">
-            <column name="IdUsuario" />
-<!--             generator class="assigned" /> increment -->            
+        <id name="idAdivinar" type="int">
+            <column name="IdAdivinar" />
+                        <generator class="increment" />            
+            
         </id>
         <property name="techo" type="int">
             <column name="Techo" />
         </property>
-         <property name="idAdivinar" type="int">
-            <column name="IdAdivinar" />
+         <property name="idUsuario" type="int">
+            <column name="IdUsuario" />
         </property>
         <property name="piso" type="int">
             <column name="Piso" />

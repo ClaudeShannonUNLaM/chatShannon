@@ -17,7 +17,7 @@ public class EstadoDeudaHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);	
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 		if(matcher.matches()){
 			String respuesta = "@" + nombreUsuario;
 			List<DeudaAsistente> prestamos = DeudaController.buscarDeudas(nombreUsuario,"");
@@ -25,7 +25,7 @@ public class EstadoDeudaHandler extends AsistantSentenceHandler{
 			
 			if(prestamos == null && deudas == null)
 			{
-				msj.setDescripcion(respuesta + " no debe ni le deben nada.");
+				msj=new Mensaje(respuesta + " no debe ni le deben nada.");
 				return msj;
 			}
 			if(deudas != null)
@@ -36,7 +36,7 @@ public class EstadoDeudaHandler extends AsistantSentenceHandler{
 				for(int i = 0; i < prestamos.size(); i++)
 					respuesta += " @" + prestamos.get(i).getDeudor() + " te debe $" + prestamos.get(i).getValor() + ".";
 			
-			msj.setDescripcion(respuesta);
+			msj=new Mensaje(respuesta);
 			return msj;
 		}
 		else

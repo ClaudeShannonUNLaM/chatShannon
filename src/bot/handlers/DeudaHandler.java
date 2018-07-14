@@ -9,7 +9,7 @@ public class DeudaHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		String respuesta;
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 		
 		AsistantSentenceHandler agregarDeuda = new AgregarDeudaHandler();
 		AsistantSentenceHandler agregarPrestamo = new AgregarPrestamoHandler();

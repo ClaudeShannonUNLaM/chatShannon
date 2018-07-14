@@ -30,7 +30,7 @@ public class RF02Tests {
 		for (String mensaje : mensajes) {
 			Assert.assertEquals(
 					"No es nada, @delucas",
-					jenkins.escuchar(mensaje)
+					jenkins.escuchar(mensaje,USUARIO)
 			);
 		}
 	}

@@ -17,13 +17,13 @@ public class MostrarMemeHandler extends AsistantSentenceHandler {
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 	
 	File img;	
-	Mensaje msj=new Mensaje();
+	Mensaje msj;
 	for(int i=0;i<nomMemes.length;i++)
 	{
 		if(mensaje.toLowerCase().contains(nomMemes[i]))
 		{
 			img=new File("img\\memes\\" + nomMemes[i] +".jpg");
-			msj.setDescripcion("MEME: "+ nomMemes[i]);
+			msj=new Mensaje("MEME: "+ nomMemes[i]);
 			msj.setImagen(img);
 			return msj;
 		}
