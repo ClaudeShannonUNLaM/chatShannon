@@ -221,19 +221,35 @@ public class Index extends JFrame {
 		listContactos = new JList();	
 		contactosPane.setViewportView(listContactos);
 		
+		listContactos.addListSelectionListener(new ListSelectionListener() {     
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+		      if (!e.getValueIsAdjusting()) {
+		    	  String texto = mensajesSalas.get(listContactos.getSelectedIndex() - 1);
+		    	  
+		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
+		    	  
+		    	  labelNombreSalaSeleccionada.setText(listContactos.getSelectedValue().toString());			    	  
+		    	  conversacionSeleccionada = contactos.get(listContactos.getSelectedIndex()) ;
+		    	  salaSeleccionada = false;
+                }				
+			}
+        });
+		
+		
 		listSalasPrivadas = new JList();
-		salasPrivadasPane.setViewportView(listSalasPrivadas);	
+		salasPrivadasPane.setViewportView(listSalasPrivadas);
 		
 		listSalasPrivadas.addListSelectionListener(new ListSelectionListener() {     
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 		      if (!e.getValueIsAdjusting()) {
-		    	  String texto = mensajesSalas.get(listSalasPublicas.getComponentCount() + listSalasPrivadas.getSelectedIndex() - 1);
+		    	  String texto = mensajesSalas.get(listSalasPrivadas.getComponentCount() + listSalasPrivadas.getSelectedIndex() - 1);
 		    	  
 		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
 		    	  
-		    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());			    	  
-		    	  conversacionSeleccionada = salas.get(listSalasPublicas.getSelectedIndex()) ;
+		    	  labelNombreSalaSeleccionada.setText(listSalasPrivadas.getSelectedValue().toString());			    	  
+		    	  conversacionSeleccionada = salas.get(listSalasPrivadas.getSelectedIndex()) ;
 		    	  salaSeleccionada = true;
                 }				
 			}
@@ -308,7 +324,9 @@ public class Index extends JFrame {
 	
 	private void cargarDatosIniciales() {
 		
-		HashMap<String, Object> map = new HashMap<String,Object>();	
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		
+		map.put("nombreUsuario",this.cliente.getUsuario().getNombre());
         map.put("idUsuario",this.cliente.getUsuario().getId());
         
         ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.CARGARDATOSINICIALES);
