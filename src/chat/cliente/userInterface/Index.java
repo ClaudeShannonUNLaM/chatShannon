@@ -352,21 +352,30 @@ public class Index extends JFrame {
 		
 		listContactos.setModel(listModel);	
 		
-	}
-	
-	
-	/*
-	 * 
-	
-	private List<Mensaje> mensajesPrivados;
-	private List<Mensaje> mensajesContactos;
-	 * 
-	 * */
-	public void agregarMensajePublico(Mensaje mensaje) {		
+	}	
 
-	}
-	public void agregarMensajePrivado(Mensaje mensaje) {
+	public void agregarMensajeSala(Mensaje mensaje) {		
+		Sala salaMensaje = mensaje.getSala();
+		int indexMensaje = salas.indexOf(salaMensaje);
 		
+		String textoMensaje = mensajesSalas.get(indexMensaje);
+		mensajesSalas.get(indexMensaje);
+		
+		String contenidoExtra = ""; 
+		if(mensaje.getImagen() != null) {
+			contenidoExtra = "<html><body><img src=\"" + mensaje.getImagen() + "\"></body></html>";
+		}
+		
+		if(mensaje.getVideo() != null) {
+			contenidoExtra = "<video> <source src=\"" + mensaje.getVideo() + " type=\"video/mp4\"></video>";
+		}		
+		
+		if(!contenidoExtra.equals("")) 
+			textoMensaje += contenidoExtra + "\n";			
+		
+		textoMensaje += mensaje.getMensaje() + "\n";
+		
+		mensajesSalas.set(indexMensaje, textoMensaje);
 	}
 	
 	public void agregarMensajeContacto(Mensaje mensaje) {

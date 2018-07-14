@@ -13,7 +13,7 @@ import dataBaseConection.DataBaseHelper;
 
 public class UsuarioController  extends DataBaseHelper {
 	
-	public static boolean usuarioYaCreado(String nombreUsuario, String passWord, boolean importaSoloElNombre) {
+	public static Usuario usuarioYaCreado(String nombreUsuario, String passWord, boolean importaSoloElNombre) {
 		Session sesion = crearSession();		
 		Usuario usuario = null;
 		try {			
@@ -38,10 +38,7 @@ public class UsuarioController  extends DataBaseHelper {
             sesion.close();            
         }		
 		
-		if(usuario == null)
-			return false;
-		
-		return true;
+		return usuario;
 	}
 	
 	
@@ -71,8 +68,9 @@ public class UsuarioController  extends DataBaseHelper {
 	
 	
 	public static boolean crearNuevoUsuario(String nombreUsuario, String passWord) {
-	
-		if(usuarioYaCreado(nombreUsuario,passWord, true))
+		Usuario usuarioCheck = usuarioYaCreado(nombreUsuario,passWord, true);
+		
+		if(usuarioCheck != null)
 			return false;
 		
 		boolean insercionConExito = false;

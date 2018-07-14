@@ -50,26 +50,12 @@ public class ServerChat{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	//Envia el mensaje a todos los usuarios conectados
-	/*void broadcast(String mensaje, UsuarioThread excluirUsuario) { 
-        for (UsuarioThread usu : usuarioThreads) {
-            if (usu != excluirUsuario) { //No se le envia el mensaje al usuario que lo inicio.
-                usu.enviarMensaje(mensaje);
-            }
-        }
-    }*/
+	}	
 	
 	//Cierra el thread para un usuario que se desconecto
     void removeUsuario(UsuarioThread usu) {
         usuarioThreads.remove(usu);
     }
-    
-	public boolean loguear(ServerRequest datos) {
-		return UsuarioController.usuarioYaCreado((String)datos.getDatos().get("nombreUsuario"),(String)datos.getDatos().get("passUsuario"),false);	
-	}
-	
 	
 	public ServerResponse atenderRequest(ServerRequest request, UsuarioThread usuThread) {
 		ServerResponse response = null;
