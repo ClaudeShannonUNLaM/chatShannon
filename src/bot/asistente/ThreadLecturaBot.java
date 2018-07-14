@@ -48,13 +48,5 @@ public class ThreadLecturaBot extends Thread {
                 break;
             }
         }
-<<<<<<< HEAD
-    }    
-    
-    public void addPantalla(String nombrePantalla,JFrame frame) {
-    	pantallasHandler.addPantalla(nombrePantalla, frame);
-    }    
-=======
     }
->>>>>>> 00d0f4f0d86567a8463bd824a77903f09cf306b0
 }
