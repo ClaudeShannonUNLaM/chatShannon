@@ -24,22 +24,22 @@ public class RF06Tests {
 
  		Assert.assertEquals(
 				"@delucas 3",
-				jenkins.escuchar("@jenkins cuánto es 1 + 2",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es 1 + 2",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas 1",
-				jenkins.escuchar("@jenkins cuánto es 5 - 2 * 2",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es 5 - 2 * 2",USUARIO).getMensaje()
 			);
 	
 		Assert.assertEquals(
 				"@delucas 10",
-				jenkins.escuchar("@jenkins cuánto es el 10% de 100",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es el 10% de 100",USUARIO).getMensaje()
 			);
 	
 		Assert.assertEquals(
 				"@delucas 42",
-				jenkins.escuchar("@jenkins cuánto es el 17 + 5 ^ 2",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es el 17 + 5 ^ 2",USUARIO).getMensaje()
 			);
 		
 		// agregar otros casos
@@ -49,7 +49,7 @@ public class RF06Tests {
 	public void calculosCompuestos() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas -6",
-				jenkins.escuchar("@jenkins cuánto es (4-8)*2 + 4 / ( 1 + 1)",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es (4-8)*2 + 4 / ( 1 + 1)",USUARIO).getMensaje()
 			);
 
 		
@@ -60,12 +60,12 @@ public class RF06Tests {
 	public void testAdicionales() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas -2",
-				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / ( 1 + 1)",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / ( 1 + 1)",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas -3",
-				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / (( 1 + 1) * 2)",USUARIO)
+				jenkins.escuchar("@jenkins cuánto es ((4-8)+2)*2 + 4 / (( 1 + 1) * 2)",USUARIO).getMensaje()
 			);
 	}
 

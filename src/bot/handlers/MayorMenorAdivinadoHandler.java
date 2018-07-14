@@ -39,7 +39,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 					
 					MayorMenorAdivinadoHibernateManager ammhm = new MayorMenorAdivinadoHibernateManager();
 					ammhm.insertar(idUsuario, this.respuesta);
-		    		msj.setDescripcion("@"+nombreUsuario+" ¡listo!");
+		    		msj.setMensaje("@"+nombreUsuario+" ¡listo!");
 		    		return msj;
 		    	}
 				
@@ -53,7 +53,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 					ammhm.actualizar(ammmc1);
 					respuesta=ammmc1.getRespuesta();
 		    		String intento = mensaje.replaceAll("\\D", "");
-		    		msj.setDescripcion("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
+		    		msj.setMensaje("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
 					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
 					msj=new Mensaje("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
 		    		return msj;
