@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import bot.asistente.Asistente;
 import bot.meme.GeneradorMeme;
+import chat.serverUtils.Mensaje;
 
 public class RF22Tests {
 	public final static String USUARIO = "delucas"; 
@@ -30,13 +31,13 @@ public class RF22Tests {
 	@Test 
 	public void memejFrameTest() throws ParseException, IOException, InterruptedException {
 		
-		String img=shannon.escuchar("quiero ver el meme take my money, @shannon");
+		Mensaje img=shannon.escuchar("quiero ver el meme take my money, @shannon");
 		if(img!=null){
-		
-			meme =new GeneradorMeme(img,"MEME: "+img.substring(img.indexOf("memes")+6,img.length()-4));
+		/*
+			meme =new GeneradorMeme(img.getImagen(),img.getDescripcion());
 			meme.mostrarMeme();
 			meme.setVisible(true);
-			Thread.sleep(10000);
+		*/	Thread.sleep(10000);
 			
 			}
 		}

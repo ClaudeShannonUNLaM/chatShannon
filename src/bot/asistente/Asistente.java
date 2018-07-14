@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import bot.handlers.*;
+import chat.serverUtils.Mensaje;
 import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
 
 public class Asistente {
@@ -17,9 +18,9 @@ public class Asistente {
 		this.nombre = nombre;
 	}
 	
-	public String escuchar(String mensaje) throws ParseException, IOException{	
+	public Mensaje escuchar(String mensaje) throws ParseException, IOException{	
 		if(!mensaje.contains("@"+nombre))
-			return "";				
+			return null;				
 		
 		AsistantSentenceHandler conversor = new ConversorHandler();
 		AsistantSentenceHandler chuckNorris = new ChuckNorrisHandler();
@@ -37,6 +38,7 @@ public class Asistente {
 		
 		AsistantSentenceHandler memes = new MostrarMemeHandler();	
 		AsistantSentenceHandler youtubeHandler = new YoutubeHandler();
+		AsistantSentenceHandler buscadorWikiGoogle= new BuscadorWikiGoogleHandler();
 		
 		agradecer.setNextAction(leyesRobotica);
 		leyesRobotica.setNextAction(youtubeHandler);
@@ -49,7 +51,8 @@ public class Asistente {
 		trivia.setNextAction(diferenciaFechas);
 		diferenciaFechas.setNextAction(tiempoActual);
 		tiempoActual.setNextAction(deuda);
-		deuda.setNextAction(memes);
+		deuda.setNextAction(buscadorWikiGoogle);
+		buscadorWikiGoogle.setNextAction(memes);
 		memes.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		

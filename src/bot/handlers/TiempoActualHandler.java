@@ -6,12 +6,14 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 public class TiempoActualHandler extends AsistantSentenceHandler {
 	
 	private final static Pattern[] pratronPreguntaSobreHoy = {Pattern.compile("^¿qué ?(hora|día) es,"), Pattern.compile("la ?(hora|fecha) por favor"), Pattern.compile("^me decís la ?(hora|fecha)") };
 	
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		
 		String rHoy = preguntaPorHoy(mensaje);			
 					
@@ -34,9 +36,10 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 		return "";
 	}
 	
-	private String respuestaHoy(String mensaje, String tipo, String nombreUsuario){
+	private Mensaje respuestaHoy(String mensaje, String tipo, String nombreUsuario){
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat formato;
+		Mensaje msj=new Mensaje();
 		switch(tipo){
 			case "hora":
 				formato = new SimpleDateFormat("hh:mm a");
@@ -52,7 +55,8 @@ public class TiempoActualHandler extends AsistantSentenceHandler {
 				mensaje = "@"+ nombreUsuario +" hoy es "+ formato.format(c.getTime());
 				break;
 		}
-		return mensaje;
+		msj.setDescripcion(mensaje);
+		return msj;
 	}
 
 }

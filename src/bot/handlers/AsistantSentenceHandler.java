@@ -1,7 +1,7 @@
 package bot.handlers;
 
-
 import java.util.regex.Pattern;
+import chat.serverUtils.Mensaje;
 
 public abstract class AsistantSentenceHandler {
 
@@ -12,5 +12,5 @@ public abstract class AsistantSentenceHandler {
 	      this.nextHandler = nextHandler;
 	}
 	
-	public abstract String giveAnswer(String mensaje, String nombreUsuario);
+	public abstract Mensaje giveAnswer(String mensaje, String nombreUsuario);
 }

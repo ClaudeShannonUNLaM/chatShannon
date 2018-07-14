@@ -1,14 +1,15 @@
 package bot.handlers;
 
 import bot.handlers.deudaHandler.*;
+import chat.serverUtils.Mensaje;
 import tests.TestAsistente;
 
 public class DeudaHandler extends AsistantSentenceHandler{
 
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		String respuesta;
-		
+		Mensaje msj=new Mensaje();
 		
 		AsistantSentenceHandler agregarDeuda = new AgregarDeudaHandler();
 		AsistantSentenceHandler agregarPrestamo = new AgregarPrestamoHandler();
@@ -33,8 +34,8 @@ public class DeudaHandler extends AsistantSentenceHandler{
 		gastoCompartidoDos.setNextAction(estado);
 		estado.setNextAction(deudaDefaultResponse);
 
-		if(!(respuesta = agregarDeuda.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO)).isEmpty())
-			return respuesta;
+		if((msj = agregarDeuda.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO))!= null)
+			return msj;
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
 	}	

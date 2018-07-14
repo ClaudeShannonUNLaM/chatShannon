@@ -3,6 +3,8 @@ package bot.handlers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chat.serverUtils.Mensaje;
+
 	
 
 public class CalculoHandler extends AsistantSentenceHandler{
@@ -11,8 +13,9 @@ public class CalculoHandler extends AsistantSentenceHandler{
 	}
 		
 	@Override
-	public String giveAnswer(String mensaje, String nombreUsuario) {
+	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
+		Mensaje msj=new Mensaje();
 	    if(matcher.find()) {
 			String intro;
 			if(mensaje.contains("cuánto es el"))
@@ -21,9 +24,9 @@ public class CalculoHandler extends AsistantSentenceHandler{
 			else
 				intro = "@" + nombreUsuario + " cuánto es";
 			Integer result = resolverCalculo(mensaje.substring(intro.length()));
-			mensaje = "@" + nombreUsuario + " " + result.toString();
+			msj.setDescripcion( "@" + nombreUsuario + " " + result.toString());
 			
-			return mensaje;	
+			return msj;	
 		}
 		else
 			return this.nextHandler.giveAnswer(mensaje, nombreUsuario);				
