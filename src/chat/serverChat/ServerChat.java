@@ -126,6 +126,13 @@ public class ServerChat{
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevoContacto");
 			break;	
+			
+		case INVITARCONTACTO:			
+			exito = SalaController.invitarSala((String)request.getDatos().get("nombreUsuario"), (String)request.getDatos().get("nombreSala"));			
+			datos.put("exito", exito);
+			datos.put("funcionalidad", "invitacionSala");
+			
+			break;
 
 		case ENVIARMENSAJE:			
 

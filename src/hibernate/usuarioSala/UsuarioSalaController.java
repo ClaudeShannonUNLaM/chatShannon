@@ -72,40 +72,14 @@ public class UsuarioSalaController extends DataBaseHelper {
             sesion.close();            
         }
 		
-		return salas;		
-		
-		/*Session sesion = crearSession();		
-		List<Sala> salas = new ArrayList<Sala>();
-		List<UsuarioSala> relacionUsuarioSalas = new ArrayList<UsuarioSala>();
-		
-		Usuario usuario = new Usuario(); //Busco el usuario
-		
-		UsuarioController.BuscarUsuario(nombreUsuario);
-		
-		try {			
-        	CriteriaBuilder cb = sesion.getCriteriaBuilder();
-			CriteriaQuery<UsuarioSala> cq = cb.createQuery(UsuarioSala.class);
-			Root<UsuarioSala> rp = cq.from(UsuarioSala.class);
-			cq.select(rp).where(cb.equal(rp.get("idUsuario"),usuario.getId()));
-			
-			try{
-				relacionUsuarioSalas  = sesion.createQuery(cq).getResultList(); //Obtengo a que salas esta unido
-				salas = BuscarSalasPorId(relacionUsuarioSalas); //Obtengo las salas privadas de las que forma parte
-			}	
-			catch (NoResultException nre){
-				//Se evita que termine la ejecuci�n si no se encuentra el registro
-			}		
-			
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            sesion.close();            
-        }
-		
 		return salas;
-		*/
 	}
 	
+	public static Usuario obtenerPorNombre(String nombreUsuario,Session sesion) {
+		Usuario usu; 
+		usu = (Usuario) sesion.createQuery("from usuario where nombre = '" + nombreUsuario +"'");
+		return usu;
+	}
 	
 	public static List<Usuario> getUsuariosPorSala(int salaId) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();

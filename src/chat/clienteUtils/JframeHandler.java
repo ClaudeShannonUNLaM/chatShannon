@@ -125,6 +125,13 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				
 				break;
 				
+			case "invitacionSala":			
+			
+				((Invitacion)pantallas.get("invitacion")).
+				informarFinalizacionInvitacion((boolean)response.getDatos().get("exito"));
+				
+				
+			break;
 		}
 		
 	}

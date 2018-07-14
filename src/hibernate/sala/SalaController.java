@@ -28,7 +28,8 @@ public class SalaController extends DataBaseHelper {
 	public static boolean CrearSala(int idCreador,Sala sala) {
 		Session session = crearSession();
 		
-		if(exists(sala, session))
+		Sala salaExistente = exists(sala.getNombre(), session);
+		if(salaExistente != null)
 			return false;
 		
 		Transaction tx = session.beginTransaction();
@@ -51,10 +52,58 @@ public class SalaController extends DataBaseHelper {
 	}	
 	
 	
+	public static boolean invitarSala(String nombreUsuario,String nombreSala) {
+		Session session = crearSession();
+		
+		Sala salaExistente = exists(nombreSala, session);
+		if(salaExistente == null)
+			return false;
+		
+		
+		Usuario usuarioExistente = UsuarioSalaController.obtenerPorNombre(nombreUsuario, session);
+		
+		if(usuarioExistente == null)
+			return false;
+		
+		Transaction tx = session.beginTransaction();
+		UsuarioSala invitacion= new UsuarioSala();
+		invitacion.setIdSala(salaExistente.getId());
+		invitacion.setIdUsuario(usuarioExistente.getId());
+		try {			
+			session.save(invitacion);			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+				session.close();	
+				return false;
+			}							
+			
+		}		
+		session.close();
+		return true;
+	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
-	public static Boolean exists (Sala sala,Session sesion) {		
-		List<Sala> salas = (List<Sala>) sesion.createQuery("from Sala where nombre = '" + sala.getNombre() + "'").list();		
-	    return (salas.size() != 0);
+	public static Sala exists (String nombreSala,Session sesion) {	
+		Sala sala = null;		
+		try {
+			
+			Query q = sesion.createNativeQuery("select * from sala ua"
+					+ " where nombre = '" + nombreSala + "'" , Sala.class);		  	
+			
+			try{ 
+				sala  =(Sala) q.uniqueResult();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecuci�n si no se encuentra el registro
+			}						
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } 
+		
+		return sala;		
 	}
 }

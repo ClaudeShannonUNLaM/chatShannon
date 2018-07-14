@@ -9,7 +9,8 @@ public enum FuncionalidadServerEnum {
 	NUEVASALA(5),	
 	NUEVOCONTACTO(6),	
 	AGREGARUSUARIOSALA(7),
-	LOGOFF(8);
+	INVITARCONTACTO(8),
+	LOGOFF(9);
 	
 	private int valor;
     private FuncionalidadServerEnum(int valor) {

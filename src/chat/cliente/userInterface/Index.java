@@ -63,6 +63,7 @@ public class Index extends JFrame {
 	
 	private Object conversacionSeleccionada;
 	private boolean salaSeleccionada; //Me dice si se esta hablando con una sala o con un contacto
+	private boolean privadaSeleccionada; 
 	
 	private JTextField mensajeTxT;
 	private Cliente cliente;
@@ -166,6 +167,20 @@ public class Index extends JFrame {
 		btnDesloguearse.setBounds(453, 11, 129, 34);
 		panelOpciones.add(btnDesloguearse);
 		
+		JButton btnInvitarSalaPrivada = new JButton("Invitar sala privada");
+		btnInvitarSalaPrivada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!privadaSeleccionada) {
+					new MensajeInterfaz("Debe entrar dentro de una sala privada primero.");
+					return;
+				}				
+				new Invitacion(cliente);				
+			}
+		});
+		btnInvitarSalaPrivada.setFont(new Font("Arial", Font.BOLD, 13));
+		btnInvitarSalaPrivada.setBounds(279, 22, 155, 23);
+		panelOpciones.add(btnInvitarSalaPrivada);
+		
 		JPanel panelEscritura = new JPanel();
 		panelEscritura.setBounds(251, 452, 605, 35);
 		contentPane.add(panelEscritura);
@@ -224,15 +239,15 @@ public class Index extends JFrame {
 		listContactos.addListSelectionListener(new ListSelectionListener() {     
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-		      if (!e.getValueIsAdjusting()) {
-		    	  String texto = mensajesContactos.get(listContactos.getSelectedIndex());
-		    	  
-		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
-		    	  
-		    	  labelNombreSalaSeleccionada.setText(listContactos.getSelectedValue().toString());			    	  
-		    	  conversacionSeleccionada = contactos.get(listContactos.getSelectedIndex()) ;
-		    	  salaSeleccionada = false;
-                }				
+		      
+	    	  String texto = mensajesContactos.get(listContactos.getSelectedIndex());
+	    	  
+	    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
+	    	  
+	    	  labelNombreSalaSeleccionada.setText(listContactos.getSelectedValue().toString());			    	  
+	    	  conversacionSeleccionada = contactos.get(listContactos.getSelectedIndex()) ;
+	    	  salaSeleccionada = false;
+              privadaSeleccionada = false;				
 			}
         });
 		
@@ -242,16 +257,15 @@ public class Index extends JFrame {
 		
 		listSalasPrivadas.addListSelectionListener(new ListSelectionListener() {     
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-		      if (!e.getValueIsAdjusting()) {
-		    	  String texto = mensajesSalas.get(listSalasPrivadas.getComponentCount() + listSalasPrivadas.getSelectedIndex() - 1);
-		    	  
-		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
-		    	  
-		    	  labelNombreSalaSeleccionada.setText(listSalasPrivadas.getSelectedValue().toString());			    	  
-		    	  conversacionSeleccionada = salas.get(listSalasPrivadas.getSelectedIndex()) ;
-		    	  salaSeleccionada = true;
-                }				
+			public void valueChanged(ListSelectionEvent e) {		      
+	    	  String texto = mensajesSalas.get(listSalasPrivadas.getComponentCount() + listSalasPrivadas.getSelectedIndex() - 1);
+	    	  
+	    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
+	    	  
+	    	  labelNombreSalaSeleccionada.setText(listSalasPrivadas.getSelectedValue().toString());			    	  
+	    	  conversacionSeleccionada = salas.get(listSalasPrivadas.getSelectedIndex()) ;
+	    	  salaSeleccionada = true;
+	    	  privadaSeleccionada = true;
 			}
         });
 		
@@ -265,15 +279,16 @@ public class Index extends JFrame {
 		listSalasPublicas.addListSelectionListener(new ListSelectionListener() {     
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-		      if (!e.getValueIsAdjusting()) {
-		    	  String texto = mensajesSalas.get(listSalasPublicas.getSelectedIndex());
-		    	  
-		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
-		    	  
-		    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());			    	  
-		    	  conversacionSeleccionada = salas.get(listSalasPublicas.getSelectedIndex()) ;
-		    	  salaSeleccionada = true;
-                }				
+	      
+	    	  String texto = mensajesSalas.get(listSalasPublicas.getSelectedIndex());
+	    	  
+	    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
+	    	  
+	    	  labelNombreSalaSeleccionada.setText(listSalasPublicas.getSelectedValue().toString());			    	  
+	    	  conversacionSeleccionada = salas.get(listSalasPublicas.getSelectedIndex()) ;
+	    	  salaSeleccionada = true;
+	    	  privadaSeleccionada = false;
+                				
 			}
         });
 		panelListas.setLayout(null);
@@ -304,10 +319,10 @@ public class Index extends JFrame {
 			}
 		});
 		btnAgregar.setFont(new Font("Arial", Font.BOLD, 11));
-		btnAgregar.setBounds(153, 295, 89, 23);
+		btnAgregar.setBounds(138, 295, 104, 23);
 		panelListas.add(btnAgregar);
 		
-		JButton btnCrearNuevaSala = new JButton("Nueva");
+		JButton btnCrearNuevaSala = new JButton("Agregar");
 		btnCrearNuevaSala.setBounds(138, 8, 104, 23);
 		panelListas.add(btnCrearNuevaSala);
 		btnCrearNuevaSala.addActionListener(new ActionListener() {
