@@ -225,7 +225,7 @@ public class Index extends JFrame {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 		      if (!e.getValueIsAdjusting()) {
-		    	  String texto = mensajesSalas.get(listContactos.getSelectedIndex() - 1);
+		    	  String texto = mensajesContactos.get(listContactos.getSelectedIndex());
 		    	  
 		    	  textArea.setText(texto); //Se cambia el mensaje siendo mostrado
 		    	  
@@ -407,7 +407,7 @@ public class Index extends JFrame {
 
 	public void agregarMensajeSala(Mensaje mensaje) {		
 		Sala salaMensaje = mensaje.getSala();
-		int indexMensaje = buscarIndexMensaje(salaMensaje);
+		int indexMensaje = buscarIndexMensajeSala(salaMensaje);
 		
 		String textoMensaje = mensajesSalas.get(indexMensaje);		
 		
@@ -431,18 +431,29 @@ public class Index extends JFrame {
 	
 	public void agregarMensajeContacto(Mensaje mensaje) {
 		Usuario usuarioDestino = mensaje.getUsuarioDestinatario();
-		int indexMensaje = contactos.indexOf(usuarioDestino);
+		int indexMensaje = buscarIndexMensajeContactos(usuarioDestino); 
 		
 		String textoMensaje = mensajesContactos.get(indexMensaje);
-		textoMensaje += mensaje.getMensaje() + "\n";
+		textoMensaje +=mensaje.getEmisor().getNombre() + ": " + mensaje.getMensaje() + "\n";
 		
 		mensajesContactos.set(indexMensaje, textoMensaje);
+		textArea.setText(textoMensaje);
 	}
 	
-	private int buscarIndexMensaje(Sala salaMensaje) {
+	private int buscarIndexMensajeSala(Sala salaMensaje) {
 		int indice = 0;
 		for (Sala sala : salas) {
 			if(sala.getId() == salaMensaje.getId())
+				break;
+			indice++;
+		}		
+		return indice;
+	}
+	
+	private int buscarIndexMensajeContactos(Usuario usuarioMensaje) {
+		int indice = 0;
+		for (Usuario usuario : contactos) {
+			if(usuario.getId() == usuarioMensaje.getId())
 				break;
 			indice++;
 		}		
