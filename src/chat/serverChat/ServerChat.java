@@ -122,14 +122,13 @@ public class ServerChat{
 		case ENVIARMENSAJE:
 			Usuario usuDest = (Usuario) request.getDatos().get("usuarioDestino");
 			Sala salaDest = (Sala) request.getDatos().get("sala");
-			ArrayList<Usuario> destinatarios = new ArrayList<Usuario>();
+			List<Usuario> destinatarios = new ArrayList<Usuario>();
 
 			if(usuDest != null) {
 				destinatarios.add(usuDest);
 				destinatarios.add(usuThread.getUsuario());
 			}else {
-				//I need dis so bad, so lautaro, cuando lo tengas descomentá esto.
-				//destinatarios = UsuarioSala.getUsuariosPorSala(salaDest.getId());
+				destinatarios = UsuarioSalaController.getUsuariosPorSala(salaDest.getId());
 			}
 			
 			ServerResponse responseMensaje = new ServerResponse(request.getDatos());
@@ -147,7 +146,6 @@ public class ServerChat{
 			
 			break;
 		}
-		
 		
 		response = new ServerResponse(datos);
 		return response;

@@ -10,6 +10,9 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
+import org.hibernate.query.internal.NativeQueryImpl;
 
 import dataBaseConection.DataBaseHelper;
 import hibernate.sala.Sala;
@@ -53,18 +56,18 @@ public class UsuarioSalaController extends DataBaseHelper {
 	}
 	
 	
-	public List<Usuario> getUsuariosPorSala(int SalaId) {
+	public static List<Usuario> getUsuariosPorSala(int salaId) {
 		List<Usuario> usuarios = new ArrayList<Usuario>();
-/*		Session sesion = crearSession();		
+		Session sesion = crearSession();		
 		try {
-			Root<Sala> rp = cq.from(Sala.class);
 			
-			Query q = sesion.createQuery("from Usuario as u "
-					+ " inner join UsuarioSala as us  "
-					+ " where 1 = 1 " + );
+			Query q = sesion.createNativeQuery("SELECT u.* FROM Usuario as u"
+					+ " INNER JOIN Usuario_Sala us on us.idUsuario = u.id "
+					+ " WHERE us.idSala = " + salaId, Usuario.class);
+		  	
 			
-			try{
-				usuarios = q.list();
+			try{ 
+				usuarios = q.getResultList();
 			}	
 			catch (NoResultException nre){
 				//Se evita que termine la ejecuci�n si no se encuentra el registro
@@ -74,7 +77,7 @@ public class UsuarioSalaController extends DataBaseHelper {
         } finally {
             sesion.close();            
         }
-	*/	
+		
 		return usuarios;
 	}
 	
@@ -108,5 +111,5 @@ public class UsuarioSalaController extends DataBaseHelper {
 		
 		return salas;
 	}
-	
+
 }
