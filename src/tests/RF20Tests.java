@@ -25,7 +25,7 @@ public class RF20Tests {
 	@Test
 	public void wikiBuscadorTest() throws ParseException, IOException{
 	
-		assertEquals("mina clavero",shannon.escuchar("@shannon, quiero buscar en wikipedia mina clavero"));
+		assertEquals("mina clavero",shannon.escuchar("@shannon, quiero buscar en wikipedia mina clavero",USUARIO));
 	}
 	
 }
