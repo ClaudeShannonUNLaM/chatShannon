@@ -49,7 +49,7 @@ public class ContactoController extends DataBaseHelper{
 		
 	}
 
-	public static List<Usuario> buscarContactos(String nombreUsuario) { //Devuelve los contactos del usuario
+	public static List<Usuario> buscarContactos(int idUsuarioIngresado) { //Devuelve los contactos del usuario
 		
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		Session sesion = crearSession();		
@@ -57,7 +57,7 @@ public class ContactoController extends DataBaseHelper{
 
 			Query q = sesion.createNativeQuery("select u.* from usuario u"
 					+ " inner join contacto c on u.id = c.idContacto "
-					+ " where u.nombre = '" + nombreUsuario + "'" , Usuario.class);
+					+ " where c.idUsuario = " + idUsuarioIngresado , Usuario.class);
 		  	
 			
 			try{ 

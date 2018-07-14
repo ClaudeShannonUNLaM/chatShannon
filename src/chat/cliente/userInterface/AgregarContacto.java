@@ -55,7 +55,7 @@ public class AgregarContacto extends JFrame {
 		        map.put("usuarioIngresado", cliente.getUsuario().getNombre().toLowerCase());
 		        map.put("nombreNuevoContacto", textField.getText().toLowerCase());
 		        
-		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.LOGIN);
+		        ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.NUEVOCONTACTO);
 				Gson gson = new Gson();					
 				String requestJson = gson.toJson(request);
 				cliente.getThreadEscritura().AddRequest(requestJson);

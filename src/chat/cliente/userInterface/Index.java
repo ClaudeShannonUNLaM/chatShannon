@@ -309,7 +309,7 @@ public class Index extends JFrame {
 	private void cargarDatosIniciales() {
 		
 		HashMap<String, Object> map = new HashMap<String,Object>();	
-        map.put("nombreUsuario",this.cliente.getUsuario().getNombre());
+        map.put("idUsuario",this.cliente.getUsuario().getId());
         
         ServerRequest request = new ServerRequest(map,FuncionalidadServerEnum.CARGARDATOSINICIALES);
 		Gson gson = new Gson();					

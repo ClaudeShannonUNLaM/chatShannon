@@ -77,7 +77,8 @@ public class ServerChat{
 			
 			List<Sala> salasPublicas =  UsuarioSalaController.BuscarSalasPublicas((String)request.getDatos().get("nombreUsuario"));
 			List<Sala> salasPrivadas =  UsuarioSalaController.buscarSalasPrivadas((String)request.getDatos().get("nombreUsuario"));
-			List<Usuario> contactos = ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
+			double idUsuarioIngresado = (double)request.getDatos().get("idUsuario");
+			List<Usuario> contactos = ContactoController.buscarContactos((int)idUsuarioIngresado);
 			
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);

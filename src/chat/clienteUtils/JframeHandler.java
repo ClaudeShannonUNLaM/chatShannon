@@ -67,8 +67,8 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 			case "cargaInicial":	
 								
 				ArrayList<LinkedTreeMap<String, Object>> mapPublicas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
-				ArrayList<LinkedTreeMap<String, Object>> mapPrivadas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
-				ArrayList<LinkedTreeMap<String, Object>> mapContactos = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPublicas");
+				ArrayList<LinkedTreeMap<String, Object>> mapPrivadas = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("salasPrivadas");
+				ArrayList<LinkedTreeMap<String, Object>> mapContactos = (ArrayList<LinkedTreeMap<String, Object>>) response.getDatos().get("contactos");
 				ArrayList<Sala> publicas = new ArrayList<Sala>();
 				ArrayList<Sala> privadas = new ArrayList<Sala>();
 				ArrayList<Usuario> contactos = new ArrayList<Usuario>();
@@ -86,7 +86,9 @@ public class JframeHandler { //Se encarga de distribuir la info que devuelve
 				}				
 				
 				for (LinkedTreeMap<String, Object> dato : mapContactos) {
-					Usuario contacto = new Usuario();
+					Usuario contacto = new Usuario((String)dato.get("nombre"),(String)dato.get("password"));
+					double id  = (double)dato.get("id");
+					contacto.setId((int)id);
 					contactos.add(contacto);
 				}
 				
