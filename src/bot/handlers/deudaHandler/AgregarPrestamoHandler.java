@@ -15,15 +15,14 @@ public class AgregarPrestamoHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);
-		Mensaje msj=new Mensaje();
-		
+		Mensaje msj;
 		if(matcher.matches()){
 			//matcher.find();
 			String deudor = matcher.group(1);
 			int valor = Integer.parseInt(matcher.group(2));
 			
 			DeudaController.agregarDeuda(nombreUsuario,deudor,valor);
-			msj.setDescripcion("@" + nombreUsuario + " anotado.");
+			msj=new Mensaje("@" + nombreUsuario + " anotado.");
 			return msj;
 		}
 		else

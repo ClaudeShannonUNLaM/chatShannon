@@ -15,7 +15,7 @@ public class DeudaGrupalCasoUnoHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);	
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 		if(matcher.matches()){
 			String deudor = matcher.group(1);
 			String deudor2 = matcher.group(2);
@@ -24,7 +24,7 @@ public class DeudaGrupalCasoUnoHandler extends AsistantSentenceHandler{
 			valor /= 3;
 			DeudaController.agregarDeuda(prestamista, nombreUsuario, valor);
 			DeudaController.agregarDeuda(prestamista, (prestamista == deudor2)? deudor:deudor2, valor);
-			msj.setDescripcion("@" + nombreUsuario + " anotado.");
+			msj=new Mensaje("@" + nombreUsuario + " anotado.");
 			return msj;
 		}
 		else

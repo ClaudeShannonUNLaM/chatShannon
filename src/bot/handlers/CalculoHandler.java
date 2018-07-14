@@ -15,7 +15,7 @@ public class CalculoHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 	    if(matcher.find()) {
 			String intro;
 			if(mensaje.contains("cuánto es el"))
@@ -24,7 +24,7 @@ public class CalculoHandler extends AsistantSentenceHandler{
 			else
 				intro = "@" + nombreUsuario + " cuánto es";
 			Integer result = resolverCalculo(mensaje.substring(intro.length()));
-			msj.setDescripcion( "@" + nombreUsuario + " " + result.toString());
+			msj=new Mensaje( "@" + nombreUsuario + " " + result.toString());
 			
 			return msj;	
 		}

@@ -21,6 +21,10 @@ public class Mensaje {
 		this.mensaje = mensaje;
 	}
 
+	public Mensaje(String mensaje)
+	{
+		this.mensaje=mensaje;
+	}
 	
 	public Usuario getEmisor() {
 		return emisor;

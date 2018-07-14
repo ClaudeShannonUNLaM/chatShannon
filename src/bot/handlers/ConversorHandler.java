@@ -19,19 +19,19 @@ public class ConversorHandler extends AsistantSentenceHandler {
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {	    
 		Matcher matcher = patron.matcher(mensaje);
-		Mensaje msj =new Mensaje();
+		Mensaje msj ;
 		
 	    if (matcher.matches()) {	    	
 	    	Conversor conversor;	    	
 	    	conversor = definirConversor(matcher.group(1));
 	    	
 	    	if(conversor != null)
-	    	{	msj.setDescripcion("@" + nombreUsuario + conversor.Convert(matcher.group(1),matcher.group(2),matcher.group(3)));
+	    	{	msj=new Mensaje("@" + nombreUsuario + conversor.Convert(matcher.group(1),matcher.group(2),matcher.group(3)));
 	    		return msj;
 	    	
 	    	}
 	    	
-	    	msj.setDescripcion("@" + nombreUsuario + " la medida pedida no fue reconocida, lo siento");
+	    	msj=new Mensaje("@" + nombreUsuario + " la medida pedida no fue reconocida, lo siento");
 	    	return msj;
 	    	
 	    } else 

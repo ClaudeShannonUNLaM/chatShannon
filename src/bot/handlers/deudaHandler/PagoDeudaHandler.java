@@ -15,12 +15,12 @@ public class PagoDeudaHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 		if(matcher.matches()){
 			String prestamista = matcher.group(1);
 			int pago = Integer.parseInt(matcher.group(2));
 			DeudaController.pagoDeuda(prestamista, nombreUsuario, pago);
-			msj.setDescripcion("@" + nombreUsuario + " anotado.");
+			msj=new Mensaje("@" + nombreUsuario + " anotado.");
 			return msj;
 		}
 		else

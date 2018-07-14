@@ -15,9 +15,9 @@ public class AgradecimientoHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);	
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 	    if (matcher.find()) {	    	
-	    	msj.setDescripcion("No es nada, @" + nombreUsuario);
+	    	msj=new Mensaje("No es nada, @" + nombreUsuario);
 	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			

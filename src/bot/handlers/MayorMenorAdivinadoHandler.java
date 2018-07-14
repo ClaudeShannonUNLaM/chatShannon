@@ -18,7 +18,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);		
-		Mensaje msj=new Mensaje();
+		Mensaje msj;
 		if (matcher.matches()) {
 
 			switch (matcher.group(1)) { 
@@ -27,17 +27,17 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 
 					Random rnd = new Random();
 					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
-					msj.setDescripcion("@"+nombreUsuario+" ¡listo!");
+					msj=new Mensaje("@"+nombreUsuario+" ¡listo!");
 		    		return msj;
 		    	}
 				case "fue divertido":
-					msj.setDescripcion("@"+nombreUsuario+" si!");
+					msj=new Mensaje("@"+nombreUsuario+" si!");
 					return msj;
 				case "es el":
 				{	
 					respuesta=RF10Tests.ELEGIDO; //Linea solo utilizada para test
 		    		String intento = mensaje.replaceAll("\\D", "");
-		    		msj.setDescripcion("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
+		    		msj=new Mensaje("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
 		    		return msj;
 		    	}
 			}

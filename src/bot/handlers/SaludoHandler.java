@@ -14,9 +14,9 @@ public class SaludoHandler extends AsistantSentenceHandler{
 	@Override
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
 		Matcher matcher = patron.matcher(mensaje);
-		Mensaje msj=new Mensaje();
+		Mensaje msj ;
 		if(matcher.matches()){			
-			msj.setDescripcion("¡Hola, @" + nombreUsuario + "!");
+			msj=new Mensaje("¡Hola, @" + nombreUsuario + "!");
 			return 	msj;									
 		}
 		else

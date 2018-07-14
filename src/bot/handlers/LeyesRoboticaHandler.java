@@ -19,10 +19,10 @@ private String leyesRobotica="Las Leyes de la Robotica son: " + "1) Un robot no 
 	}
 	
 	public Mensaje giveAnswer(String mensaje, String nombreUsuario) {
-		Mensaje msj=new Mensaje();
+		Mensaje msj ;
 		Matcher matcher = patron.matcher(mensaje);		
 	    if (matcher.matches()) {
-	    	msj.setDescripcion(leyesRobotica);
+	    	msj=new Mensaje(leyesRobotica);
 	    	return msj;
 	    }
 		return this.nextHandler.giveAnswer(mensaje, nombreUsuario);
