@@ -35,11 +35,13 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 		Matcher matcher = patron.matcher(mensaje);	
 		UsuarioController u = new UsuarioController();
 		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
+	
 		if (matcher.matches()) {			
 			switch (matcher.group(1)) { 
 				case "jugamos?" :
 				{
 					msj.setDescripcion("@"+nombreUsuario+" ¡sale y vale! Pensá un numero del 1 al 100");
+					msj=new Mensaje("@"+nombreUsuario+" ¡sale y vale! Pensá un numero del 1 al 100");
 					return msj;
 				}
 				case "listo" :
@@ -50,6 +52,7 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					AdivinarMayorMenorHibernateManager ammhm = new AdivinarMayorMenorHibernateManager();
 					ammhm.insertar(techo, piso, ultimoNumeroRespondido,idUsuario);
 					msj.setDescripcion("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
+					msj=new Mensaje("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
 					return msj;
 				}
 				case "más chico":
@@ -72,11 +75,13 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 					//System.out.println("AMMMC ID "+ammmc1.getIdUsuario()+"AMMMC TECHO"+ammmc1.getTecho());
 					ammhm.actualizar(ammmc12);
 					msj.setDescripcion("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
+					msj=new Mensaje("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
 					return msj;
 		    	}
 				case "si!":
 				{
 					msj.setDescripcion("@"+nombreUsuario+" fue divertido :)");
+					msj=new Mensaje("@"+nombreUsuario+" fue divertido :)");
 					return msj;
 				}
 				case "más grande":
@@ -100,6 +105,7 @@ public class AdivinarMayorMenorHandler extends AsistantSentenceHandler {
 //					System.out.println("AMMMC ID "+ammmc.getIdUsuario()+"AMMMC TECHO"+ammmc.getTecho());
 					ammhm.actualizar(ammmc22);
 					msj.setDescripcion("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
+					msj=new Mensaje("@"+nombreUsuario+" ¿es el "+ultimoNumeroRespondido+"?");
 					return msj;
 		    	}
 			}

@@ -8,6 +8,7 @@ import chat.serverUtils.Mensaje;
 //import tests.*; //IMPORTANTE------- Esta clase no debería incluir ningun tipo de test. Se deja por ahora. Se debe cambiar
 import tests.TestAsistente;
 
+
 public class Asistente {
 	
 	private String nombre;		 
@@ -65,6 +66,7 @@ public class Asistente {
 		memes.setNextAction(saludo);
 		saludo.setNextAction(defaultResponse);
 		
-		return rssAgregar.giveAnswer(mensaje.toLowerCase(), TestAsistente.USUARIO); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		return rssAgregar.giveAnswer(mensaje.toLowerCase(),emisor); //Este TestAsistente.USUARIO no debe quedar hardcodeado				
+		//return agradecer.giveAnswer(mensaje.toLowerCase(), emisor);				
 	}
 }

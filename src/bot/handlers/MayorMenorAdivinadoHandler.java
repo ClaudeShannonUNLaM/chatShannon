@@ -13,7 +13,7 @@ import hibernate.usuario.UsuarioController;
 import tests.RF10Tests;
 
 public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
-	private int respuesta, id, idUsuario,conteoIntentos;
+	private int respuesta, id, idUsuario,conteoIntentos;Random rnd;
 
 	public MayorMenorAdivinadoHandler () {
 		patron = Pattern.compile(".*(del 1 al 100|es el|fue divertido).*");
@@ -26,13 +26,14 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 		System.out.println(nombreUsuario);
 		UsuarioController u = new UsuarioController();
 		idUsuario=u.BuscarUsuario(nombreUsuario).getId();
+		
 		if (matcher.matches()) {
 
 			switch (matcher.group(1)) { 
 				case "del 1 al 100" :
 				{
+					 rnd = new Random();
 
-					Random rnd = new Random();
 //					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
 					this.respuesta = RF10Tests.ELEGIDO;
 					
@@ -41,9 +42,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 		    		msj.setDescripcion("@"+nombreUsuario+" ¡listo!");
 		    		return msj;
 		    	}
-				case "fue divertido":
-					msj.setDescripcion("@"+nombreUsuario+" si!");
-					return msj;
+				
 				case "es el":
 				{
 					MayorMenorAdivinadoHibernateManager ammhm = new MayorMenorAdivinadoHibernateManager();
@@ -55,8 +54,11 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 					respuesta=ammmc1.getRespuesta();
 		    		String intento = mensaje.replaceAll("\\D", "");
 		    		msj.setDescripcion("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
+					this.respuesta = (int)(rnd.nextDouble() * 100 + 0);
+					msj=new Mensaje("@"+nombreUsuario+" "+evaluarIntento(Integer.parseInt(intento)));
 		    		return msj;
 		    	}
+				
 			}
 		}
 	    else
@@ -66,7 +68,7 @@ public class MayorMenorAdivinadoHandler  extends AsistantSentenceHandler{
 	
 	public String evaluarIntento (int intento) {
 		if(intento<respuesta)
-			return "mÃ¡s grande";
+			return "más grande";
 		else
 		{
 			if(intento>respuesta)

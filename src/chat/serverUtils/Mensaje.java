@@ -26,8 +26,6 @@ public class Mensaje {
 		this.mensaje=mensaje;
 	}
 	
-	
-
 	public Usuario getEmisor() {
 		return emisor;
 	}
