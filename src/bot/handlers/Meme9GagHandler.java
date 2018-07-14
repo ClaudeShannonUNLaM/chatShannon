@@ -40,14 +40,14 @@ public class Meme9GagHandler extends AsistantSentenceHandler{
 	    	rutaALaImagen=responderMeme();
 	    	System.out.println(rutaALaImagen);
 	    	msj.setImagen(new File(rutaALaImagen));
-	    	msj.setDescripcion("Tomá, @" + nombreUsuario);
+	    	msj.setMensaje("Tomá, @" + nombreUsuario);
 	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}	
 	public static void main (String []args){
 		Meme9GagHandler m = new Meme9GagHandler();
-		System.out.println(m.giveAnswer("quiero gag", "aaa").getDescripcion());
+		System.out.println(m.giveAnswer("quiero gag", "aaa").getMensaje());
 	}
 	private static String IMAGE_DESTINATION_FOLDER = "../gag";
 	private static String responderMeme(){

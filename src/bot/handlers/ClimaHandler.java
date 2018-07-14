@@ -28,7 +28,7 @@ public class ClimaHandler extends AsistantSentenceHandler{
 		Mensaje msj = new Mensaje (mensaje);
 	    if (matcher.find()) {	    	
 	    	try {
-				msj.setDescripcion("@" + nombreUsuario + ", hoy el clima está " + responderClima());
+				msj.setMensaje("@" + nombreUsuario + ", hoy el clima está " + responderClima());
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -39,7 +39,7 @@ public class ClimaHandler extends AsistantSentenceHandler{
 	}
 //	public static void main(String [] args){
 //		ClimaHandler c = new ClimaHandler();
-//		System.out.println(c.giveAnswer("clima pronostico", "aa").getDescripcion());
+//		System.out.println(c.giveAnswer("clima pronostico", "aa").getMensaje());
 //	}
 	private static String responderClima() throws JSONException {
 		 try {

@@ -25,7 +25,7 @@ public class RF22Tests {
 	
 	@Test
 	public void memeRegexTest() throws ParseException, IOException{
-		assertEquals("img\\memes\\its trap.jpg",shannon.escuchar("quiero ver el meme its trap, @shannon",USUARIO));
+		assertEquals("img\\memes\\its trap.jpg",shannon.escuchar("quiero ver el meme its trap, @shannon",USUARIO).getMensaje());
 	}
 	
 	@Test 

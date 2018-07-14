@@ -39,7 +39,7 @@ public class RssHandler extends AsistantSentenceHandler {
 		    	for(String S : URLS)
 		    		
 		    		concatenacion+=readRSSFeed(S);
-		    		msj.setDescripcion("Estas son las principales noticias, @" + nombreUsuario + " : " + concatenacion.replace("[", "").replace("CDATA", "").replace("]","").replace("<","").replace(">","").replace("!", "-"));
+		    		msj.setMensaje("Estas son las principales noticias, @" + nombreUsuario + " : " + concatenacion.replace("[", "").replace("CDATA", "").replace("]","").replace("<","").replace(">","").replace("!", "-"));
 		    		return msj;
 		    } else 
 		    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
@@ -52,8 +52,8 @@ private void getURLSfromBDD(){
 	public static void main(String[] args) {
     	//http://worldscreen.com/tvdrama/feed/   http://worldscreen.com/tvlatina/feed/  http://rss.cnn.com/rss/edition.rss
 		RssHandler r  = new RssHandler();
-		System.out.println(r.giveAnswer("dame rss", "marinolautaro").getDescripcion());
-		//System.out.println(r.giveAnswer("dame rss", "marinolautaro").getDescripcion().split("\n")[1]);
+		System.out.println(r.giveAnswer("dame rss", "marinolautaro").getMensaje());
+		//System.out.println(r.giveAnswer("dame rss", "marinolautaro").getMensaje().split("\n")[1]);
         //worldscreen.com/tvdrama/feed/"));
     }
 

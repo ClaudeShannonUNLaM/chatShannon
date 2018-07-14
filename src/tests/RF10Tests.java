@@ -25,32 +25,32 @@ public class RF10Tests {
 	public void adivinando() throws ParseException, IOException {
 		Assert.assertEquals(
 				"@delucas ¡sale y vale! Pensá un numero del 1 al 100",
-				jenkins.escuchar("@jenkins jugamos?",USUARIO)
+				jenkins.escuchar("@jenkins jugamos?",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas ¿es el 50?",
-				jenkins.escuchar("@jenkins listo",USUARIO)
+				jenkins.escuchar("@jenkins listo",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas ¿es el 75?",
-				jenkins.escuchar("@jenkins más grande",USUARIO)
+				jenkins.escuchar("@jenkins más grande",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas ¿es el 62?",
-				jenkins.escuchar("@jenkins más chico",USUARIO)
+				jenkins.escuchar("@jenkins más chico",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas ¿es el 68?",
-				jenkins.escuchar("@jenkins más grande",USUARIO)
+				jenkins.escuchar("@jenkins más grande",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas fue divertido :)",
-				jenkins.escuchar("@jenkins si!",USUARIO)
+				jenkins.escuchar("@jenkins si!",USUARIO).getMensaje()
 			);
 	}
 //	@Test
@@ -123,17 +123,17 @@ public class RF10Tests {
 		ELEGIDO=12;
 		Assert.assertEquals(
 				"@delucas ¡listo!",
-				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100",USUARIO)
+				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas más chico",
-				jenkins.escuchar("@jenkins es el 50?",USUARIO)
+				jenkins.escuchar("@jenkins es el 50?",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas ¡si! Adivinaste!",
-				jenkins.escuchar("@jenkins es el 12?",USUARIO)
+				jenkins.escuchar("@jenkins es el 12?",USUARIO).getMensaje()
 			);
 	}
 
@@ -142,27 +142,27 @@ public class RF10Tests {
 		ELEGIDO = 73;
 		Assert.assertEquals(
 				"@delucas ¡listo!",
-				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100",USUARIO)
+				jenkins.escuchar("@jenkins jugamos? Pensá un numero del 1 al 100",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas más grande",
-				jenkins.escuchar("@jenkins es el 50?",USUARIO)
+				jenkins.escuchar("@jenkins es el 50?",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas más chico",
-				jenkins.escuchar("@jenkins es el 92?",USUARIO)
+				jenkins.escuchar("@jenkins es el 92?",USUARIO).getMensaje()
 			);
 		
 		Assert.assertEquals(
 				"@delucas ¡si! Adivinaste!",
-				jenkins.escuchar("@jenkins es el 73?",USUARIO)
+				jenkins.escuchar("@jenkins es el 73?",USUARIO).getMensaje()
 		);
 		
 		Assert.assertEquals(
 				"@delucas ¡si! Adivinaste!",
-				jenkins.escuchar("@jenkins es el 73?",USUARIO)
+				jenkins.escuchar("@jenkins es el 73?",USUARIO).getMensaje()
 			);
 		
 	}
