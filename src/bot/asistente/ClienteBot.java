@@ -73,6 +73,16 @@ public class ClienteBot extends Thread {
 						login();
 					}else {
 						System.out.println("Login exitoso");
+
+						LinkedTreeMap<String, Object> usu = (LinkedTreeMap<String, Object>) response.getDatos().get("usuario"); 
+						usuario = new Usuario();
+						
+						double id = (double)usu.get("id");
+						
+						usuario.setId((int)id) ;
+						usuario.setNombre((String)usu.get("nombre"));
+						usuario.setPassword((String)usu.get("password"));
+						usuario.setOnline((boolean)usu.get("online"));
 					}
 				break;
 			case "mensajeRecivido":
@@ -86,13 +96,16 @@ public class ClienteBot extends Thread {
 				}catch(Exception e) {
 					respuesta = new Mensaje("Error analizando su solicitud");
 				}
-
-				mensaje.setEmisor(usuario);
 				
-				if(mensaje.getUsuarioDestinatario() != null) {
-					respuesta.setUsuarioDestinatario(mensaje.getEmisor());
-				}else {
+				if(respuesta == null)
+					return;
+
+				respuesta.setEmisor(usuario);
+				
+				if(mensaje.getSala() != null) {
 					respuesta.setSala(mensaje.getSala());
+				}else {
+					respuesta.setUsuarioDestinatario(mensaje.getEmisor());
 				}
 
 				datos.put("mensaje",respuesta);

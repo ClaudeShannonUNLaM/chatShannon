@@ -158,6 +158,9 @@ public class ServerChat{
 				}
 			}
 			
+			//lo seteo en null así es ignorado por el cliente
+			responseMensaje.getDatos().put("funcionalidad","");	
+			
 			break;
 		}	
 		
