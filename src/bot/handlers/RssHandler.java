@@ -35,9 +35,11 @@ public class RssHandler extends AsistantSentenceHandler {
 		    	RssCreation r = new RssCreation();
 		    	UsuarioController u = new UsuarioController();
 		    	URLS = r.devolverListaURLS(u.BuscarUsuario(nombreUsuario).getId());
+		    	
 		    	for(String S : URLS)
+		    		
 		    		concatenacion+=readRSSFeed(S);
-		    		msj.setDescripcion("Estas son las principales noticias, @" + nombreUsuario + " : " + concatenacion);
+		    		msj.setDescripcion("Estas son las principales noticias, @" + nombreUsuario + " : " + concatenacion.replace("[", "").replace("CDATA", "").replace("]","").replace("<","").replace(">","").replace("!", "-"));
 		    		return msj;
 		    } else 
 		    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
@@ -47,12 +49,13 @@ private void getURLSfromBDD(){
 	//aca agrego todas las URLS a mi lista
 }
 
-//	public static void main(String[] args) {
-//    	//http://worldscreen.com/tvdrama/feed/   http://worldscreen.com/tvlatina/feed/  http://rss.cnn.com/rss/edition.rss
-//		RssHandler r  = new RssHandler();
-//		System.out.println(r.giveAnswer("dame rss", "marinolautaro"));
-//        //worldscreen.com/tvdrama/feed/"));
-//    }
+	public static void main(String[] args) {
+    	//http://worldscreen.com/tvdrama/feed/   http://worldscreen.com/tvlatina/feed/  http://rss.cnn.com/rss/edition.rss
+		RssHandler r  = new RssHandler();
+		System.out.println(r.giveAnswer("dame rss", "marinolautaro").getDescripcion());
+		//System.out.println(r.giveAnswer("dame rss", "marinolautaro").getDescripcion().split("\n")[1]);
+        //worldscreen.com/tvdrama/feed/"));
+    }
 
     public static String readRSSFeed(String urlAddress){
         try{
@@ -72,13 +75,15 @@ private void getURLSfromBDD(){
                 }
             }
             in.close();
-            return sourceCode;
+//            String retorno = sourceCode.replaceAll(".*(<![CDATA[)", "");
+//            return retorno.split(".*(]]>)")[0];
+        return sourceCode;
         } catch (MalformedURLException ue){
-            System.out.println("Malformed URL");
+           // System.out.println("Malformed URL");
         } catch (IOException ioe){
-            System.out.println("Something went wrong reading the contents");
+           // System.out.println("Something went wrong reading the contents");
         }
-        return null;
+        return "";
     }
 	public int getIdRss() {
 		return idRss;

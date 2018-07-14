@@ -38,18 +38,18 @@ public class Meme9GagHandler extends AsistantSentenceHandler{
 		String rutaALaImagen;
 	    if (matcher.find()) {	    	
 	    	rutaALaImagen=responderMeme();
+	    	System.out.println(rutaALaImagen);
 	    	msj.setImagen(new File(rutaALaImagen));
-	    	msj.setDescripcion("Tomá¡, @" + nombreUsuario);
+	    	msj.setDescripcion("Tomá, @" + nombreUsuario);
 	    	return msj;
 	    } else 
 	    	return this.nextHandler.giveAnswer(mensaje, nombreUsuario);			
 	}	
-//	public static void main (String []args){
-//		Meme9GagHandler m = new Meme9GagHandler();
-//		System.out.println(m.giveAnswer("quiero gag", "aaa"));
-//		
-//	}
-	private static String IMAGE_DESTINATION_FOLDER = "gag";
+	public static void main (String []args){
+		Meme9GagHandler m = new Meme9GagHandler();
+		System.out.println(m.giveAnswer("quiero gag", "aaa").getDescripcion());
+	}
+	private static String IMAGE_DESTINATION_FOLDER = "../gag";
 	private static String responderMeme(){
 	    
 	        
@@ -85,14 +85,14 @@ public class Meme9GagHandler extends AsistantSentenceHandler{
 	        String strImageURL=obtenerImagen(document);
 	        String imagePath=downloadImage(strImageURL);
 	        //System.out.println("strImageURL = "+strImageURL);
-	        try {
-	            BufferedImage img = ImageIO.read(new File("gag/"+imagePath));
-	            ImageIcon icon = new ImageIcon(img);
-	            JLabel label = new JLabel(icon);
-	            JOptionPane.showMessageDialog(null, label);
-	         } catch (IOException e) {
-	            e.printStackTrace();
-	         }
+//	        try {
+//	            BufferedImage img = ImageIO.read(new File("gag/"+imagePath));
+//	            ImageIcon icon = new ImageIcon(img);
+//	            JLabel label = new JLabel(icon);
+//	            JOptionPane.showMessageDialog(null, label);
+//	         } catch (IOException e) {
+//	            e.printStackTrace();
+//	         }
 	 
 	    return "gag/"+imagePath;
 	   
