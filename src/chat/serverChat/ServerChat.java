@@ -72,11 +72,12 @@ public class ServerChat{
 			datos.put("exito", usuario != null);
 			datos.put("funcionalidad", "login");
 			break;
+			
 		case CARGARDATOSINICIALES: //Cargo los datos que necesita el cliente al entrar por primera vez a la página principal.
 			
-			List<Sala> salasPublicas =  SalaController.BuscarSalas();
-			List<Sala> salasPrivadas =  UsuarioSalaController.BuscarSalaUsuario((String)request.getDatos().get("nombreUsuario"));
-			List<Usuario> contactos = new ArrayList<Usuario>();//ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
+			List<Sala> salasPublicas =  UsuarioSalaController.BuscarSalasPublicas((String)request.getDatos().get("nombreUsuario"));
+			List<Sala> salasPrivadas =  UsuarioSalaController.buscarSalasPrivadas((String)request.getDatos().get("nombreUsuario"));
+			List<Usuario> contactos = ContactoController.buscarContactos((String)request.getDatos().get("nombreUsuario"));
 			
 			datos.put("salasPublicas", salasPublicas);
 			datos.put("salasPrivadas", salasPrivadas);
@@ -90,7 +91,15 @@ public class ServerChat{
 			break;
 			
 		case NUEVASALA:			
-			exito = SalaController.CrearSala((Sala)request.getDatos().get("nuevaSala"));
+			LinkedTreeMap<String, Object> salaJSON = (LinkedTreeMap<String, Object>) request.getDatos().get("nuevaSala");
+			Sala nuevaSala;		
+			
+			double id = (double)salaJSON.get("id");
+			nuevaSala = new Sala((int)id,(String)salaJSON.get("nombre"),(boolean)salaJSON.get("privada"));	
+			
+			
+			
+			exito = SalaController.CrearSala(nuevaSala);
 			datos.put("exito", exito);
 			datos.put("funcionalidad", "nuevaSala");			
 			break;

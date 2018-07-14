@@ -35,7 +35,7 @@ public class NuevaSala extends JFrame {
 
 	public NuevaSala(Cliente cliente) {
 		this.cliente = cliente;
-		
+		cliente.getThreadLectura().addPantalla("nuevaSala", this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

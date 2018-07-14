@@ -22,32 +22,6 @@ import hibernate.usuario.UsuarioController;
 import hibernate.usuarioSala.UsuarioSala;
 
 public class SalaController extends DataBaseHelper {
-
-	public static List<Sala> BuscarSalas() { //Se buscan las salas no privadas
-		Session sesion = crearSession();		
-		List<Sala> salas = new ArrayList<Sala>();
-		try {			
-        	CriteriaBuilder cb = sesion.getCriteriaBuilder();
-			CriteriaQuery<Sala> cq = cb.createQuery(Sala.class);
-			Root<Sala> rp = cq.from(Sala.class);
-			
-			cq.where(cb.equal(rp.get("privada"), 0));
-			cq.select(rp);
-			
-			try{
-				salas = sesion.createQuery(cq).getResultList();
-			}	
-			catch (NoResultException nre){
-				//Se evita que termine la ejecuci�n si no se encuentra el registro
-			}						
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        } finally {
-            sesion.close();            
-        }
-		
-		return salas;
-	}
 	
 	
 	public static boolean CrearSala(Sala sala) {

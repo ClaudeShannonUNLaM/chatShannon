@@ -21,10 +21,81 @@ import hibernate.usuario.UsuarioController;
 
 public class UsuarioSalaController extends DataBaseHelper {
 
-	
-	
-	public static List<Sala> BuscarSalaUsuario(String nombreUsuario) {
+
+	public static List<Sala> BuscarSalasPublicas(String nombreUsuario) { //Se buscan las salas publicas
+		List<Sala> salas = new ArrayList<Sala>();
 		Session sesion = crearSession();		
+		try {
+			
+			Query q = sesion.createNativeQuery("select s.* from usuario_sala ua"
+					+ " inner join usuario u on u.id = ua.idUsuario "
+					+ " inner join sala s on s.id = ua.idSala " 
+					+ "where u.nombre = " + nombreUsuario + " and s.privada = 0", Sala.class);		  	
+			
+			try{ 
+				salas  = q.getResultList();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecuci�n si no se encuentra el registro
+			}						
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();            
+        }
+		
+		return salas;		
+		
+		/*Session sesion = crearSession();		
+		List<Sala> salas = new ArrayList<Sala>();
+		try {			
+        	CriteriaBuilder cb = sesion.getCriteriaBuilder();
+			CriteriaQuery<Sala> cq = cb.createQuery(Sala.class);
+			Root<Sala> rp = cq.from(Sala.class);
+			
+			cq.where(cb.equal(rp.get("privada"), 0));
+			cq.select(rp);
+			
+			try{
+				salas = sesion.createQuery(cq).getResultList();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecuci�n si no se encuentra el registro
+			}						
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();            
+        }
+		
+		return salas;*/
+	}
+	
+	public static List<Sala> buscarSalasPrivadas(String nombreUsuario) {
+		List<Sala> salas = new ArrayList<Sala>();
+		Session sesion = crearSession();		
+		try {
+			
+			Query q = sesion.createNativeQuery("select s.* from usuario_sala ua"
+					+ " inner join usuario u on u.id = ua.idUsuario "
+					+ " inner join sala s on s.id = ua.idSala " 
+					+ "where u.nombre = " + nombreUsuario + " and s.privada = 1", Sala.class);		  	
+			
+			try{ 
+				salas  = q.getResultList();
+			}	
+			catch (NoResultException nre){
+				//Se evita que termine la ejecuci�n si no se encuentra el registro
+			}						
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesion.close();            
+        }
+		
+		return salas;		
+		
+		/*Session sesion = crearSession();		
 		List<Sala> salas = new ArrayList<Sala>();
 		List<UsuarioSala> relacionUsuarioSalas = new ArrayList<UsuarioSala>();
 		
@@ -53,6 +124,7 @@ public class UsuarioSalaController extends DataBaseHelper {
         }
 		
 		return salas;
+		*/
 	}
 	
 	
