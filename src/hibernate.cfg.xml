@@ -5,7 +5,7 @@
 <hibernate-configuration>
     <session-factory>
     <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
-		<property name="hibernate.connection.url">jdbc:sqlite:./database/chat.sqlite</property>
+		<property name="hibernate.connection.url">jdbc:sqlite:../database/chat.sqlite</property>
 		<property name="hibernate.dialect">com.enigmabridge.hibernate.dialect.SQLiteDialect</property>
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
@@ -15,5 +15,7 @@
 		<mapping resource="/hibernate/usuario/Usuario.hbm.xml" />
 		<mapping resource="/hibernate/usuarioSala/UsuarioSala.hbm.xml" />
 		<mapping resource="/hibernate/contacto/Contacto.hbm.xml" />
+				<mapping resource="/hibernate/rss/RssClassManager.hbm.xml" />
+		<mapping resource="/hibernate/adivinado/MayorMenorAdivinadoHandler.hbm.xml" />
     </session-factory>
 </hibernate-configuration>
